@@ -1,2 +1,56 @@
-<p>{{ 'LOGIN.TITTLE' | translate }}</p>
-<p>{{ 'LOGIN.USER' | translate }}</p>
+<div class="card text-center m-5">
+    <h5 class="card-header">{{ 'LOGIN.TITLE' | translate | uppercase }}</h5>
+    <div class="card-body">
+        <div class="auto-form-wrapper text-left">
+            <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+                <!--EMAIL-->
+                <div class="form-group">
+                    <label class="label">{{ 'LOGIN.EMAIL' | translate }}</label>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Email" name="email" required
+                            formControlName="email">
+
+                        <div class="input-group-append" *ngIf="form.controls.email.status === 'VALID'">
+                            <span class="input-group-text bg-green">
+                                <i class="far fa-check-circle"></i>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--PASSWORD-->
+                <div class="form-group">
+                    <label class="label">{{ 'LOGIN.PASSWORD' | translate }}</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" placeholder="Xxxx123" name="password" required
+                            formControlName="password">
+
+                        <div class="input-group-append" *ngIf="form.controls.password.status === 'VALID'">
+                            <span class="input-group-text">
+                                <i class="far fa-check-circle"></i>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- BOTONS -->
+                <div class="form-group">
+                    <button *ngIf="!load" [disabled]="form.invalid" class="btn btn-primary submit-btn btn-block"
+                        type="submit">{{ 'LOGIN.TITLE' | translate }}</button>
+                    <button *ngIf="load" [disabled]="form.invalid"
+                        class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}</button>
+                </div>
+
+                <!-- GO YO REGISTER -->
+                <div class="text-block text-center my-3">
+                    <span class="text-small font-weight-semibold">{{ 'LOGIN.NOT_REGISTER' | translate }}</span>
+                    <br>
+                    <a routerLink="/register" class="text-black text-small">{{ 'LOGIN.GO_REGISTER' | translate }}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

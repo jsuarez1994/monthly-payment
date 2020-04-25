@@ -1,7 +1,29 @@
 {
+    "COMMONS":{
+        "IN_PROCESS": "En proceso...",
+        "ERROR": "Ha habído un error"
+    },
+
     "LOGIN": {
-        "TITTLE": "Login",
-        "USER": "Usuario",
-        "PASSWORD": "Contraseña"
+        "TITLE": "Login",
+        "EMAIL": "Email",
+        "PASSWORD": "Contraseña",
+        "NOT_REGISTER": "¿No estás registrado?",
+        "GO_REGISTER": "Crear una cuenta"
+    },
+
+    "REGISTER": {
+        "TITLE": "Registro usuario",
+        "NAME": "Nombre",
+        "SURNAME": "Apellidos",
+        "DOCUMENT": "DNI",
+        "EMAIL": "Email",
+        "PASSWORD": "Contraseña",
+        "REPEAT_PASSWORD": "Repita la contraseña",
+        "REGISTER_ACTION": "Registrar",
+        "LOG_IN": "¿Tienes cuenta?",
+        "GO_LOGIN": "Vamos a logearnos",
+        "PASSWORD_NOT_EQUALS": "Las constraseñas no son iguales"
     }
+
 }

@@ -20,6 +20,13 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
+// FIREBASE
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+
+// ENVIRONMENT
+import { environment } from '../environments/environment';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -30,6 +37,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InitModule,
     DashboardModule,
     HttpClientModule,
+    // TRANSLATE
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -37,6 +45,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
+    // FIREBASE
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent],

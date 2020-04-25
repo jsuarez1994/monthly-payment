@@ -1,1 +1,77 @@
-<p>register works!</p>
+<div class="card text-center m-5">
+    <h5 class="card-header">{{ 'REGISTER.TITLE' | translate | uppercase }}</h5>
+    <div class="card-body">
+        <div class="auto-form-wrapper text-left">
+            <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+                <!--NAME-->
+                <div class="form-group">
+                    <label class="label">{{ 'REGISTER.NAME' | translate }}</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="name" required
+                            formControlName="name">
+                    </div>
+                </div>
+
+                <!--SURNAME-->
+                <div class="form-group">
+                    <label class="label">{{ 'REGISTER.SURNAME' | translate }}</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="surname" required
+                            formControlName="surname">
+                    </div>
+                </div>
+
+                <!--DOCUMENT-->
+                <div class="form-group">
+                    <label class="label">{{ 'REGISTER.DOCUMENT' | translate }}</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="document" required minlength="9" maxlength="9"
+                            formControlName="document">
+                    </div>
+                </div>
+                
+                <!--EMAIL-->
+                <div class="form-group">
+                    <label class="label">{{ 'REGISTER.EMAIL' | translate }}</label>
+                    <div class="input-group">
+                        <input type="email" class="form-control" name="email" required
+                            formControlName="email">
+                    </div>
+                </div>
+
+                <!--PASSWORD-->
+                <div class="form-group">
+                    <label class="label">{{ 'REGISTER.PASSWORD' | translate }}</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="password" required
+                            formControlName="password">
+                    </div>
+                </div>
+
+                <!-- REPEAT PASSWORD-->
+                <div class="form-group">
+                    <label class="label">{{ 'REGISTER.REPEAT_PASSWORD' | translate }}</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="repeat-password" required #repeatPassword>
+                    </div>
+                </div>
+
+                <!-- BOTONS -->
+                <div class="form-group">
+                    <button *ngIf="!load" [disabled]="form.invalid" class="btn btn-primary submit-btn btn-block"
+                        type="submit">{{ 'REGISTER.REGISTER_ACTION' | translate }}</button>
+                    <button *ngIf="load" [disabled]="form.invalid"
+                        class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}</button>
+                </div>
+
+                <!-- GO YO REGISTER -->
+                <div class="text-block text-center my-3">
+                    <span class="text-small font-weight-semibold">{{ 'REGISTER.LOG_IN' | translate }}</span>
+                    <br>
+                    <a routerLink="/" class="text-black text-small">{{ 'REGISTER.GO_LOGIN' | translate }}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

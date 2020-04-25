@@ -8,6 +8,9 @@ import { RegisterComponent } from './register/register.component';
 // MODULES
 import { SharedModule } from '../../shared/shared.module';
 
+// FIREBASE
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
 
 
 @NgModule({
@@ -17,7 +20,8 @@ import { SharedModule } from '../../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    AngularFireAuthModule
   ]
 })
 export class InitModule { }
