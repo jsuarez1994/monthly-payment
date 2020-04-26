@@ -1,20 +1,17 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-
 // FORMS
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
 // SWEET ALERT
 import * as sweetAlert from '../../../shared/Utils/sweetalert';
-
 // MODELS
 import { User } from '../../../models/user.model';
-
 // TRANSLATE
 import { TranslateService } from '@ngx-translate/core';
 import * as literals from '../../../shared/Utils/literals';
-
 // CONSTANTS
 import { Constants } from '../../../shared/Utils/constants';
+// SERVICES
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -27,13 +24,23 @@ export class RegisterComponent implements OnInit {
 
   load: boolean;
 
-  constructor(private translate: TranslateService) {}
+  LiteralClass: literals.Literals;
+
+  constructor(
+    private translate: TranslateService,
+    private userService: UserService
+  ) {
+    this.LiteralClass = new literals.Literals(this.translate);
+  }
 
   ngOnInit(): void {
     // Init form
     this.initForm();
   }
 
+  /**
+   * Init the form and validations of inputs
+   */
   initForm() {
     this.load = false;
     this.form = new FormGroup({
@@ -51,6 +58,9 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  /**
+   * Submit of form of register
+   */
   onSubmit() {
     this.load = true;
 
@@ -58,14 +68,17 @@ export class RegisterComponent implements OnInit {
       this.showMessageErrorPassword();
     } else {
       // Call store to dispatch service user
+      const user: User = { ...this.form.value };
+      this.userService.registerService(user);
     }
-
     this.load = false;
   }
 
+  /**
+   * Show message when password not equals
+   */
   showMessageErrorPassword() {
-    let Literal = new literals.Literals(this.translate);
-    const mapLiterals = Literal.getLiterals([
+    const mapLiterals = this.LiteralClass.getLiterals([
       'COMMONS.ERROR',
       'REGISTER.PASSWORD_NOT_EQUALS'
     ]);

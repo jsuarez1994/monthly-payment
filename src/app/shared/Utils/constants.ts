@@ -15,4 +15,7 @@ export class Constants {
     public static ICON_INFO: SweetAlertIcon = 'info';
     public static ICON_QUESTION: SweetAlertIcon = 'question';
 
+    /********** PATHS **********/
+    public static LOGIN_PATH:string = '';
+    public static REGISTER_PATH:string = 'register';
 }

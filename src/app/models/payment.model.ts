@@ -1,9 +1,9 @@
-export class User {
-  private uid: string;
-  private period: string;
-  private quantity: number;
-  private description: string;
-  private type: string;
+export class Payment {
+  uid: string;
+  period: string;
+  quantity: number;
+  description: string;
+  type: string;
 
   constructor(
     period: string,

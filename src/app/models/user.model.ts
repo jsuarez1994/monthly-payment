@@ -1,10 +1,10 @@
 export class User {
-  private uid: string;
-  private name: string;
-  private surname: string;
-  private document: string;
-  private email: string;
-  private password: string;
+  uid: string;
+  name: string;
+  surname: string;
+  document: string;
+  email: string;
+  password: string;
 
   constructor(
     name: string,

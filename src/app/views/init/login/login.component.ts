@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
 // FORMS
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+// SERVICES
+import { UserService } from '../../../services/user.service';
+// MODELS
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +15,7 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   load: boolean;
 
-  constructor() {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     // Init form
@@ -32,7 +35,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.load = true;
-    console.log(this.form.value);
+    const user: User = {...this.form.value};
+    this.userService.loginService(user);
     this.load = false;
   }
 }
