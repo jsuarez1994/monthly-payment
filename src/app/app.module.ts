@@ -8,7 +8,6 @@ import { ChartsModule } from 'ng2-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // MODULES CREATES
 import { InitModule } from './views/init/init.module';
-import { DashboardModule } from './views/dashboard/dashboard.module';
 // TRANSLATE
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -36,7 +35,6 @@ import { EffectsModule } from '@ngrx/effects';
     ChartsModule,
     BrowserAnimationsModule,
     InitModule,
-    DashboardModule,
     HttpClientModule,
     // TRANSLATE
     TranslateModule.forRoot({

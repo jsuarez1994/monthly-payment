@@ -1,0 +1,55 @@
+<div class="card mb-3">
+    <div class="row no-gutters">
+        <div class="col-lg-4">
+            <img src="../../../../assets/images/add-payment.jpg" class="card-img" alt="add-payment">
+        </div>
+        <div class="col-lg-8">
+            <div class="card-body">
+                <h5 class="card-title text-center"> {{ 'ADD-PAYMENT.TITLE' | translate }} </h5>
+                <div class="card-text">
+                    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+                        <div class="form-group">
+                            <!--TYPE MOV-->
+                            <label class="label">{{ 'ADD-PAYMENT.TYPE_MOV' | translate }}</label>
+                            <div class="input-group">
+                                <select class="form-control" formControlName="type">
+                                    <option class="btn btn-danger" > {{ 'ADD-PAYMENT.TYPE_PERSONAL' | translate }} </option>
+                                    <option class="btn btn-danger" > {{ 'ADD-PAYMENT.TYPE_PERMANENT' | translate }} </option>
+                                </select>
+                        
+                            </div>
+
+                            <!--DESC-->
+                            <label class="label">{{ 'ADD-PAYMENT.DESCRIPTION' | translate }}</label>
+                            <div class="input-group">
+                                <textarea class="form-control" name="description" formControlName="description" rows="3"></textarea>
+                            </div>
+
+                            <!-- QUANTITY -->
+                            <label class="label">{{ 'ADD-PAYMENT.QUANTITY' | translate }}</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="password" required
+                                formControlName="quantity">
+                            </div>
+
+                            <!-- PERIOD -->
+                            <label class="label">{{ 'ADD-PAYMENT.PERIOD' | translate }}</label>
+                            <div class="input-group">
+                                <p>INSERTAR DATAPICKER</p>
+                            </div>
+                        </div>
+
+                        <!-- BOTONS -->
+                        <div class="form-group">
+                            <button *ngIf="!load" [disabled]="form.invalid" class="btn btn-danger submit-btn btn-block"
+                                type="submit">{{ 'LOGIN.TITLE' | translate }}</button>
+                            <button *ngIf="load" [disabled]="form.invalid"
+                                class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,9 +6,9 @@ import * as reducers from './reducers';
 import { UserState } from './reducers/users/user.interface'
 
 export interface AppState {
-  usuario: UserState;
+  user: UserState;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
-    usuario: reducers.userReducer
+    user: reducers.userReducer
 }

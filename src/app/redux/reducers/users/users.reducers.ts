@@ -35,6 +35,9 @@ export function userReducer(
     case listUserActions.REGISTER_USER_FAIL:
       return returnStateREGISTER_USER_FAIL(state, action.payload);
 
+    case listUserActions.LOGOUT_USER:
+      return returnStateLOGOUT_USER(state);
+
     default:
       return state;
   }
@@ -159,5 +162,23 @@ function returnStateREGISTER_USER_FAIL(
     user: null,
     authenticated: false,
     error: params,
+  };
+}
+
+/**
+ * Return state to action LOGOUT_USER
+ * @param state
+ * @param params
+ */
+function returnStateLOGOUT_USER(
+  state: UserState
+): UserState {
+  console.log('### LOGOUT USER STATE ###');
+  console.log(state);
+  return {
+    ...state,
+    user: null,
+    authenticated: false,
+    error: null,
   };
 }

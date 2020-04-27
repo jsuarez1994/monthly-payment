@@ -16,6 +16,10 @@ export class Constants {
     public static ICON_QUESTION: SweetAlertIcon = 'question';
 
     /********** PATHS **********/
-    public static LOGIN_PATH:string = '';
+    public static NOT_FOUND_PATH:string = '**';
+    public static LOGIN_PATH:string = 'login';
     public static REGISTER_PATH:string = 'register';
+    public static DASHBOARD_PATH:string = '';
+    public static PAYMENTS_STATISTICS_PATH:string = 'statistics';
+    public static ADD_PAYMENTS_PATH:string = 'add-payments';
 }

@@ -35,10 +35,15 @@ export class RegisterUserSuccess implements Action {
   constructor(public payload: User) {}
 }
 
+export class LogoutUser implements Action {
+  readonly type = indexActions.LOGOUT_USER;
+}
+
 export type userActions =
   | LoginUser
   | LoginUserFail
   | LoginUserSuccess
   | RegisterUser
   | RegisterUserFail
-  | RegisterUserSuccess;
+  | RegisterUserSuccess
+  | LogoutUser;

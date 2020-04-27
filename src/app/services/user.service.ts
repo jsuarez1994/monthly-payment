@@ -1,25 +1,24 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 // ROUTER
 import { Router } from '@angular/router';
-// TRANSLATE
-import { TranslateService } from '@ngx-translate/core';
-// FIREBASE
-import { AngularFireAuth } from 'angularfire2/auth';
-import { SweetAlertIcon } from 'sweetalert2';
-// MODELS
-import { User } from '../models/user.model';
-// CONSTANTS
-import { Constants } from '../shared/Utils/constants';
-import * as literals from '../shared/Utils/literals';
-// SWEETALERT
-import * as sweetAlert from '../shared/Utils/sweetalert';
 // NGRX
 import { Store } from '@ngrx/store';
-import { AppState } from '../redux/app.reducers';
+// TRANSLATE
+import { TranslateService } from '@ngx-translate/core';
+import * as literals from '../shared/Utils/literals';
+// FIREBASE
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
+// MODELS
+import { User } from '../models/user.model';
 // ACTIONS
 import * as userActions from '../redux/actions';
-import { LoginUser } from '../redux/actions/users/users.actions';
+import { AppState } from '../redux/app.reducers';
+// CONSTANTS
+import { Constants } from '../shared/Utils/constants';
+// SWEETALERT
+import { SweetAlertIcon } from 'sweetalert2';
+import * as sweetAlert from '../shared/Utils/sweetalert';
 
 @Injectable({
   providedIn: 'root',
@@ -109,9 +108,10 @@ export class UserService {
     this.firebaseAuthService.auth
       .signInWithEmailAndPassword(user.email, user.password)
       .then(response => {
-        console.log('### VAMOS DASHBOARD ###');
         user.uid = response.user.uid;
         this.storeLoginSuccess(user);
+        console.log('### VAMOS DASHBOARD ###');
+        this.router.navigate([Constants.DASHBOARD_PATH]);
       })
       .catch((error) => {
         console.error('### ERROR: ' + error.message + ' ###');
@@ -123,6 +123,15 @@ export class UserService {
 
         this.storeLoginFail(error);
       });
+  }
+
+  /**
+   * Log out user
+   */
+  logOutService() {
+    this.router.navigate([Constants.LOGIN_PATH]);
+    this.storeLogout();
+    this.firebaseAuthService.auth.signOut();
   }
 
   /**
@@ -183,5 +192,12 @@ export class UserService {
    */
   private storeLoginFail(error: any){
     this.store.dispatch(new userActions.LoginUserFail(error));
+  }
+
+  /**
+   * Call action when log out
+   */
+  private storeLogout(){
+    this.store.dispatch(new userActions.LogoutUser());
   }
 }
