@@ -1,17 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 // FORMS
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-// SWEET ALERT
-import * as sweetAlert from '../../../shared/Utils/sweetalert';
-// MODELS
-import { User } from '../../../models/user.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+// NGRX
+import { Store } from '@ngrx/store';
 // TRANSLATE
 import { TranslateService } from '@ngx-translate/core';
-import * as literals from '../../../shared/Utils/literals';
-// CONSTANTS
-import { Constants } from '../../../shared/Utils/constants';
+// MODELS
+import { User } from '../../../models/user.model';
 // SERVICES
 import { UserService } from '../../../services/user.service';
+// CONSTANTS
+import { Constants } from '../../../shared/Utils/constants';
+import * as literals from '../../../shared/Utils/literals';
+// SWEET ALERT
+import * as sweetAlert from '../../../shared/Utils/sweetalert';
 
 @Component({
   selector: 'app-register',
@@ -63,7 +65,6 @@ export class RegisterComponent implements OnInit {
    */
   onSubmit() {
     this.load = true;
-
     if (this.form.value.password !== this.repeatPassword.nativeElement.value) {
       this.showMessageErrorPassword();
     } else {
@@ -80,7 +81,7 @@ export class RegisterComponent implements OnInit {
   showMessageErrorPassword() {
     const mapLiterals = this.LiteralClass.getLiterals([
       'COMMONS.ERROR',
-      'REGISTER.PASSWORD_NOT_EQUALS'
+      'REGISTER.PASSWORD_NOT_EQUALS',
     ]);
     sweetAlert.showMessage(
       mapLiterals.get('COMMONS.ERROR'),

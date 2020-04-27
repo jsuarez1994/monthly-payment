@@ -56,6 +56,8 @@ function initializeState(): UserState {
  * @param state
  */
 function returnStateLOGIN_USER(state: UserState): UserState {
+  console.log('### LOGIN USER STATE ###');
+  console.log(state);
   return {
     ...state,
     authenticated: false,
@@ -72,6 +74,10 @@ function returnStateLOGIN_USER_SUCCESS(
   state: UserState,
   params: any
 ): UserState {
+  console.log('### LOGIN USER SUCCESS STATE ###');
+  console.log(state);
+  console.log('### LOGIN USER SUCCESS PARAMS ###');
+  console.log(params);
   return {
     ...state,
     user: params,
@@ -86,6 +92,10 @@ function returnStateLOGIN_USER_SUCCESS(
  * @param params
  */
 function returnStateLOGIN_USER_FAIL(state: UserState, params: any): UserState {
+  console.log('###  USER FAIL STATE ###');
+  console.log(state);
+  console.log('###  USER FAIL PARAMS ###');
+  console.log(params);
   return {
     ...state,
     user: null,
@@ -100,6 +110,8 @@ function returnStateLOGIN_USER_FAIL(state: UserState, params: any): UserState {
  * @param params
  */
 function returnStateREGISTER_USER(state: UserState): UserState {
+  console.log('### REGISTER USER ###');
+  console.log(state);
   return {
     ...state,
     user: null,
@@ -117,6 +129,10 @@ function returnStateREGISTER_USER_SUCCESS(
   state: UserState,
   params: any
 ): UserState {
+  console.log('### REGISTER USER SUCCESS STATE ###');
+  console.log(state);
+  console.log('### REGISTER USER SUCCESS PARAMS ###');
+  console.log(params);
   return {
     ...state,
     user: params,
@@ -134,6 +150,10 @@ function returnStateREGISTER_USER_FAIL(
   state: UserState,
   params: any
 ): UserState {
+  console.log('### REGISTER USER FAIL STATE ###');
+  console.log(state);
+  console.log('### REGISTER USER FAIL PARAMS ###');
+  console.log(params);
   return {
     ...state,
     user: null,

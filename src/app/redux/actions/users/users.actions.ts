@@ -23,7 +23,6 @@ export class LoginUserSuccess implements Action {
 // ACTIONS REGISTER
 export class RegisterUser implements Action {
   readonly type = indexActions.REGISTER_USER;
-  constructor(public payload: User) {}
 }
 
 export class RegisterUserFail implements Action {
