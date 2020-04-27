@@ -49,12 +49,18 @@
 
     "ADD-PAYMENT": {
         "TITLE": "Agregar movimiento",
+        "NATURE_MOV": "Naturaleza del movimiento",
+        "NATURE_DEFEAT": "Selecciona una naturaleza de movimiento",
+        "NATURE_GAIN": "Ganancia",
+        "NATURE_EXPENDITURE": "Gasto",
         "TYPE_MOV": "Tipo movimiento",
+        "TYPE_DEFEAT": "Selecciona un tipo movimiento",
         "TYPE_PERSONAL": "Personal",
         "TYPE_PERMANENT": "Fijo",
         "DESCRIPTION": "Descripción",
         "QUANTITY": "Cantidad",
-        "PERIOD": "Periodo de transacción"
+        "PERIOD": "Periodo de transacción",
+        "SUBMIT_ADD": "Agregar"
     }
 
 }

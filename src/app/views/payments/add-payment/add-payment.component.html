@@ -10,14 +10,22 @@
                     <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
                         <div class="form-group">
+                            <!--NATURE MOV-->
+                            <label class="label">{{ 'ADD-PAYMENT.NATURE_MOV' | translate }}</label>
+                            <div class="input-group">
+                                <select class="form-control" formControlName="nature">
+                                    <option value="" disabled>{{ 'ADD-PAYMENT.NATURE_DEFEAT' | translate }}</option>
+                                    <option *ngFor="let nature of natures"> {{ nature }}</option>
+                                </select>
+                            </div>
+                            
                             <!--TYPE MOV-->
                             <label class="label">{{ 'ADD-PAYMENT.TYPE_MOV' | translate }}</label>
                             <div class="input-group">
                                 <select class="form-control" formControlName="type">
-                                    <option class="btn btn-danger" > {{ 'ADD-PAYMENT.TYPE_PERSONAL' | translate }} </option>
-                                    <option class="btn btn-danger" > {{ 'ADD-PAYMENT.TYPE_PERMANENT' | translate }} </option>
+                                    <option value="" disabled>{{ 'ADD-PAYMENT.TYPE_DEFEAT' | translate }}</option>
+                                    <option *ngFor="let type of types"> {{ type }}</option>
                                 </select>
-                        
                             </div>
 
                             <!--DESC-->
@@ -35,15 +43,15 @@
 
                             <!-- PERIOD -->
                             <label class="label">{{ 'ADD-PAYMENT.PERIOD' | translate }}</label>
-                            <div class="input-group">
-                                <p>INSERTAR DATAPICKER</p>
+                            <div class="input-group" width='25%'>
+                                <igx-month-picker formControlName="period"></igx-month-picker>
                             </div>
                         </div>
 
                         <!-- BOTONS -->
                         <div class="form-group">
                             <button *ngIf="!load" [disabled]="form.invalid" class="btn btn-danger submit-btn btn-block"
-                                type="submit">{{ 'LOGIN.TITLE' | translate }}</button>
+                                type="submit">{{ 'ADD-PAYMENT.SUBMIT_ADD' | translate }}</button>
                             <button *ngIf="load" [disabled]="form.invalid"
                                 class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}</button>
                         </div>

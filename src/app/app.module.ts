@@ -3,9 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-// OTHERS MODULES
-import { ChartsModule } from 'ng2-charts';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // MODULES CREATES
 import { InitModule } from './views/init/init.module';
 // TRANSLATE
@@ -26,14 +23,16 @@ import { appReducers } from './redux/app.reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { effects } from './redux/effects/index';
 import { EffectsModule } from '@ngrx/effects';
+// TO MODULES DATAPICKER, CHARTS
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    ChartsModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
+    // MODULES CREATES
     InitModule,
     HttpClientModule,
     // TRANSLATE
@@ -48,14 +47,15 @@ import { EffectsModule } from '@ngrx/effects';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     // REDUX
-    StoreModule.forRoot( appReducers ),
+    StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-      logOnly: environment.production, // Restrict extension to log-only mode
+      maxAge: 25,
+      logOnly: environment.production,
     }),
     EffectsModule.forRoot(effects)
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}
