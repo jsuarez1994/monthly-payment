@@ -25,6 +25,7 @@ import * as sweetAlert from '../shared/Utils/sweetalert';
 })
 export class UserService {
   LiteralClass: literals.Literals;
+  user: User;
 
   constructor(
     private firebaseAuthService: AngularFireAuth,
@@ -109,6 +110,7 @@ export class UserService {
       .signInWithEmailAndPassword(user.email, user.password)
       .then(response => {
         user.uid = response.user.uid;
+        this.user = user;
         this.storeLoginSuccess(user);
         console.log('### VAMOS DASHBOARD ###');
         this.router.navigate([Constants.DASHBOARD_PATH]);
@@ -132,6 +134,13 @@ export class UserService {
     this.router.navigate([Constants.LOGIN_PATH]);
     this.storeLogout();
     this.firebaseAuthService.auth.signOut();
+  }
+
+  /**
+   * Return user loged
+   */
+  getUser(): User {
+    return this.user;
   }
 
   /**
@@ -199,5 +208,6 @@ export class UserService {
    */
   private storeLogout(){
     this.store.dispatch(new userActions.LogoutUser());
+    this.store.dispatch(new userActions.UnsetPayments());
   }
 }

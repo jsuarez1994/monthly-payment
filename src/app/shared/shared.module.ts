@@ -38,6 +38,7 @@ import { ChartsModule } from 'ng2-charts';
     IgxCalendarModule,
     // CHARTS
     ChartsModule,
+    // COMPONENTS
     FooterComponent,
     NavbarComponent
   ]

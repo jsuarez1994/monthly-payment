@@ -50,10 +50,14 @@
 
                         <!-- BOTONS -->
                         <div class="form-group">
-                            <button *ngIf="!load" [disabled]="form.invalid" class="btn btn-danger submit-btn btn-block"
+                            <button *ngIf="loaded" [disabled]="form.invalid" class="btn btn-danger submit-btn btn-block"
                                 type="submit">{{ 'ADD-PAYMENT.SUBMIT_ADD' | translate }}</button>
-                            <button *ngIf="load" [disabled]="form.invalid"
-                                class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}</button>
+                            <button *ngIf="!loaded" [disabled]="form.invalid"
+                                class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}
+                                <div class="spinner-grow" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </button>
                         </div>
                     </form>
                 </div>

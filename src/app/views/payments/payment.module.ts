@@ -17,6 +17,10 @@ import { DashboardRoutingModule } from '../dashboard/dashboard-routing.module';
     DashboardComponent,
     AddPaymentComponent,
   ],
-  imports: [CommonModule, SharedModule, DashboardRoutingModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    DashboardRoutingModule
+  ],
 })
 export class PaymentModule {}
