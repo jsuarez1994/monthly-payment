@@ -208,6 +208,5 @@ export class UserService {
    */
   private storeLogout(){
     this.store.dispatch(new userActions.LogoutUser());
-    this.store.dispatch(new userActions.UnsetPayments());
   }
 }

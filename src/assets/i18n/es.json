@@ -63,6 +63,18 @@
         "SUBMIT_ADD": "Agregar",
         "TOAST_TITLE_SUCCESS": "Movimiento agregado",
         "TOAST_TITLE_FAIL": "Error al agregar movimiento"
+    },
+
+    "PAYMENT": {
+        "GAIN_TITLE": "GANANCIAS",
+        "EXPENDITURE_TITLE": "GASTOS",
+        "HEADER_NATURE": "TIPO DE MOVIMIENTO",
+        "HEADER_DESCRIPTION": "DESCRIPCIÓN",
+        "HEADER_QUATITY": "CUANTÍA",
+        "HEADER_TYPE": "FIJO/PERSONAL",
+        "NATURE_GAIN": "Ganancia",
+        "NATURE_EXPENDITURE": "Gasto",
+        "TOTAL": "TOTAL"
     }
 
 }

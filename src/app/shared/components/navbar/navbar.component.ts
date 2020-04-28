@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
+import { PaymentService } from '../../../services/payment.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,7 @@ import { UserService } from '../../../services/user.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private paymentService: PaymentService) { }
 
   ngOnInit(): void {
   }
@@ -18,5 +19,6 @@ export class NavbarComponent implements OnInit {
   signOut(){
     console.log('### CLOSE SESION ###');
     this.userService.logOutService();
+    this.paymentService.cancelSubs();
   }
 }

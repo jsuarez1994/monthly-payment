@@ -18,6 +18,10 @@ import { Constants } from '../shared/Utils/constants';
 import { Store } from '@ngrx/store';
 import * as paymentsActions from '../redux/actions/payments/payments.actions';
 import { AppState } from '../redux/app.reducers';
+// RXJS
+import { map } from 'rxjs/operators';
+import { error } from 'protractor';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +31,8 @@ export class PaymentService {
   // TO TRADUCT LITERALS
   LiteralClass: literals.Literals;
 
+  subs: Subscription = new Subscription();
+
   constructor(
     private userService: UserService,
     private firebaseService: AngularFirestore,
@@ -34,6 +40,11 @@ export class PaymentService {
     private store: Store<AppState>
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
+  }
+
+  cancelSubs() {
+    this.subs.unsubscribe();
+    this.storeUnsetPayments();
   }
 
 
@@ -49,6 +60,38 @@ export class PaymentService {
       this.storeAddPaymentFail(error);
       this.messagesLiteralsToast(['ADD-PAYMENT.TOAST_TITLE_FAIL'], Constants.ICON_ERROR);
     });
+  }
+
+  getAllPayments():void {
+    /*this.storeGetAllPayments();
+    const user: User = this.userService.getUser();
+    this.subs = this.firebaseService.collection(`${user.uid}/payments/items`)
+    .snapshotChanges()
+    .pipe(map(items => {
+      return items.map( item => {
+        return {
+          uid: item.payload.doc.id,
+          ...item.payload.doc['data']
+        };
+      });
+    })
+    ).subscribe( payments => {
+      this.storeGetAllPaymentsSuccess(payments);
+    });*/
+    
+    
+    // MOCK
+    let list: Payment[] = [];
+    list.push(new Payment('202001', 450, 'Alquiler','Fijo', 'Gasto'));
+    list.push(new Payment('202001', 100, 'Coche','Fijo', 'Gasto'));
+    list.push(new Payment('202001', 1300, 'Sueldo','Fijo', 'Ganancia'));
+    list.push(new Payment('202001', 75, 'Cumpleaños amigo','Personal', 'Gasto'));
+    list.push(new Payment('202002', 80, 'Restaurantes','Personal', 'Gasto'));
+    list.push(new Payment('202002', 200, 'Cumpleaños','Fijo', 'Ganancia'));
+    list.push(new Payment('202002', 1300, 'Sueldo','Fijo', 'Ganancia'));
+
+    this.storeGetAllPaymentsSuccess(list);
+
   }
 
   /**
@@ -79,10 +122,38 @@ export class PaymentService {
   }
 
   /**
-   * Call store Add Payment
+   * Call store Add Payment Fail
    */
   private storeAddPaymentFail(payload: any){
     this.store.dispatch(new paymentsActions.AddPaymentFail(payload));
+  }
+
+  /**
+   * Call store get all Payment
+   */
+  private storeGetAllPayments(){
+    this.store.dispatch(new paymentsActions.GetAllPayments());
+  }
+
+  /**
+   * Call store get all Payment success
+   */
+  private storeGetAllPaymentsSuccess(payload){
+    this.store.dispatch(new paymentsActions.GetAllPaymentsSuccess(payload));
+  }
+
+  /**
+   * Call store get all Payment success
+   */
+  private storeGetAllPaymentsFail(payload){
+    this.store.dispatch(new paymentsActions.GetAllPaymentsFail(payload));
+  }
+
+  /**
+   * Call store get all Payment success
+   */
+  private storeUnsetPayments(){
+    this.store.dispatch(new paymentsActions.UnsetPayments());
   }
 
 }
