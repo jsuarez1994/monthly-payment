@@ -1,1 +1,8 @@
-<p>input-datapicker works!</p>
+<mat-form-field>
+    <mat-label> {{ 'PAYMENT.YEAR_AND_MONTH' | translate }} </mat-label>
+    <input matInput  [matDatepicker]="dp" [formControl]="date">
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+        (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+    </mat-datepicker>
+</mat-form-field>

@@ -3,10 +3,10 @@
 
         <!-- FORM FIND -->
         <div class="row">
-            <div class="col-2">
+            <div class="col-lg-5 col-md-5  col-sm-6">
                 <app-input-datapicker (newPeriod)="changePeriod($event)" ></app-input-datapicker>
             </div>
-            <div class="col-2">
+            <div class="col-lg-5  col-md-5 col-sm-6">
                 <div class="input-group">
                     <select class="form-control" #naturePayment (change)="findByFilter()">
                         <option value="" disabled>{{ 'ADD-PAYMENT.TYPE_DEFEAT' | translate }}</option>

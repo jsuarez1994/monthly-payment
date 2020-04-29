@@ -75,7 +75,8 @@
         "NATURE_GAIN": "Ganancia",
         "NATURE_EXPENDITURE": "Gasto",
         "TOTAL": "TOTAL",
-        "PAYMENTS_EMPTY": "No hay movimientos en este periodo"
+        "PAYMENTS_EMPTY": "No hay movimientos en este periodo",
+        "YEAR_AND_MONTH": "Año y mes"
     }
 
 }

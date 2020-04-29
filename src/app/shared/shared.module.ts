@@ -8,14 +8,16 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 // DATAPICKER MONTH
-import { HammerModule } from "@angular/platform-browser";
+import { HammerModule } from '@angular/platform-browser';
 import { IgxCalendarModule } from 'igniteui-angular';
 // CHARTS
 import { ChartsModule } from 'ng2-charts';
 import { InputDatapickerComponent } from './components/input-datapicker/input-datapicker.component';
-
-
-
+// MATERIAL
+import { MatNativeDateModule } from '@angular/material/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { MaterialModule } from './material.module';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [FooterComponent, NavbarComponent, InputDatapickerComponent],
@@ -28,7 +30,10 @@ import { InputDatapickerComponent } from './components/input-datapicker/input-da
     HammerModule,
     IgxCalendarModule,
     // CHARTS
-    ChartsModule
+    ChartsModule,
+    // MATERIAL
+    MatNativeDateModule,
+    MaterialModule
   ],
   exports: [
     TranslateModule,
@@ -42,7 +47,13 @@ import { InputDatapickerComponent } from './components/input-datapicker/input-da
     // COMPONENTS
     FooterComponent,
     NavbarComponent,
-    InputDatapickerComponent
+    InputDatapickerComponent,
+    // MATERIAL
+    MatNativeDateModule,
+    MaterialModule
+  ],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
   ]
 })
-export class SharedModule { }
+export class SharedModule {}
