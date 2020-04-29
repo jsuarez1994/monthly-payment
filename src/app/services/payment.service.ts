@@ -89,6 +89,9 @@ export class PaymentService {
     list.push(new Payment('202002', 80, 'Restaurantes','Personal', 'Gasto'));
     list.push(new Payment('202002', 200, 'Cumpleaños','Fijo', 'Ganancia'));
     list.push(new Payment('202002', 1300, 'Sueldo','Fijo', 'Ganancia'));
+    list.push(new Payment('202004', 80, 'Restaurantes','Personal', 'Gasto'));
+    list.push(new Payment('202004', 200, 'Cumpleaños','Fijo', 'Ganancia'));
+    list.push(new Payment('202004', 1300, 'Sueldo','Fijo', 'Ganancia'));
 
     this.storeGetAllPaymentsSuccess(list);
 

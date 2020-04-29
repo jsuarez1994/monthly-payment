@@ -11,6 +11,9 @@ export function setPeriod(month: number, year: number) {
   return yearPeriod.concat(monthPeriod).trim();
 }
 
+/**
+ * Set correct form period current date
+ */
 export function currentDate() {
     console.log('### currentDate ###');
     const today = new Date();

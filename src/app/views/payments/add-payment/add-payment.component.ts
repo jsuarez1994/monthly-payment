@@ -12,8 +12,10 @@ import * as utils from '../../../shared/Utils/utils';
 import { Payment } from 'src/app/models/payment.model';
 // SERVICES
 import { PaymentService } from '../../../services/payment.service';
+// NGRX
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/redux/app.reducers';
+// RXJS
 import { Subscription } from 'rxjs';
 
 @Component({

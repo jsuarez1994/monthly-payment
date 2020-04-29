@@ -12,12 +12,13 @@ import { HammerModule } from "@angular/platform-browser";
 import { IgxCalendarModule } from 'igniteui-angular';
 // CHARTS
 import { ChartsModule } from 'ng2-charts';
+import { InputDatapickerComponent } from './components/input-datapicker/input-datapicker.component';
 
 
 
 
 @NgModule({
-  declarations: [FooterComponent, NavbarComponent],
+  declarations: [FooterComponent, NavbarComponent, InputDatapickerComponent],
   imports: [
     CommonModule,
     TranslateModule,
@@ -40,7 +41,8 @@ import { ChartsModule } from 'ng2-charts';
     ChartsModule,
     // COMPONENTS
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    InputDatapickerComponent
   ]
 })
 export class SharedModule { }

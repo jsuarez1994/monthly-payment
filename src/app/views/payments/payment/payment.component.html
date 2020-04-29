@@ -1,10 +1,25 @@
 <div class="row">
     <div class="col-12">
 
-        <!-- PAYMENTS GAINS -->
+        <!-- FORM FIND -->
+        <div class="row">
+            <div class="col-2">
+                <app-input-datapicker (newPeriod)="changePeriod($event)" ></app-input-datapicker>
+            </div>
+            <div class="col-2">
+                <div class="input-group">
+                    <select class="form-control" #naturePayment (change)="findByFilter()">
+                        <option value="" disabled>{{ 'ADD-PAYMENT.TYPE_DEFEAT' | translate }}</option>
+                        <option *ngFor="let nature of natures"> {{ nature }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAYMENTS -->
         <div class="card">
-            <div class="card-body">
-                <h4 class="card-title text-center"> {{ 'PAYMENT.GAIN_TITLE' | translate }} </h4>
+            <div *ngIf="payments.length > 0" class="card-body">
+                <h4 class="card-title text-center"> {{ natureSelect | uppercase }} </h4>
                 <table class="table table-borderless table-hover">
                     <thead>
                         <tr>
@@ -13,10 +28,10 @@
                     </thead>
 
                     <tbody>
-                        <tr *ngFor="let payment of paymentsGain">
+                        <tr *ngFor="let payment of payments">
                             <td *ngFor="let header of headers">
                                 <div *ngIf="header.key === 'quantity'">
-                                    {{payment[header.key] | currency}}
+                                    {{payment[header.key] | currency:'EUR'}}
                                 </div>
                                 <div *ngIf="header.key !== 'quantity'">
                                     {{payment[header.key]}}
@@ -29,48 +44,16 @@
                         <tr>
                             <td *ngFor="let header of headers"  class="font-weight-bold">
                                 <div *ngIf="header.key === 'quantity'">{{ 'PAYMENT.TOTAL' | translate }}
-                                    {{sumQuantityGain | currency}}</div>
+                                    {{sumQuantity | currency:'EUR'}}</div>
                             </td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
-        </div>
-
-        <!-- PAYMENTS EXPENDITURE -->
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title text-center"> {{ 'PAYMENT.EXPENDITURE_TITLE' | translate }} </h4>
-                <table class="table table-borderless table-hover">
-                    <thead>
-                        <tr>
-                            <th *ngFor="let header of headers">{{header.value}}</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr *ngFor="let payment of paymentsExpenditure">
-                            <td *ngFor="let header of headers">
-                                <div *ngIf="header.key === 'quantity'">
-                                    {{payment[header.key] | currency}}
-                                </div>
-                                <div *ngIf="header.key !== 'quantity'">
-                                    {{payment[header.key]}}
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-
-                    <tfoot>
-                        <tr>
-                            <td *ngFor="let header of headers" class="font-weight-bold">
-                                <div *ngIf="header.key === 'quantity'">{{ 'PAYMENT.TOTAL' | translate }}
-                                    {{sumQuantityExpenditure | currency}}</div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+            <div *ngIf="payments.length === 0" class="card-body text-center bg-danger text-white align-middle">
+                <h4> {{ 'PAYMENT.PAYMENTS_EMPTY' | translate }} <i class="far fa-folder-open"></i></h4>
             </div>
         </div>
+
     </div>
 </div>

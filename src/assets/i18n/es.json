@@ -74,7 +74,8 @@
         "HEADER_TYPE": "FIJO/PERSONAL",
         "NATURE_GAIN": "Ganancia",
         "NATURE_EXPENDITURE": "Gasto",
-        "TOTAL": "TOTAL"
+        "TOTAL": "TOTAL",
+        "PAYMENTS_EMPTY": "No hay movimientos en este periodo"
     }
 
 }
