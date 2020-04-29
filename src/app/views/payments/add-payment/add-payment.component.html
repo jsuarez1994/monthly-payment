@@ -1,50 +1,59 @@
 <div class="card mb-3">
     <div class="row no-gutters">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <img src="../../../../assets/images/add-payment.jpg" class="card-img" alt="add-payment">
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <div class="card-body">
                 <h5 class="card-title text-center"> {{ 'ADD-PAYMENT.TITLE' | translate }} </h5>
                 <div class="card-text">
                     <form (ngSubmit)="onSubmit()" [formGroup]="form">
-
                         <div class="form-group">
-                            <!--NATURE MOV-->
-                            <label class="label">{{ 'ADD-PAYMENT.NATURE_MOV' | translate }}</label>
-                            <div class="input-group">
-                                <select class="form-control" formControlName="nature">
-                                    <option value="" disabled>{{ 'ADD-PAYMENT.NATURE_DEFEAT' | translate }}</option>
-                                    <option *ngFor="let nature of natures"> {{ nature }}</option>
-                                </select>
-                            </div>
-                            
-                            <!--TYPE MOV-->
-                            <label class="label">{{ 'ADD-PAYMENT.TYPE_MOV' | translate }}</label>
-                            <div class="input-group">
-                                <select class="form-control" formControlName="type">
-                                    <option value="" disabled>{{ 'ADD-PAYMENT.TYPE_DEFEAT' | translate }}</option>
-                                    <option *ngFor="let type of types"> {{ type }}</option>
-                                </select>
-                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <!--NATURE MOV-->
+                                    <label class="label">{{ 'ADD-PAYMENT.NATURE_MOV' | translate }}</label>
+                                    <div class="input-group">
+                                        <select class="form-control" formControlName="nature">
+                                            <option value="" disabled>{{ 'ADD-PAYMENT.NATURE_DEFEAT' | translate }}
+                                            </option>
+                                            <option *ngFor="let nature of natures"> {{ nature }}</option>
+                                        </select>
+                                    </div>
 
-                            <!--DESC-->
-                            <label class="label">{{ 'ADD-PAYMENT.DESCRIPTION' | translate }}</label>
-                            <div class="input-group">
-                                <textarea class="form-control" name="description" formControlName="description" rows="3"></textarea>
-                            </div>
+                                    <!--TYPE MOV-->
+                                    <label class="label">{{ 'ADD-PAYMENT.TYPE_MOV' | translate }}</label>
+                                    <div class="input-group">
+                                        <select class="form-control" formControlName="type">
+                                            <option value="" disabled>{{ 'ADD-PAYMENT.TYPE_DEFEAT' | translate }}
+                                            </option>
+                                            <option *ngFor="let type of types"> {{ type }}</option>
+                                        </select>
+                                    </div>
 
-                            <!-- QUANTITY -->
-                            <label class="label">{{ 'ADD-PAYMENT.QUANTITY' | translate }}</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" name="password" required
-                                formControlName="quantity">
-                            </div>
+                                    <!--DESC-->
+                                    <label class="label">{{ 'ADD-PAYMENT.DESCRIPTION' | translate }}</label>
+                                    <div class="input-group">
+                                        <textarea class="form-control" name="description" formControlName="description"
+                                            rows="3"></textarea>
+                                    </div>
 
-                            <!-- PERIOD -->
-                            <label class="label">{{ 'ADD-PAYMENT.PERIOD' | translate }}</label>
-                            <div class="input-group" width='25%'>
-                                <igx-month-picker formControlName="period"></igx-month-picker>
+                                    <!-- QUANTITY -->
+                                    <label class="label">{{ 'ADD-PAYMENT.QUANTITY' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="password" required
+                                            formControlName="quantity">
+                                    </div>
+
+                                </div>
+
+                                <div class="col-8">
+                                    <!-- PERIOD -->
+                                    <label class="label">{{ 'ADD-PAYMENT.PERIOD' | translate }}</label>
+                                    <div class="input-group" width='25%'>
+                                        <igx-month-picker formControlName="period"></igx-month-picker>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
