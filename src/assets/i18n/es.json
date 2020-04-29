@@ -74,9 +74,15 @@
         "HEADER_TYPE": "FIJO/PERSONAL",
         "NATURE_GAIN": "Ganancia",
         "NATURE_EXPENDITURE": "Gasto",
+        "TYPE_PERSONAL": "Personal",
+        "TYPE_PERMANENT": "Fijo",
         "TOTAL": "TOTAL",
         "PAYMENTS_EMPTY": "No hay movimientos en este periodo",
-        "YEAR_AND_MONTH": "Año y mes"
+        "YEAR_AND_MONTH": "Año y mes",
+        "CHART_PAYMENTS_GENERAL": "Gráfica de movimientos",
+        "CHART_PAYMENTS_EXPENDITURE": "Gráfica de movimientos de gastos",
+        "PERIOD_SELECTED": "Periodo seleccionado",
+        "REPORT_PAYMENT": "Las ganancias totales este mes son <ALLGAINS>, por lo que este mes puedes gastar "
     }
 
 }

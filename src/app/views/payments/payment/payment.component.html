@@ -1,12 +1,12 @@
 <div class="row">
-    <div class="col-12">
-
+    <!-- TABLE -->
+    <div class="col-lg-6 col-md-12 col-sm-12">
         <!-- FORM FIND -->
         <div class="row">
-            <div class="col-lg-5 col-md-5  col-sm-6">
-                <app-input-datapicker (newPeriod)="changePeriod($event)" ></app-input-datapicker>
+            <div class="col-lg-6 col-md-8 col-sm-6">
+                <app-input-datapicker (newPeriod)="changePeriod($event)"></app-input-datapicker>
             </div>
-            <div class="col-lg-5  col-md-5 col-sm-6">
+            <div class="col-lg-6  col-md-4 col-sm-6">
                 <div class="input-group">
                     <select class="form-control" #naturePayment (change)="findByFilter()">
                         <option value="" disabled>{{ 'ADD-PAYMENT.TYPE_DEFEAT' | translate }}</option>
@@ -15,7 +15,6 @@
                 </div>
             </div>
         </div>
-
         <!-- PAYMENTS -->
         <div class="card">
             <div *ngIf="payments.length > 0" class="card-body">
@@ -42,7 +41,7 @@
 
                     <tfoot>
                         <tr>
-                            <td *ngFor="let header of headers"  class="font-weight-bold">
+                            <td *ngFor="let header of headers" class="font-weight-bold">
                                 <div *ngIf="header.key === 'quantity'">{{ 'PAYMENT.TOTAL' | translate }}
                                     {{sumQuantity | currency:'EUR'}}</div>
                             </td>
@@ -54,6 +53,40 @@
                 <h4> {{ 'PAYMENT.PAYMENTS_EMPTY' | translate }} <i class="far fa-folder-open"></i></h4>
             </div>
         </div>
-
+    </div>
+    <!-- CHART PAYMENTS -->
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="col-12 p-5">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"> {{ 'PAYMENT.CHART_PAYMENTS_GENERAL' | translate }} </h5>
+                    <div style="display: block">
+                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
+                            [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
+                            [chartType]="barChartType">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row ml-1 mt-3" *ngIf="natureSelect === natures[1]">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ 'PAYMENT.CHART_PAYMENTS_EXPENDITURE' | translate }}</h5>
+                <!-- CHART DOUGHNUT -->
+                <div class="col-8">
+                    <div style="display: block">
+                        <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" chartType="doughnut">
+                        </canvas>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <p class="muted"> {{ reportPayments }} </p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
