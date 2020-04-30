@@ -72,18 +72,18 @@
     </div>
 </div>
 <div class="row ml-1 mt-3" *ngIf="natureSelect === natures[1]">
-    <div class="col-8">
+    <div class="col-lg-8 col-md-12 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">{{ 'PAYMENT.CHART_PAYMENTS_EXPENDITURE' | translate }}</h5>
                 <!-- CHART DOUGHNUT -->
-                <div class="col-8">
+                <div class="col-lg-8 col-md-12 col-sm-12">
                     <div style="display: block">
                         <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" chartType="doughnut">
                         </canvas>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-lg-12 col-md-12 col-sm-12">
                     <p class="muted"> {{ reportPayments }} </p>
                 </div>
             </div>

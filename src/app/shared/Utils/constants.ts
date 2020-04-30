@@ -22,4 +22,6 @@ export class Constants {
     public static DASHBOARD_PATH:string = '';
     public static PAYMENTS_STATISTICS_PATH:string = 'statistics';
     public static ADD_PAYMENTS_PATH:string = 'add-payments';
+    public static ADD_CATEGORIESS_PATH:string = 'add-categories';
+    public static CATEGORIES_PATH:string = 'categories';
 }

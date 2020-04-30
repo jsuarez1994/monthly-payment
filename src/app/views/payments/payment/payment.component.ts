@@ -121,16 +121,29 @@ export class PaymentComponent implements OnInit {
           payments.period === this.periodSelect
       );
       // GET SUM ALL QUANTITIES
-      this.sumQuantity = this.payments.reduce((sum, item) => sum + item.quantity,0);
+      this.sumQuantity = this.payments.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
 
       // GET INFO PAYMENTS
       let listPayGains: Payment[] = [];
-      listPayGains = items.payments.filter((item) => item.nature === this.natures[0] && item.period === this.periodSelect);
-      if(listPayGains.length > 0){
-        let allGains = listPayGains.reduce((sum, item) => sum + item.quantity, 0);
+      listPayGains = items.payments.filter(
+        (item) =>
+          item.nature === this.natures[0] && item.period === this.periodSelect
+      );
+      if (listPayGains.length > 0) {
+        let allGains = listPayGains.reduce(
+          (sum, item) => sum + item.quantity,
+          0
+        );
         let porcentPermanent = allGains * 0.5;
         let porcentPersonal = allGains * 0.3;
-        this.infoPay = new InformationPayment(allGains, porcentPermanent, porcentPersonal);
+        this.infoPay = new InformationPayment(
+          allGains,
+          porcentPermanent,
+          porcentPersonal
+        );
       }
 
       // IF NATURES IS EXPENDITURE
@@ -205,16 +218,83 @@ export class PaymentComponent implements OnInit {
     this.generateReports(sumPersonal, sumPermanent);
   }
 
-
   /**
    * Generate report by information payment
-   * @param sumPersonal 
-   * @param sumPermanent 
+   * @param sumPersonal
+   * @param sumPermanent
    */
-  generateReports(sumPersonal:number, sumPermanent:number) {
+  generateReports(sumPersonal: number, sumPermanent: number) {
     this.reportPayments = '';
 
-    const report = this.LiteralClass.getLiterals(['PAYMENT.REPORT_PAYMENT']);
+    // TODO
+    const report = this.LiteralClass.getLiterals([
+      'PAYMENT.REPORT_PAYMENT_INIT',
+      'PAYMENT.REPORT_PAYMENT_BODY_PERMANENT',
+      'PAYMENT.REPORT_PAYMENT_BODY_PERSONAL',
+    ]);
+
+    // INIT REPORT
+    let init: string = report.get('PAYMENT.REPORT_PAYMENT_INIT');
+    // REPLACE VALUES
+    init = init .replace('<ALLGAINS>', String(this.infoPay.allGains))
+                .replace('<EXPENSIVE_PERMANENT>',String(this.infoPay.porcentPermanent))
+                .replace('<EXPENSIVE_PERSONAL>', String(this.infoPay.porcentPersonal));
+
+    // ********* BODY REPORT *********
+
+    // PERMANENT
+    let bodyPermanent: string = report.get(
+      'PAYMENT.REPORT_PAYMENT_BODY_PERMANENT'
+    );
+    // REPLACE VALUES
+    bodyPermanent = bodyPermanent .replace('<EXPENSIVE_PERMANENT_OUT>', String(sumPermanent))
+                                  .replace('<EXPENSIVE_PERMANENT>',String(this.infoPay.porcentPermanent));
+    // RESULT REPORT PAYMENT
+    const reportBodyPermanent = this.LiteralClass.getLiterals([
+      'PAYMENT.REPORT_PAYMENT_BODY_PERMANENT_GOOD',
+      'PAYMENT.REPORT_PAYMENT_BODY_PERMANENT_BAD',
+    ]);
+    let bodyPermanentResult = '';
+    if (sumPermanent > this.infoPay.porcentPermanent) {// EXPENSIVE PLUS PERMITED
+      bodyPermanentResult = reportBodyPermanent.get('PAYMENT.REPORT_PAYMENT_BODY_PERMANENT_BAD');
+      // REPLACE VALUES
+      bodyPermanentResult = bodyPermanentResult.replace('<REST_EXPENSIVE_PERMANENT>', String(sumPermanent - this.infoPay.porcentPermanent));
+    } else {
+      bodyPermanentResult = reportBodyPermanent.get('PAYMENT.REPORT_PAYMENT_BODY_PERMANENT_GOOD');
+      // REPLACE VALUES
+      bodyPermanentResult = bodyPermanentResult.replace('<REST_EXPENSIVE_PERMANENT>', String(this.infoPay.porcentPermanent - sumPermanent));
+    }
+    // CONCAT BODY WITH RESULT
+    bodyPermanent = bodyPermanent.concat(bodyPermanentResult);
+
+    // PERSONAL
+    let bodyPersonal: string = report.get(
+      'PAYMENT.REPORT_PAYMENT_BODY_PERSONAL'
+    );
+    // REPLACE VALUES
+    bodyPersonal = bodyPersonal .replace('<EXPENSIVE_PERSONAL_OUT>', String(sumPersonal))
+                                .replace('<EXPENSIVE_PERSONAL>',String(this.infoPay.porcentPersonal));
+    // RESULT REPORT PAYMENT
+    const reportBodyPersonal = this.LiteralClass.getLiterals([
+      'PAYMENT.REPORT_PAYMENT_BODY_PERSONAL_GOOD',
+      'PAYMENT.REPORT_PAYMENT_BODY_PERSONAL_BAD',
+    ]);
+    let bodyPersonalResult = '';
+    if (sumPersonal > this.infoPay.porcentPersonal) {// EXPENSIVE PLUS PERMITED
+      bodyPersonalResult = reportBodyPersonal.get('PAYMENT.REPORT_PAYMENT_BODY_PERSONAL_BAD');
+      // REPLACE VALUES
+      bodyPersonalResult = bodyPersonalResult.replace('<REST_EXPENSIVE_PERSONAL>', String(sumPersonal - this.infoPay.porcentPersonal));
+    } else {
+      bodyPersonalResult = reportBodyPersonal.get('PAYMENT.REPORT_PAYMENT_BODY_PERSONAL_GOOD');
+      // REPLACE VALUES
+      bodyPersonalResult = bodyPersonalResult.replace('<REST_EXPENSIVE_PERSONAL>', String(this.infoPay.porcentPersonal - sumPersonal));
+    }
+    // CONCAT BODY WITH RESULT
+    bodyPersonal = bodyPersonal.concat(bodyPersonalResult);
+
+
+    // RESULT REPORT
+    this.reportPayments = init.concat(bodyPermanent).concat(bodyPersonal).trim();
 
   }
 

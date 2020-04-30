@@ -63,8 +63,8 @@ export class PaymentService {
   }
 
   getAllPayments():void {
-    /*this.storeGetAllPayments();
-    const user: User = this.userService.getUser();
+    this.storeGetAllPayments();
+    /*const user: User = this.userService.getUser();
     this.subs = this.firebaseService.collection(`${user.uid}/payments/items`)
     .snapshotChanges()
     .pipe(map(items => {
