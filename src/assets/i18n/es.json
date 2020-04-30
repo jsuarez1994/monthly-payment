@@ -55,6 +55,7 @@
 
     "ADD-PAYMENT": {
         "TITLE": "Agregar movimiento",
+        "TYPE_DEFEAT": "Seleccione tipo movimiento",
         "CATEGORY": "Categoría de movimiento",
         "CATEGORY_DEFEAT": "Selecciona una categoría.",
         "QUANTITY": "Cantidad",

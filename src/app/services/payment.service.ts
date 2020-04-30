@@ -83,6 +83,7 @@ export class PaymentService {
     // MOCK
     let list: Payment[] = [];
     list.push(new Payment('202001', 450, 'Alquiler','Fijo', 'Gasto'));
+    list.push(new Payment('202001', 800, 'Luz','Fijo', 'Gasto'));
     list.push(new Payment('202001', 100, 'Coche','Fijo', 'Gasto'));
     list.push(new Payment('202001', 1300, 'Sueldo','Fijo', 'Ganancia'));
     list.push(new Payment('202001', 75, 'Cumpleaños amigo','Personal', 'Gasto'));

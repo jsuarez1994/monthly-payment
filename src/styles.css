@@ -2,3 +2,9 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+input, select, textarea {
+    border: none !important;
+    border-bottom: 1px solid black !important;
+}
+
