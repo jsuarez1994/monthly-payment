@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+} from '@angular/core';
 // FORMS
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 // DATA PICKER
@@ -17,6 +23,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/redux/app.reducers';
 // RXJS
 import { Subscription } from 'rxjs';
+import { Category } from '../../../models/category.model';
 
 @Component({
   selector: 'app-add-payment',
@@ -30,12 +37,12 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   loaded: boolean;
   // TO TRADUCT LITERALS
   LiteralClass: literals.Literals;
-  // TYPES
-  types: string[];
-  // NATURES
-  natures: string[];
+  // CATEGORIES
+  categories: Category[];
+  categorySelect: Category;
   // SUBSCRIBE
-  subs: Subscription = new Subscription();
+  subLoaded: Subscription = new Subscription();
+  subCategories: Subscription = new Subscription();
 
   constructor(
     private translate: TranslateService,
@@ -46,14 +53,14 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getAllTypes();
-    this.getAllNature();
+    this.getAllCategories();
     // Init form
     this.initForm();
   }
 
-  ngOnDestroy(){
-    this.subs.unsubscribe();
+  ngOnDestroy() {
+    this.subLoaded.unsubscribe();
+    this.subCategories.unsubscribe();
   }
 
   /**
@@ -61,14 +68,12 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
    */
   initForm() {
     this.form = new FormGroup({
-      nature: new FormControl('', Validators.required),
-      type: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+      category: new FormControl('', Validators.required),
       quantity: new FormControl(0, [Validators.required, Validators.min(1)]),
       period: new FormControl('', Validators.required),
     });
 
-    this.subs = this.store.select('payments').subscribe( response => {
+    this.subLoaded = this.store.select('payments').subscribe((response) => {
       this.loaded = response.loaded;
     });
   }
@@ -76,38 +81,25 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   /**
    * Get all types to combo
    */
-  getAllTypes() {
-    const mapLiterals = this.LiteralClass.getLiterals([
-      'ADD-PAYMENT.TYPE_PERSONAL',
-      'ADD-PAYMENT.TYPE_PERMANENT',
-    ]);
-    this.types = [
-      mapLiterals.get('ADD-PAYMENT.TYPE_PERSONAL'),
-      mapLiterals.get('ADD-PAYMENT.TYPE_PERMANENT'),
-    ];
+  getAllCategories() {
+    this.subCategories = this.store.select('categories').subscribe((items) => {
+      this.categories = items.categories;
+    });
   }
 
-  /**
-   * Get all Natures to combo
-   */
-  getAllNature() {
-    const mapLiterals = this.LiteralClass.getLiterals([
-      'ADD-PAYMENT.NATURE_GAIN',
-      'ADD-PAYMENT.NATURE_EXPENDITURE',
-    ]);
-    this.natures = [
-      mapLiterals.get('ADD-PAYMENT.NATURE_GAIN'),
-      mapLiterals.get('ADD-PAYMENT.NATURE_EXPENDITURE'),
-    ];
+  changeCategory() {
+    this.categorySelect = this.categories.filter(
+      (category) => category.description === this.form.value.category
+    )[0];
   }
 
   /**
    * Submit form
    */
   onSubmit() {
-    
     const payment: Payment = {
-      ...this.form.value,
+      ...this.categorySelect,
+      quantity: this.form.value.quantity,
       period: utils.setPeriod(
         this.form.value.period.getMonth() + 1,
         this.form.value.period.getFullYear()

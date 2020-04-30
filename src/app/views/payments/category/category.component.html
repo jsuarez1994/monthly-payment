@@ -2,7 +2,7 @@
 <div class="card">
     <div *ngIf="categories.length > 0" class="card-body">
         <h4 class="card-title text-center"> {{ 'CATEGORY.CATEGORY_TITLE' | translate }} </h4>
-        <table class="table table-borderless table-hover">
+        <table class="table table-bordered table-hover mt-5">
             <thead>
                 <tr>
                     <th *ngFor="let header of headers">{{header.value}}</th>

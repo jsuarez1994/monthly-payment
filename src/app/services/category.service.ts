@@ -52,11 +52,11 @@ export class CategoryService {
     this.firebaseService.doc(`${user.uid}/categories`).collection('items').add({...category}).
     then(() => {
       this.storeAddCategorySuccess(category);
-      this.messagesLiteralsToast(['ADD_CATEGORY.TOAST_TITLE_SUCCESS'], Constants.ICON_SUCCESS);
+      this.messagesLiteralsToast(['ADD-CATEGORY.TOAST_TITLE_SUCCESS'], Constants.ICON_SUCCESS);
     })
     .catch(error => {
       this.storeAddCategoryFail(error);
-      this.messagesLiteralsToast(['ADD_CATEGORY.TOAST_TITLE_FAIL'], Constants.ICON_ERROR);
+      this.messagesLiteralsToast(['ADD-CATEGORY.TOAST_TITLE_FAIL'], Constants.ICON_ERROR);
     });
   }
 

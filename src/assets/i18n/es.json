@@ -55,25 +55,13 @@
 
     "ADD-PAYMENT": {
         "TITLE": "Agregar movimiento",
-        "NATURE_MOV": "Naturaleza del movimiento",
-        "NATURE_DEFEAT": "Selecciona una naturaleza de movimiento",
-        "NATURE_GAIN": "Ganancia",
-        "NATURE_EXPENDITURE": "Gasto",
-        "TYPE_MOV": "Tipo movimiento",
-        "TYPE_DEFEAT": "Selecciona un tipo movimiento",
-        "TYPE_PERSONAL": "Personal",
-        "TYPE_PERMANENT": "Fijo",
-        "DESCRIPTION": "Descripción",
+        "CATEGORY": "Categoría de movimiento",
+        "CATEGORY_DEFEAT": "Selecciona una categoría.",
         "QUANTITY": "Cantidad",
         "PERIOD": "Periodo de transacción",
-        "SUBMIT_ADD": "Agregar",
+        "SUBMIT_ADD": "Agregar movimiento",
         "TOAST_TITLE_SUCCESS": "Movimiento agregado",
         "TOAST_TITLE_FAIL": "Error al agregar movimiento"
-    },
-
-    "ADD_CATEGORY": {
-        "TOAST_TITLE_SUCCESS": "Categoría agregada",
-        "TOAST_TITLE_FAIL": "Error al agregar categoría"
     },
 
     "PAYMENT": {
@@ -108,6 +96,22 @@
         "HEADER_TYPE": "FIJO/PERSONAL",
         "HEADER_DESCRIPTION": "DESCRIPCIÓN",
         "CATEGORIES_EMPTY": "No se han insertado categorías"
+    },
+
+    "ADD-CATEGORY": {
+        "TITLE": "Agregar categoría",
+        "NATURE_MOV": "Naturaleza del movimiento",
+        "NATURE_DEFEAT": "Selecciona una naturaleza de movimiento",
+        "NATURE_GAIN": "Ganancia",
+        "NATURE_EXPENDITURE": "Gasto",
+        "TYPE_MOV": "Tipo movimiento",
+        "TYPE_DEFEAT": "Selecciona un tipo movimiento",
+        "TYPE_PERSONAL": "Personal",
+        "TYPE_PERMANENT": "Fijo",
+        "DESCRIPTION": "Descripción",
+        "SUBMIT_ADD": "Agregar categoría",
+        "TOAST_TITLE_SUCCESS": "Categoría agregada",
+        "TOAST_TITLE_FAIL": "Error al agregar categoría"
     }
 
 }
