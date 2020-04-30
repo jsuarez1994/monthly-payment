@@ -1,1 +1,24 @@
-<p>category works!</p>
+<!-- PAYMENTS -->
+<div class="card">
+    <div *ngIf="categories.length > 0" class="card-body">
+        <h4 class="card-title text-center"> {{ 'CATEGORY.CATEGORY_TITLE' | translate }} </h4>
+        <table class="table table-borderless table-hover">
+            <thead>
+                <tr>
+                    <th *ngFor="let header of headers">{{header.value}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let category of categories">
+                    <td *ngFor="let header of headers">
+                        {{category[header.key]}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="categories.length === 0" class="card-body text-center bg-danger text-white align-middle">
+        <h4> {{ 'CATEGORY.CATEGORIES_EMPTY' | translate }} <i class="far fa-folder-open"></i></h4>
+    </div>
+</div>

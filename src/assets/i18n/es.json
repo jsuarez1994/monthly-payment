@@ -6,12 +6,16 @@
 
     "NAVBAR": {
         "TITLE": "MONTHLY PAYMENT",
-        "GENERAL": "General",
+        "PAYMENT": "Transacciones pagos",
+        "PAYMENTS": "Movimientos",
         "STATISTICS": "Estadísticas de los pagos",
         "ADD_PAYMENT": "Agregar pago",
-        "SIGN_OUT": "Cerrar sesión",
-        "CATEGORIES": "Categorias",
-        "ADD_CATEGORY": "Agregar categoría"
+        "CATEGORY": "Categoría",
+        "CATEGORIES": "Categorías",
+        "ADD_CATEGORY": "Agregar categoría",
+        "USER": "Usuario",
+        "SETTINGS": "Ajustes de perfil",
+        "SIGN_OUT": "Cerrar sesión"
     },
 
     "FOOTER": {
@@ -96,6 +100,14 @@
         "REPORT_PAYMENT_BODY_PERSONAL": "De los gastos personales has gastado <EXPENSIVE_PERSONAL_OUT> €, de los <EXPENSIVE_PERSONAL> € que podías haber gastado, con lo cual ",
         "REPORT_PAYMENT_BODY_PERSONAL_GOOD": "estás ahorrando adecuadamente en los gastos personales, ya que te sobran <REST_EXPENSIVE_PERSONAL> €.",
         "REPORT_PAYMENT_BODY_PERSONAL_BAD": "no estás ahorrando bien, te has sobrepasado <REST_EXPENSIVE_PERSONAL> € en gastos fijos."
+    },
+
+    "CATEGORY": {
+        "CATEGORY_TITLE": "LISTA DE CATEGORÍAS",
+        "HEADER_NATURE": "TIPO DE MOVIMIENTO",
+        "HEADER_TYPE": "FIJO/PERSONAL",
+        "HEADER_DESCRIPTION": "DESCRIPCIÓN",
+        "CATEGORIES_EMPTY": "No se han insertado categorías"
     }
 
 }

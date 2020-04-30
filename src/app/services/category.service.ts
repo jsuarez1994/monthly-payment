@@ -60,7 +60,7 @@ export class CategoryService {
     });
   }
 
-  getAllPayments():void {
+  getAllCategories():void {
     this.storeGetAllCategories();
     /*const user: User = this.userService.getUser();
     this.subs = this.firebaseService.collection(`${user.uid}/categories/items`)
@@ -81,14 +81,9 @@ export class CategoryService {
     // MOCK
     let list: Category[] = [];
     list.push(new Category('Alquiler','Fijo', 'Gasto'));
-    list.push(new Category('Coche','Fijo', 'Gasto'));
-    list.push(new Category('Sueldo','Fijo', 'Ganancia'));
-    list.push(new Category('Cumpleaños amigo','Personal', 'Gasto'));
+    list.push(new Category('Coche','Personal', 'Gasto'));
+    list.push(new Category('Luz','Fijo', 'Gasto'));
     list.push(new Category('Restaurantes','Personal', 'Gasto'));
-    list.push(new Category('Cumpleaños','Fijo', 'Ganancia'));
-    list.push(new Category('Sueldo','Fijo', 'Ganancia'));
-    list.push(new Category('Restaurantes','Personal', 'Gasto'));
-    list.push(new Category('Cumpleaños','Fijo', 'Ganancia'));
     list.push(new Category('Sueldo','Fijo', 'Ganancia'));
 
     this.storeGetAllCategoriesSuccess(list);

@@ -8,23 +8,36 @@
 
     <div class="collapse navbar-collapse" id="dropdownMenu">
         <ul class="navbar-nav">
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/"> {{ 'NAVBAR.GENERAL' | translate }} <i class="fas fa-money-check-alt"></i> </a>
+            <!-- PAYMENTS -->
+            <li class="nav-item dropdown" routerLinkActive="active">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdownPayments" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ 'NAVBAR.PAYMENT' | translate }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownPayments">
+                  <a class="dropdown-item" routerLink="/"> <i class="fas fa-money-check-alt"></i> {{ 'NAVBAR.PAYMENTS' | translate }} </a>
+                  <a class="dropdown-item" routerLink="/add-payments"> <i class="fas fa-hand-holding-usd"></i> {{ 'NAVBAR.ADD_PAYMENT' | translate }} </a>
+                  <a class="dropdown-item" routerLink="/statistics"> <i class="fas fa-chart-line"></i> {{ 'NAVBAR.STATISTICS' | translate }} </a>
+                </div>
             </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/statistics"> {{ 'NAVBAR.STATISTICS' | translate }} <i class="fas fa-chart-line"></i></a>
+            <!-- CATEGORIES -->
+            <li class="nav-item dropdown" routerLinkActive="active">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdownCategories" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ 'NAVBAR.CATEGORY' | translate }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownCategories">
+                    <a class="dropdown-item" routerLink="/categories"> <i class="fas fa-tag"></i> {{ 'NAVBAR.CATEGORIES' | translate }} </a>
+                    <a class="dropdown-item" routerLink="/add-categories"> <i class="fas fa-plus"></i><i class="fas fa-tags"></i> {{ 'NAVBAR.ADD_CATEGORY' | translate }} </a>
+                </div>
             </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/add-payments"> {{ 'NAVBAR.ADD_PAYMENT' | translate }} <i class="fas fa-hand-holding-usd"></i></a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/categories"> {{ 'NAVBAR.CATEGORIES' | translate }} <i class="fas fa-tag"></i></a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/add-categories"> {{ 'NAVBAR.ADD_CATEGORY' | translate }} <i class="fas fa-plus"></i><i class="fas fa-tags"></i></a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" style="cursor: pointer;" (click)="signOut()"> {{ 'NAVBAR.SIGN_OUT' | translate }} <i class="fas fa-sign-out-alt"></i></a>
+            <!-- USUARIO -->
+            <li class="nav-item dropdown" routerLinkActive="active">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdownUser" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ 'NAVBAR.USER' | translate }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownUser">
+                    <a class="dropdown-item" href="#"> <i class="fas fa-sliders-h"></i> {{ 'NAVBAR.SETTINGS' | translate }} </a>
+                    <a class="dropdown-item" style="cursor: pointer;" (click)="signOut()"> <i class="fas fa-sign-out-alt"></i> {{ 'NAVBAR.SIGN_OUT' | translate }} </a>
+                </div>
             </li>
         </ul>
     </div>
