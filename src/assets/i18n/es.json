@@ -1,7 +1,8 @@
 {
     "COMMONS":{
         "IN_PROCESS": "En proceso...",
-        "ERROR": "Ha habído un error"
+        "ERROR": "Ha habído un error",
+        "OPERATIONS": "OPERACIONES"
     },
 
     "NAVBAR": {

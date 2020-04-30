@@ -5,7 +5,7 @@
         </div>
         <div class="col-lg-9">
             <div class="card-body">
-                <h5 class="card-title text-center"> {{ 'ADD-PAYMENT.TITLE' | translate }} </h5>
+                <h5 class="card-title text-center font-weight-bold"> {{ 'ADD-PAYMENT.TITLE' | translate | uppercase }} </h5>
                 <div class="card-text">
                     <form (ngSubmit)="onSubmit()" [formGroup]="form">
                         <div class="form-group">
@@ -43,7 +43,7 @@
                         <!-- BOTONS -->
                         <div class="form-group">
                             <button *ngIf="loaded" [disabled]="form.invalid" class="btn btn-danger submit-btn btn-block"
-                                type="submit">{{ 'ADD-PAYMENT.SUBMIT_ADD' | translate }}</button>
+                                type="submit">{{ 'ADD-PAYMENT.SUBMIT_ADD' | translate | uppercase }}</button>
                             <button *ngIf="!loaded" [disabled]="form.invalid"
                                 class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}
                                 <div class="spinner-grow" role="status">

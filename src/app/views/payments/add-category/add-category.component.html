@@ -5,7 +5,7 @@
             <div class="row no-gutters">
                 <img src="../../../../assets/images/add.category.jpg" class="card-img-top" alt="add-category">
                 <div class="card-body">
-                    <h5 class="card-title text-center"> {{ 'ADD-CATEGORY.TITLE' | translate }} </h5>
+                    <h5 class="card-title text-center font-weight-bold"> {{ 'ADD-CATEGORY.TITLE' | translate | uppercase }} </h5>
                     <div class="card-text">
                         <form (ngSubmit)="onSubmit()" [formGroup]="form">
                             <div class="form-group">
@@ -50,7 +50,7 @@
                             <div class="form-group">
                                 <button *ngIf="loaded" [disabled]="form.invalid"
                                     class="btn btn-danger submit-btn btn-block"
-                                    type="submit">{{ 'ADD-CATEGORY.SUBMIT_ADD' | translate }}</button>
+                                    type="submit">{{ 'ADD-CATEGORY.SUBMIT_ADD' | translate | uppercase }}</button>
                                 <button *ngIf="!loaded" [disabled]="form.invalid"
                                     class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}
                                     <div class="spinner-grow" role="status">

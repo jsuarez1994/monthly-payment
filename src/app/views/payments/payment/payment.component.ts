@@ -165,6 +165,7 @@ export class PaymentComponent implements OnInit {
       'PAYMENT.HEADER_DESCRIPTION',
       'PAYMENT.HEADER_QUATITY',
       'PAYMENT.HEADER_TYPE',
+      'COMMONS.OPERATIONS'
     ]);
     this.headers = [
       { key: 'nature', value: headersValue.get('PAYMENT.HEADER_NATURE') },
@@ -174,6 +175,7 @@ export class PaymentComponent implements OnInit {
         value: headersValue.get('PAYMENT.HEADER_DESCRIPTION'),
       },
       { key: 'quantity', value: headersValue.get('PAYMENT.HEADER_QUATITY') },
+      { key: 'operations', value: headersValue.get('COMMONS.OPERATIONS') },
     ];
   }
 
@@ -310,4 +312,32 @@ export class PaymentComponent implements OnInit {
       this.barChartData.push(value);
     });
   }
+
+  /**
+   * Delete payment
+   * @param payment 
+   */
+  deletePayment(payment: Payment) {
+    console.log('### DELETE PAYMENT ###');
+    console.log(payment);
+  }
+
+  /**
+   * Update payment
+   * @param payment 
+   */
+  updatePayment(payment: Payment) {
+    console.log('### UPDATE PAYMENT ###');
+    console.log(payment);
+  }
+
+  /**
+   * Find payment all others period this year
+   * @param payment 
+   */
+  findAllPeriodsByPayment(payment: Payment) {
+    console.log('### FIN ALL PERIODS SAME YEAR PAYMENT ###');
+    console.log(payment);
+  }
+
 }
