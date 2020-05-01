@@ -7,16 +7,16 @@ export class Payment {
   nature: string
 
   constructor(
-    period: string,
-    quantity: number,
-    description: string,
-    type: string,
-    nature: string
+    period?: string,
+    quantity?: number,
+    description?: string,
+    type?: string,
+    nature?: string
   ) {
-    this.period = period;
-    this.quantity = quantity;
-    this.description = description;
-    this.type = type;
-    this.nature = nature;
+    this.period = period || '';
+    this.quantity = quantity || 0;
+    this.description = description || '';
+    this.type = type || '';
+    this.nature = nature || '';
   }
 }

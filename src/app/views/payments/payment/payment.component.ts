@@ -15,6 +15,15 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import * as chartOpt from './chart_options';
 import { ChartOptions, ChartDataSets, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
+// SWEETALERT
+import * as sweetAlert from '../../../shared/Utils/sweetalert';
+import Swal from 'sweetalert2';
+// SERVICES
+import { PaymentService } from '../../../services/payment.service';
+// CONSTANTS
+import { Constants } from '../../../shared/Utils/constants';
+// ROUTER
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment',
@@ -51,7 +60,9 @@ export class PaymentComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private paymentService: PaymentService,
+    private router: Router
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
   }
@@ -165,7 +176,7 @@ export class PaymentComponent implements OnInit {
       'PAYMENT.HEADER_DESCRIPTION',
       'PAYMENT.HEADER_QUATITY',
       'PAYMENT.HEADER_TYPE',
-      'COMMONS.OPERATIONS'
+      'COMMONS.OPERATIONS',
     ]);
     this.headers = [
       { key: 'nature', value: headersValue.get('PAYMENT.HEADER_NATURE') },
@@ -238,9 +249,10 @@ export class PaymentComponent implements OnInit {
     // INIT REPORT
     let init: string = report.get('PAYMENT.REPORT_PAYMENT_INIT');
     // REPLACE VALUES
-    init = init .replace('<ALLGAINS>', String(this.infoPay.allGains))
-                .replace('<EXPENSIVE_PERMANENT>',String(this.infoPay.porcentPermanent))
-                .replace('<EXPENSIVE_PERSONAL>', String(this.infoPay.porcentPersonal));
+    init = init
+      .replace('<ALLGAINS>', String(this.infoPay.allGains))
+      .replace('<EXPENSIVE_PERMANENT>', String(this.infoPay.porcentPermanent))
+      .replace('<EXPENSIVE_PERSONAL>', String(this.infoPay.porcentPersonal));
 
     // ********* BODY REPORT *********
 
@@ -249,22 +261,34 @@ export class PaymentComponent implements OnInit {
       'PAYMENT.REPORT_PAYMENT_BODY_PERMANENT'
     );
     // REPLACE VALUES
-    bodyPermanent = bodyPermanent .replace('<EXPENSIVE_PERMANENT_OUT>', String(sumPermanent))
-                                  .replace('<EXPENSIVE_PERMANENT>',String(this.infoPay.porcentPermanent));
+    bodyPermanent = bodyPermanent
+      .replace('<EXPENSIVE_PERMANENT_OUT>', String(sumPermanent))
+      .replace('<EXPENSIVE_PERMANENT>', String(this.infoPay.porcentPermanent));
     // RESULT REPORT PAYMENT
     const reportBodyPermanent = this.LiteralClass.getLiterals([
       'PAYMENT.REPORT_PAYMENT_BODY_PERMANENT_GOOD',
       'PAYMENT.REPORT_PAYMENT_BODY_PERMANENT_BAD',
     ]);
     let bodyPermanentResult = '';
-    if (sumPermanent > this.infoPay.porcentPermanent) {// EXPENSIVE PLUS PERMITED
-      bodyPermanentResult = reportBodyPermanent.get('PAYMENT.REPORT_PAYMENT_BODY_PERMANENT_BAD');
+    if (sumPermanent > this.infoPay.porcentPermanent) {
+      // EXPENSIVE PLUS PERMITED
+      bodyPermanentResult = reportBodyPermanent.get(
+        'PAYMENT.REPORT_PAYMENT_BODY_PERMANENT_BAD'
+      );
       // REPLACE VALUES
-      bodyPermanentResult = bodyPermanentResult.replace('<REST_EXPENSIVE_PERMANENT>', String(sumPermanent - this.infoPay.porcentPermanent));
+      bodyPermanentResult = bodyPermanentResult.replace(
+        '<REST_EXPENSIVE_PERMANENT>',
+        String(sumPermanent - this.infoPay.porcentPermanent)
+      );
     } else {
-      bodyPermanentResult = reportBodyPermanent.get('PAYMENT.REPORT_PAYMENT_BODY_PERMANENT_GOOD');
+      bodyPermanentResult = reportBodyPermanent.get(
+        'PAYMENT.REPORT_PAYMENT_BODY_PERMANENT_GOOD'
+      );
       // REPLACE VALUES
-      bodyPermanentResult = bodyPermanentResult.replace('<REST_EXPENSIVE_PERMANENT>', String(this.infoPay.porcentPermanent - sumPermanent));
+      bodyPermanentResult = bodyPermanentResult.replace(
+        '<REST_EXPENSIVE_PERMANENT>',
+        String(this.infoPay.porcentPermanent - sumPermanent)
+      );
     }
     // CONCAT BODY WITH RESULT
     bodyPermanent = bodyPermanent.concat(bodyPermanentResult);
@@ -274,30 +298,43 @@ export class PaymentComponent implements OnInit {
       'PAYMENT.REPORT_PAYMENT_BODY_PERSONAL'
     );
     // REPLACE VALUES
-    bodyPersonal = bodyPersonal .replace('<EXPENSIVE_PERSONAL_OUT>', String(sumPersonal))
-                                .replace('<EXPENSIVE_PERSONAL>',String(this.infoPay.porcentPersonal));
+    bodyPersonal = bodyPersonal
+      .replace('<EXPENSIVE_PERSONAL_OUT>', String(sumPersonal))
+      .replace('<EXPENSIVE_PERSONAL>', String(this.infoPay.porcentPersonal));
     // RESULT REPORT PAYMENT
     const reportBodyPersonal = this.LiteralClass.getLiterals([
       'PAYMENT.REPORT_PAYMENT_BODY_PERSONAL_GOOD',
       'PAYMENT.REPORT_PAYMENT_BODY_PERSONAL_BAD',
     ]);
     let bodyPersonalResult = '';
-    if (sumPersonal > this.infoPay.porcentPersonal) {// EXPENSIVE PLUS PERMITED
-      bodyPersonalResult = reportBodyPersonal.get('PAYMENT.REPORT_PAYMENT_BODY_PERSONAL_BAD');
+    if (sumPersonal > this.infoPay.porcentPersonal) {
+      // EXPENSIVE PLUS PERMITED
+      bodyPersonalResult = reportBodyPersonal.get(
+        'PAYMENT.REPORT_PAYMENT_BODY_PERSONAL_BAD'
+      );
       // REPLACE VALUES
-      bodyPersonalResult = bodyPersonalResult.replace('<REST_EXPENSIVE_PERSONAL>', String(sumPersonal - this.infoPay.porcentPersonal));
+      bodyPersonalResult = bodyPersonalResult.replace(
+        '<REST_EXPENSIVE_PERSONAL>',
+        String(sumPersonal - this.infoPay.porcentPersonal)
+      );
     } else {
-      bodyPersonalResult = reportBodyPersonal.get('PAYMENT.REPORT_PAYMENT_BODY_PERSONAL_GOOD');
+      bodyPersonalResult = reportBodyPersonal.get(
+        'PAYMENT.REPORT_PAYMENT_BODY_PERSONAL_GOOD'
+      );
       // REPLACE VALUES
-      bodyPersonalResult = bodyPersonalResult.replace('<REST_EXPENSIVE_PERSONAL>', String(this.infoPay.porcentPersonal - sumPersonal));
+      bodyPersonalResult = bodyPersonalResult.replace(
+        '<REST_EXPENSIVE_PERSONAL>',
+        String(this.infoPay.porcentPersonal - sumPersonal)
+      );
     }
     // CONCAT BODY WITH RESULT
     bodyPersonal = bodyPersonal.concat(bodyPersonalResult);
 
-
     // RESULT REPORT
-    this.reportPayments = init.concat(bodyPermanent).concat(bodyPersonal).trim();
-
+    this.reportPayments = init
+      .concat(bodyPermanent)
+      .concat(bodyPersonal)
+      .trim();
   }
 
   /**
@@ -315,29 +352,113 @@ export class PaymentComponent implements OnInit {
 
   /**
    * Delete payment
-   * @param payment 
+   * @param payment
    */
   deletePayment(payment: Payment) {
     console.log('### DELETE PAYMENT ###');
     console.log(payment);
+
+    const deleteModal = this.LiteralClass.getLiterals([
+      'COMMONS.DELETE_OPERATION',
+      'COMMONS.YES',
+      'COMMONS.NO',
+      'COMMONS.MESSAGE_DELETE_OPERATION',
+      'COMMONS.DELETE_OPERATION_SUCCESS',
+      'COMMONS.DELETE_OPERATION_SUCCESS_MESSAGE',
+      'COMMONS.DELETE_OPERATION_CANCELED',
+      'COMMONS.DELETE_OPERATION_CANCELED_MESSAGE',
+    ]);
+
+    let map: Map<string, string> = new Map<string, string>();
+
+    map.set('title', deleteModal.get('COMMONS.DELETE_OPERATION'));
+    map.set('textButtonYes', deleteModal.get('COMMONS.YES'));
+    map.set('textButtonNo', deleteModal.get('COMMONS.NO'));
+    map.set('message', deleteModal.get('COMMONS.MESSAGE_DELETE_OPERATION'));
+    map.set(
+      'titleOpSuccess',
+      deleteModal.get('COMMONS.DELETE_OPERATION_SUCCESS')
+    );
+    map.set(
+      'messageOpSuccess',
+      deleteModal.get('COMMONS.DELETE_OPERATION_SUCCESS_MESSAGE')
+    );
+    map.set(
+      'titleOpCanceled',
+      deleteModal.get('COMMONS.DELETE_OPERATION_CANCELED')
+    );
+    map.set(
+      'messageOpCanceled',
+      deleteModal.get('COMMONS.DELETE_OPERATION_CANCELED_MESSAGE')
+    );
+
+    this.modalDelete(map, payment);
+  }
+
+  /**
+   * MODAL TO ACTION DELETE
+   * @param map
+   * @param object
+   * @param service
+   */
+  private modalDelete(map: Map<string, string>, object) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: map.get('title'),
+        text: map.get('message'),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: map.get('textButtonYes'),
+        cancelButtonText: map.get('textButtonNo'),
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.value) {
+          this.paymentService.deletePayment(object);
+
+          sweetAlert.showMessage(
+            map.get('titleOpSuccess'),
+            map.get('messageOpSuccess'),
+            Constants.ICON_SUCCESS
+          );
+
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+          sweetAlert.showMessage(
+            map.get('titleOpCanceled'),
+            map.get('messageOpCanceled'),
+            Constants.ICON_ERROR
+          );
+        }
+      });
   }
 
   /**
    * Update payment
-   * @param payment 
+   * @param payment
    */
   updatePayment(payment: Payment) {
     console.log('### UPDATE PAYMENT ###');
     console.log(payment);
+
+    // NAVIGATO TO UPDATE PAYMENT
+    this.router.navigate(['/'.concat(Constants.UPDATE_PAYMENTS_PATH), { description: payment.description }]);
   }
 
   /**
    * Find payment all others period this year
-   * @param payment 
+   * @param payment
    */
   findAllPeriodsByPayment(payment: Payment) {
     console.log('### FIN ALL PERIODS SAME YEAR PAYMENT ###');
     console.log(payment);
   }
-
 }

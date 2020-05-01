@@ -60,7 +60,7 @@
         </div>
     </div>
     <!-- CHART PAYMENTS -->
-    <div class="col-lg-6 col-md-12 col-sm-12">
+    <div class="col-lg-6 col-md-12 col-sm-12" *ngIf="payments.length > 0">
         <div class="col-12 p-5">
             <div class="card">
                 <div class="card-body">
@@ -76,7 +76,7 @@
         </div>
     </div>
 </div>
-<div class="row ml-1 mt-3" *ngIf="natureSelect === natures[1]">
+<div class="row ml-1 mt-3" *ngIf="natureSelect === natures[1] && payments.length > 0">
     <div class="col-lg-8 col-md-12 col-sm-12">
         <div class="card">
             <div class="card-body">

@@ -6,6 +6,7 @@ import { PaymentStatisticsComponent } from './payment-statistics/payment-statist
 import { PaymentComponent } from './payment/payment.component';
 import { DashboardComponent } from '../dashboard/dashboard/dashboard.component';
 import { AddPaymentComponent } from './add-payment/add-payment.component';
+import { UpdatePaymentComponent } from './update-payment/update-payment.component';
 import { CategoryComponent } from './category/category.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
 // MODULES
@@ -20,6 +21,7 @@ import { DashboardRoutingModule } from '../dashboard/dashboard-routing.module';
     AddPaymentComponent,
     CategoryComponent,
     AddCategoryComponent,
+    UpdatePaymentComponent,
   ],
   imports: [
     CommonModule,

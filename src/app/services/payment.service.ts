@@ -42,26 +42,73 @@ export class PaymentService {
     this.LiteralClass = new literals.Literals(this.translate);
   }
 
+  /**
+   * Cancel subscription
+   */
   cancelSubs() {
     this.subs.unsubscribe();
     this.storeUnsetPayments();
   }
 
-
+  /**
+   * Add new payment
+   * @param payment 
+   */
   addPayment(payment: Payment):void {
     this.storeAddPayment();
-    const user: User = this.userService.getUser();
-    this.firebaseService.doc(`${user.uid}/payments`).collection('items').add({...payment}).
+    this.getCollection().add({...payment}).
     then(() => {
       this.storeAddPaymentSuccess(payment);
-      this.messagesLiteralsToast(['ADD-PAYMENT.TOAST_TITLE_SUCCESS'], Constants.ICON_SUCCESS);
+      this.messagesLiteralsToast(['UPDATE-PAYMENT.TOAST_TITLE_SUCCESS'], Constants.ICON_SUCCESS);
     })
     .catch(error => {
       this.storeAddPaymentFail(error);
+      this.messagesLiteralsToast(['UPDATE-PAYMENT.TOAST_TITLE_FAIL'], Constants.ICON_ERROR);
+    });
+  }
+
+  /**
+   * Add new payment
+   * @param payment 
+   */
+  updatePayment(payment: Payment, oldPeriod:string):void {
+    this.storeUpdatePayment();
+    this.getCollection().doc(payment.uid).update({
+      quantity: payment.quantity,
+      period: payment.period
+    }).
+    then(() => {
+      this.storeUpdatePaymentSuccess(payment, oldPeriod);
+      this.messagesLiteralsToast(['ADD-PAYMENT.TOAST_TITLE_SUCCESS'], Constants.ICON_SUCCESS);
+    })
+    .catch(error => {
+      this.storeUpdatePaymentFail(error);
       this.messagesLiteralsToast(['ADD-PAYMENT.TOAST_TITLE_FAIL'], Constants.ICON_ERROR);
     });
   }
 
+  /**
+   * Delete paymeny by params
+   * @param payment 
+   */
+  deletePayment(payment: Payment): void {
+    console.log(' ### DELETE PAYMENT ### ');
+    this.storeDeletePayment();
+    this.getCollection().doc(payment.uid).delete().
+    then(() => {
+      this.storeDeletePaymentSuccess(payment);
+      this.messagesLiteralsToast(['PAYMENT.DELETE_SUCCESS'], Constants.ICON_SUCCESS);
+    })
+    .catch(error => {
+      this.storeDeletePaymentSuccess(error);
+      this.messagesLiteralsToast(['PAYMENT.DELETE_FAIL'], Constants.ICON_ERROR);
+    });
+
+  }
+
+  /**
+   * Get all payments
+   */
   getAllPayments():void {
     this.storeGetAllPayments();
     /*const user: User = this.userService.getUser();
@@ -93,9 +140,19 @@ export class PaymentService {
     list.push(new Payment('202004', 80, 'Restaurantes','Personal', 'Gasto'));
     list.push(new Payment('202004', 200, 'Cumpleaños','Fijo', 'Ganancia'));
     list.push(new Payment('202004', 1300, 'Sueldo','Fijo', 'Ganancia'));
+    list.push(new Payment('202005', 200, 'Cumpleaños','Fijo', 'Ganancia'));
+    list.push(new Payment('202005', 1300, 'Sueldo','Fijo', 'Ganancia'));
 
     this.storeGetAllPaymentsSuccess(list);
+  }
 
+
+  /**
+   * Get collection to manager payments
+   */
+  private getCollection() {
+    const user: User = this.userService.getUser();
+    return this.firebaseService.doc(`${user.uid}/payments`).collection('items');
   }
 
   /**
@@ -130,6 +187,48 @@ export class PaymentService {
    */
   private storeAddPaymentFail(payload: any){
     this.store.dispatch(new paymentsActions.AddPaymentFail(payload));
+  }
+
+  /**
+   * Call store Add Payment
+   */
+  private storeUpdatePayment(){
+    this.store.dispatch(new paymentsActions.UpdatePayment());
+  }
+
+  /**
+   * Call store Add Payment Success
+   */
+  private storeUpdatePaymentSuccess(payload: Payment, oldPeriod){
+    this.store.dispatch(new paymentsActions.UpdatePaymentSuccess(payload, oldPeriod));
+  }
+
+  /**
+   * Call store Add Payment Fail
+   */
+  private storeUpdatePaymentFail(payload: any){
+    this.store.dispatch(new paymentsActions.UpdatePaymentFail(payload));
+  }
+
+  /**
+   * Call store Delete Payment
+   */
+  private storeDeletePayment(){
+    this.store.dispatch(new paymentsActions.DeletePayment());
+  }
+
+  /**
+   * Call store Delete Payment Success
+   */
+  private storeDeletePaymentSuccess(payload: Payment){
+    this.store.dispatch(new paymentsActions.DeletePaymentSuccess(payload));
+  }
+
+  /**
+   * Call store Delete Payment Fail
+   */
+  private storeDeletePaymentFail(payload: any){
+    this.store.dispatch(new paymentsActions.DeletePaymentFail(payload));
   }
 
   /**
