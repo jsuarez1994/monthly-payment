@@ -186,7 +186,7 @@ export class PaymentComponent implements OnInit {
         value: headersValue.get('PAYMENT.HEADER_DESCRIPTION'),
       },
       { key: 'quantity', value: headersValue.get('PAYMENT.HEADER_QUATITY') },
-      { key: 'operations', value: headersValue.get('COMMONS.OPERATIONS') },
+      { key: 'operations', value: '' },
     ];
   }
 
@@ -358,48 +358,13 @@ export class PaymentComponent implements OnInit {
     console.log('### DELETE PAYMENT ###');
     console.log(payment);
 
-    const deleteModal = this.LiteralClass.getLiterals([
-      'COMMONS.DELETE_OPERATION',
-      'COMMONS.YES',
-      'COMMONS.NO',
-      'COMMONS.MESSAGE_DELETE_OPERATION',
-      'COMMONS.DELETE_OPERATION_SUCCESS',
-      'COMMONS.DELETE_OPERATION_SUCCESS_MESSAGE',
-      'COMMONS.DELETE_OPERATION_CANCELED',
-      'COMMONS.DELETE_OPERATION_CANCELED_MESSAGE',
-    ]);
-
-    let map: Map<string, string> = new Map<string, string>();
-
-    map.set('title', deleteModal.get('COMMONS.DELETE_OPERATION'));
-    map.set('textButtonYes', deleteModal.get('COMMONS.YES'));
-    map.set('textButtonNo', deleteModal.get('COMMONS.NO'));
-    map.set('message', deleteModal.get('COMMONS.MESSAGE_DELETE_OPERATION'));
-    map.set(
-      'titleOpSuccess',
-      deleteModal.get('COMMONS.DELETE_OPERATION_SUCCESS')
-    );
-    map.set(
-      'messageOpSuccess',
-      deleteModal.get('COMMONS.DELETE_OPERATION_SUCCESS_MESSAGE')
-    );
-    map.set(
-      'titleOpCanceled',
-      deleteModal.get('COMMONS.DELETE_OPERATION_CANCELED')
-    );
-    map.set(
-      'messageOpCanceled',
-      deleteModal.get('COMMONS.DELETE_OPERATION_CANCELED_MESSAGE')
-    );
-
-    this.modalDelete(map, payment);
+    this.modalDelete(this.LiteralClass.getMapModalDelete(), payment);
   }
 
   /**
    * MODAL TO ACTION DELETE
    * @param map
    * @param object
-   * @param service
    */
   private modalDelete(map: Map<string, string>, object) {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -450,7 +415,7 @@ export class PaymentComponent implements OnInit {
     console.log(payment);
 
     // NAVIGATO TO UPDATE PAYMENT
-    this.router.navigate(['/'.concat(Constants.UPDATE_PAYMENTS_PATH), { description: payment.description }]);
+    this.router.navigate(['/'.concat(Constants.UPDATE_PAYMENTS_PATH), { uid: payment.uid }]);
   }
 
   /**
@@ -460,5 +425,9 @@ export class PaymentComponent implements OnInit {
   findAllPeriodsByPayment(payment: Payment) {
     console.log('### FIN ALL PERIODS SAME YEAR PAYMENT ###');
     console.log(payment);
+    
+    // NAVIGATO TO UPDATE PAYMENT
+    this.router.navigate(['/'.concat(Constants.HISTORY_PAYMENT_PATH), { description: payment.description }]);
+
   }
 }

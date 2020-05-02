@@ -19,7 +19,7 @@
         <div class="card">
             <div *ngIf="payments.length > 0" class="card-body">
                 <h4 class="card-title text-center font-weight-bold"> {{ natureSelect | uppercase }} </h4>
-                <table class="table table-borderless table-hover">
+                <table class="table table-bordeless table-hover mt-5">
                     <thead>
                         <tr>
                             <th *ngFor="let header of headers">{{header.value}}</th>
@@ -35,7 +35,7 @@
                                 <div *ngIf="header.key !== 'quantity'">
                                     {{payment[header.key]}}
                                 </div>
-                                <div *ngIf="header.key === 'operations'">
+                                <div *ngIf="header.key === 'operations'" class="text-center">
                                     <button type="button" class="btn btn-danger mr-1" (click)="deletePayment(payment)"><i class="far fa-trash-alt"></i></button>
                                     <button type="button" class="btn btn-warning mr-1" (click)="updatePayment(payment)"><i class="far fa-edit"></i></button>
                                     <button type="button" class="btn btn-info" (click)="findAllPeriodsByPayment(payment)"><i class="fas fa-search"></i></button>
@@ -46,7 +46,11 @@
 
                     <tfoot>
                         <tr>
-                            <td *ngFor="let header of headers" class="font-weight-bold">
+                            <td *ngFor="let header of headers" class="font-weight-bold" 
+                            [ngClass]="{
+                                'text-success': natureSelect === natures[0],
+                                'text-danger': natureSelect === natures[1]
+                              }">
                                 <div *ngIf="header.key === 'quantity'">{{ 'PAYMENT.TOTAL' | translate }}
                                     {{sumQuantity | currency:'EUR'}}</div>
                             </td>

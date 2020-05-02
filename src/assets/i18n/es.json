@@ -62,28 +62,7 @@
         "REGISTER_ACTION_COMPLETE_MESSAGE": "Has completado el registro del usuario, vamos a logearnos"
     },
 
-    "ADD-PAYMENT": {
-        "TITLE": "Agregar movimiento",
-        "TYPE_DEFEAT": "Seleccione tipo movimiento",
-        "CATEGORY": "Categoría de movimiento",
-        "CATEGORY_DEFEAT": "Selecciona una categoría.",
-        "QUANTITY": "Cantidad",
-        "PERIOD": "Periodo de transacción",
-        "SUBMIT_ADD": "Agregar movimiento",
-        "TOAST_TITLE_SUCCESS": "Movimiento agregado",
-        "TOAST_TITLE_FAIL": "Error al agregar movimiento"
-    },
-
-    "UPDATE-PAYMENT": {
-        "TITLE": "Actualizar movimiento",
-        "CATEGORY": "Categoría de movimiento",
-        "QUANTITY": "Cantidad",
-        "PERIOD": "Periodo de transacción",
-        "SUBMIT_UPDATE": "Actualizar movimiento",
-        "TOAST_TITLE_SUCCESS": "Movimiento actualizado",
-        "TOAST_TITLE_FAIL": "Error al actualizar movimiento"
-    },
-
+    
     "PAYMENT": {
         "GAIN_TITLE": "GANANCIAS",
         "EXPENDITURE_TITLE": "GASTOS",
@@ -112,12 +91,40 @@
         "DELETE_FAIL": "Ha ocurrido un error al eliminar el registro"
     },
 
+    "ADD-PAYMENT": {
+        "TITLE": "Agregar movimiento",
+        "TYPE_DEFEAT": "Seleccione tipo movimiento",
+        "CATEGORY": "Categoría de movimiento",
+        "CATEGORY_DEFEAT": "Selecciona una categoría.",
+        "QUANTITY": "Cantidad",
+        "PERIOD": "Periodo de transacción",
+        "SUBMIT_ADD": "Agregar movimiento",
+        "TOAST_TITLE_SUCCESS": "Movimiento agregado",
+        "TOAST_TITLE_FAIL": "Error al agregar movimiento"
+    },
+
+    "UPDATE-PAYMENT": {
+        "TITLE": "Actualizar movimiento",
+        "CATEGORY": "Categoría de movimiento",
+        "QUANTITY": "Cantidad",
+        "PERIOD": "Periodo de transacción",
+        "SUBMIT_UPDATE": "Actualizar movimiento",
+        "TOAST_TITLE_SUCCESS": "Movimiento actualizado",
+        "TOAST_TITLE_FAIL": "Error al actualizar movimiento"
+    },
+
+    "HISTORY-PAYMENT": {
+        "TITLE": "Historia del movimiento"
+    },
+
     "CATEGORY": {
         "CATEGORY_TITLE": "LISTA DE CATEGORÍAS",
         "HEADER_NATURE": "TIPO DE MOVIMIENTO",
         "HEADER_TYPE": "FIJO/PERSONAL",
         "HEADER_DESCRIPTION": "DESCRIPCIÓN",
-        "CATEGORIES_EMPTY": "No se han insertado categorías"
+        "CATEGORIES_EMPTY": "No se han insertado categorías",
+        "DELETE_SUCCESS": "Se ha eliminado el movimiento",
+        "DELETE_FAIL": "Ha ocurrido un error al eliminar el registro"
     },
 
     "ADD-CATEGORY": {
@@ -134,6 +141,22 @@
         "SUBMIT_ADD": "Agregar categoría",
         "TOAST_TITLE_SUCCESS": "Categoría agregada",
         "TOAST_TITLE_FAIL": "Error al agregar categoría"
+    },
+
+    "UPDATE-CATEGORY": {
+        "TITLE": "Actualizar categoría",
+        "NATURE_MOV": "Naturaleza del movimiento",
+        "NATURE_DEFEAT": "Selecciona una naturaleza de movimiento",
+        "NATURE_GAIN": "Ganancia",
+        "NATURE_EXPENDITURE": "Gasto",
+        "TYPE_MOV": "Tipo movimiento",
+        "TYPE_DEFEAT": "Selecciona un tipo movimiento",
+        "TYPE_PERSONAL": "Personal",
+        "TYPE_PERMANENT": "Fijo",
+        "DESCRIPTION": "Descripción",
+        "SUBMIT_UPDATE": "Actualizar catergoría",
+        "TOAST_TITLE_SUCCESS": "Categoría actualizada",
+        "TOAST_TITLE_FAIL": "Error al actualizar categoría"
     }
 
 }

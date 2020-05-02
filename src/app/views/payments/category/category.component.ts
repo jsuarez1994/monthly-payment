@@ -7,6 +7,15 @@ import * as literals from '../../../shared/Utils/literals';
 // NGRX
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../redux/app.reducers';
+// SERVICES
+import { CategoryService } from '../../../services/category.service';
+// CONSTANTS
+import { Constants } from '../../../shared/Utils/constants';
+// SWEETALERT
+import * as sweetAlert from '../../../shared/Utils/sweetalert';
+import Swal from 'sweetalert2';
+// ROUTER
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-category',
@@ -23,7 +32,9 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private categoryService: CategoryService,
+    private router: Router
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
   }
@@ -49,6 +60,7 @@ export class CategoryComponent implements OnInit {
         key: 'description',
         value: headersValue.get('CATEGORY.HEADER_DESCRIPTION'),
       },
+      { key: 'operations', value: '' },
     ];
   }
 
@@ -60,5 +72,70 @@ export class CategoryComponent implements OnInit {
       // GET ALL CATEGORIES
       this.categories = items.categories;
     });
+  }
+
+  /**
+   * Delete category select
+   * @param category
+   */
+  deleteCategory(category: Category) {
+    console.log(' ### DELETE CATEGORY ### ');
+    console.log(category);
+
+    this.modalDelete(this.LiteralClass.getMapModalDelete(), category);
+  }
+
+  /**
+   * MODAL TO ACTION DELETE
+   * @param map
+   * @param object
+   */
+  private modalDelete(map: Map<string, string>, object) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: map.get('title'),
+        text: map.get('message'),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: map.get('textButtonYes'),
+        cancelButtonText: map.get('textButtonNo'),
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.value) {
+          this.categoryService.deleteCategory(object);
+
+          sweetAlert.showMessage(
+            map.get('titleOpSuccess'),
+            map.get('messageOpSuccess'),
+            Constants.ICON_SUCCESS
+          );
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          sweetAlert.showMessage(
+            map.get('titleOpCanceled'),
+            map.get('messageOpCanceled'),
+            Constants.ICON_ERROR
+          );
+        }
+      });
+  }
+
+  /**
+   * Update category select
+   * @param category
+   */
+  updateCategory(category: Category) {
+    console.log(' ### UPDATE CATEGORY ### ');
+    console.log(category);
+    // NAVIGATO TO UPDATE PAYMENT
+    this.router.navigate(['/'.concat(Constants.UPDATE_CATEGORIES_PATH), { uid: category.uid }]);
   }
 }

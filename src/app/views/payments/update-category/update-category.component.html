@@ -5,17 +5,18 @@
             <div class="row no-gutters">
                 <img src="../../../../assets/images/add.category.jpg" class="card-img-top" alt="add-category">
                 <div class="card-body">
-                    <h5 class="card-title text-center font-weight-bold"> {{ 'ADD-CATEGORY.TITLE' | translate | uppercase }} </h5>
+                    <h5 class="card-title text-center font-weight-bold">
+                        {{ 'UPDATE-CATEGORY.TITLE' | translate | uppercase }} </h5>
                     <div class="card-text">
                         <form (ngSubmit)="onSubmit()" [formGroup]="form">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-4">
                                         <!--NATURE MOV-->
-                                        <label class="label">{{ 'ADD-CATEGORY.NATURE_MOV' | translate }}</label>
+                                        <label class="label">{{ 'UPDATE-CATEGORY.NATURE_MOV' | translate }}</label>
                                         <div class="input-group">
                                             <select class="form-control" formControlName="nature">
-                                                <option value="" disabled>{{ 'ADD-CATEGORY.NATURE_DEFEAT' | translate }}
+                                                <option value="" disabled>{{ 'UPDATE-CATEGORY.NATURE_DEFEAT' | translate }}
                                                 </option>
                                                 <option *ngFor="let nature of natures"> {{ nature }}</option>
                                             </select>
@@ -26,10 +27,10 @@
 
                                     <div class="col-4">
                                         <!--TYPE MOV-->
-                                        <label class="label">{{ 'ADD-CATEGORY.TYPE_MOV' | translate }}</label>
+                                        <label class="label">{{ 'UPDATE-CATEGORY.TYPE_MOV' | translate }}</label>
                                         <div class="input-group">
                                             <select class="form-control" formControlName="type">
-                                                <option value="" disabled>{{ 'ADD-CATEGORY.TYPE_DEFEAT' | translate }}
+                                                <option value="" disabled>{{ 'UPDATE-CATEGORY.TYPE_DEFEAT' | translate }}
                                                 </option>
                                                 <option *ngFor="let type of types"> {{ type }}</option>
                                             </select>
@@ -37,10 +38,10 @@
                                     </div>
                                     <div class="col-12">
                                         <!--DESC-->
-                                        <label class="label">{{ 'ADD-CATEGORY.DESCRIPTION' | translate }}</label>
+                                        <label class="label">{{ 'UPDATE-CATEGORY.DESCRIPTION' | translate }}</label>
                                         <div class="input-group">
                                             <textarea class="form-control" name="description"
-                                            formControlName="description" rows="3"></textarea>
+                                                formControlName="description" rows="3"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +51,7 @@
                             <div class="form-group">
                                 <button *ngIf="loaded" [disabled]="form.invalid"
                                     class="btn btn-danger submit-btn btn-block"
-                                    type="submit">{{ 'ADD-CATEGORY.SUBMIT_ADD' | translate | uppercase }}</button>
+                                    type="submit">{{ 'UPDATE-CATEGORY.SUBMIT_UPDATE' | translate | uppercase }}</button>
                                 <button *ngIf="!loaded" [disabled]="form.invalid"
                                     class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}
                                     <div class="spinner-grow" role="status">

@@ -46,21 +46,82 @@ export class CategoryService {
     this.storeUnsetCategories();
   }
 
-  addCategory(category: Category):void {
+  addCategory(category: Category): void {
     this.storeAddCategory();
-    const user: User = this.userService.getUser();
-    this.firebaseService.doc(`${user.uid}/categories`).collection('items').add({...category}).
-    then(() => {
-      this.storeAddCategorySuccess(category);
-      this.messagesLiteralsToast(['ADD-CATEGORY.TOAST_TITLE_SUCCESS'], Constants.ICON_SUCCESS);
-    })
-    .catch(error => {
-      this.storeAddCategoryFail(error);
-      this.messagesLiteralsToast(['ADD-CATEGORY.TOAST_TITLE_FAIL'], Constants.ICON_ERROR);
-    });
+    this.getCollection()
+      .add({ ...category })
+      .then(() => {
+        this.storeAddCategorySuccess(category);
+        this.messagesLiteralsToast(
+          ['ADD-CATEGORY.TOAST_TITLE_SUCCESS'],
+          Constants.ICON_SUCCESS
+        );
+      })
+      .catch((error) => {
+        this.storeAddCategoryFail(error);
+        this.messagesLiteralsToast(
+          ['ADD-CATEGORY.TOAST_TITLE_FAIL'],
+          Constants.ICON_ERROR
+        );
+      });
   }
 
-  getAllCategories():void {
+  /**
+   * Add new payment
+   * @param payment
+   */
+  updateCategory(category: Category): void {
+    this.storeUpdateCategory();
+    this.getCollection()
+      .doc(category.uid)
+      .update({
+        nature: category.nature,
+        type: category.type,
+        description: category.description,
+      })
+      .then(() => {
+        this.storeUpdateCategorySuccess(category);
+        this.messagesLiteralsToast(
+          ['UPDATE-CATEGORY.TOAST_TITLE_SUCCESS'],
+          Constants.ICON_SUCCESS
+        );
+      })
+      .catch((error) => {
+        this.storeUpdateCategoryFail(error);
+        this.messagesLiteralsToast(
+          ['UPDATE-CATEGORY.TOAST_TITLE_FAIL'],
+          Constants.ICON_ERROR
+        );
+      });
+  }
+
+  /**
+   * Delete paymeny by params
+   * @param payment
+   */
+  deleteCategory(category: Category): void {
+    console.log(' ### DELETE Category ### ');
+    this.storeDeleteCategory();
+    this.getCollection()
+      .doc(category.uid)
+      .delete()
+      .then(() => {
+        this.storeDeleteCategorySuccess(category);
+        this.messagesLiteralsToast(
+          ['CATEGORY.DELETE_SUCCESS'],
+          Constants.ICON_SUCCESS
+        );
+      })
+      .catch((error) => {
+        this.storeDeleteCategorySuccess(error);
+        this.messagesLiteralsToast(
+          ['CATEGORY.DELETE_FAIL'],
+          Constants.ICON_ERROR
+        );
+      });
+  }
+
+  getAllCategories(): void {
     this.storeGetAllCategories();
     /*const user: User = this.userService.getUser();
     this.subs = this.firebaseService.collection(`${user.uid}/categories/items`)
@@ -76,81 +137,135 @@ export class CategoryService {
     ).subscribe( categories => {
       this.storeGetAllCategoriesSuccess(categories);
     });*/
-    
-    
+
     // MOCK
     let list: Category[] = [];
-    list.push(new Category('Alquiler','Fijo', 'Gasto'));
-    list.push(new Category('Coche','Personal', 'Gasto'));
-    list.push(new Category('Luz','Fijo', 'Gasto'));
-    list.push(new Category('Restaurantes','Personal', 'Gasto'));
-    list.push(new Category('Sueldo','Fijo', 'Ganancia'));
+
+    let cat1: Category = new Category('Alquiler', 'Fijo', 'Gasto'); 
+    cat1.uid = 'UID1';
+    let cat2: Category = new Category('Coche', 'Personal', 'Gasto'); 
+    cat2.uid = 'UID1';
+    let cat3: Category = new Category('Luz', 'Fijo', 'Gasto'); 
+    cat3.uid = 'UID1';
+    let cat4: Category = new Category('Sueldo', 'Fijo', 'Ganancia'); 
+    cat4.uid = 'UID1';
+    
+    list.push(cat1);
+    list.push(cat2);
+    list.push(cat3);
+    list.push(cat4);
 
     this.storeGetAllCategoriesSuccess(list);
-
   }
 
+  /**
+   * Get collection to manager payments
+   */
+  private getCollection() {
+    const user: User = this.userService.getUser();
+    return this.firebaseService
+      .doc(`${user.uid}/categories`)
+      .collection('items');
+  }
 
   /**
    * Show message by literals
    * @param literals
    */
-  private messagesLiteralsToast(literals: string[], icon:SweetAlertIcon ) {
+  private messagesLiteralsToast(literals: string[], icon: SweetAlertIcon) {
     const mapLiterals = this.LiteralClass.getLiterals(literals);
 
-    sweetAlert.toastMessage(
-      mapLiterals.get(literals[0]),
-      icon
-    );
+    sweetAlert.toastMessage(mapLiterals.get(literals[0]), icon);
   }
 
   /**
    * Call store Add Category
    */
-  private storeAddCategory(){
+  private storeAddCategory() {
     this.store.dispatch(new categoriesActions.AddCategory());
   }
 
   /**
    * Call store Add Category Success
    */
-  private storeAddCategorySuccess(payload: Category){
+  private storeAddCategorySuccess(payload: Category) {
     this.store.dispatch(new categoriesActions.AddCategorySuccess(payload));
   }
 
   /**
    * Call store Add Category Fail
    */
-  private storeAddCategoryFail(payload: any){
+  private storeAddCategoryFail(payload: any) {
     this.store.dispatch(new categoriesActions.AddCategoryFail(payload));
+  }
+
+  /**
+   * Call store Add Category
+   */
+  private storeUpdateCategory() {
+    this.store.dispatch(new categoriesActions.UpdateCategory());
+  }
+
+  /**
+   * Call store Add Payment Success
+   */
+  private storeUpdateCategorySuccess(payload: Category) {
+    this.store.dispatch(new categoriesActions.UpdateCategorySuccess(payload));
+  }
+
+  /**
+   * Call store Add Payment Fail
+   */
+  private storeUpdateCategoryFail(payload: any) {
+    this.store.dispatch(new categoriesActions.UpdateCategoryFail(payload));
+  }
+
+  /**
+   * Call store Delete Payment
+   */
+  private storeDeleteCategory() {
+    this.store.dispatch(new categoriesActions.DeleteCategory());
+  }
+
+  /**
+   * Call store Delete Payment Success
+   */
+  private storeDeleteCategorySuccess(payload: Category) {
+    this.store.dispatch(new categoriesActions.DeleteCategorySuccess(payload));
+  }
+
+  /**
+   * Call store Delete Payment Fail
+   */
+  private storeDeleteCategoryFail(payload: any) {
+    this.store.dispatch(new categoriesActions.DeleteCategoryFail(payload));
   }
 
   /**
    * Call store get all Payment
    */
-  private storeGetAllCategories(){
+  private storeGetAllCategories() {
     this.store.dispatch(new categoriesActions.GetAllCategories());
   }
 
   /**
    * Call store get all Payment success
    */
-  private storeGetAllCategoriesSuccess(payload){
+  private storeGetAllCategoriesSuccess(payload) {
     this.store.dispatch(new categoriesActions.GetAllCategoriesSuccess(payload));
   }
 
   /**
    * Call store get all Payment success
    */
-  private storeGetAllCategoriesFail(payload){
+  private storeGetAllCategoriesFail(payload) {
     this.store.dispatch(new categoriesActions.GetAllCategoriesFail(payload));
   }
 
   /**
    * Call store get all Payment success
    */
-  private storeUnsetCategories(){
+  private storeUnsetCategories() {
     this.store.dispatch(new categoriesActions.UnsetCategories());
   }
-
 }

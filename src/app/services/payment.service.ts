@@ -79,11 +79,11 @@ export class PaymentService {
     }).
     then(() => {
       this.storeUpdatePaymentSuccess(payment, oldPeriod);
-      this.messagesLiteralsToast(['ADD-PAYMENT.TOAST_TITLE_SUCCESS'], Constants.ICON_SUCCESS);
+      this.messagesLiteralsToast(['UPDATE-PAYMENT.TOAST_TITLE_SUCCESS'], Constants.ICON_SUCCESS);
     })
     .catch(error => {
       this.storeUpdatePaymentFail(error);
-      this.messagesLiteralsToast(['ADD-PAYMENT.TOAST_TITLE_FAIL'], Constants.ICON_ERROR);
+      this.messagesLiteralsToast(['UPDATE-PAYMENT.TOAST_TITLE_FAIL'], Constants.ICON_ERROR);
     });
   }
 
@@ -111,8 +111,7 @@ export class PaymentService {
    */
   getAllPayments():void {
     this.storeGetAllPayments();
-    /*const user: User = this.userService.getUser();
-    this.subs = this.firebaseService.collection(`${user.uid}/payments/items`)
+    /*this.subs = this.getCollection()
     .snapshotChanges()
     .pipe(map(items => {
       return items.map( item => {
@@ -129,19 +128,48 @@ export class PaymentService {
     
     // MOCK
     let list: Payment[] = [];
-    list.push(new Payment('202001', 450, 'Alquiler','Fijo', 'Gasto'));
-    list.push(new Payment('202001', 800, 'Luz','Fijo', 'Gasto'));
-    list.push(new Payment('202001', 100, 'Coche','Fijo', 'Gasto'));
-    list.push(new Payment('202001', 1300, 'Sueldo','Fijo', 'Ganancia'));
-    list.push(new Payment('202001', 75, 'Cumpleaños amigo','Personal', 'Gasto'));
-    list.push(new Payment('202002', 80, 'Restaurantes','Personal', 'Gasto'));
-    list.push(new Payment('202002', 200, 'Cumpleaños','Fijo', 'Ganancia'));
-    list.push(new Payment('202002', 1300, 'Sueldo','Fijo', 'Ganancia'));
-    list.push(new Payment('202004', 80, 'Restaurantes','Personal', 'Gasto'));
-    list.push(new Payment('202004', 200, 'Cumpleaños','Fijo', 'Ganancia'));
-    list.push(new Payment('202004', 1300, 'Sueldo','Fijo', 'Ganancia'));
-    list.push(new Payment('202005', 200, 'Cumpleaños','Fijo', 'Ganancia'));
-    list.push(new Payment('202005', 1300, 'Sueldo','Fijo', 'Ganancia'));
+
+    let item: Payment = new Payment('202001', 450, 'Alquiler','Fijo', 'Gasto');
+    item.uid = 'UIDP1';
+    let item2: Payment = new Payment('202001', 800, 'Luz','Fijo', 'Gasto');
+    item2.uid = 'UIDP2';
+    let item3: Payment = new Payment('202001', 100, 'Coche','Fijo', 'Gasto');
+    item3.uid = 'UIDP3';
+    let item4: Payment = new Payment('202001', 1100, 'Sueldo','Fijo', 'Ganancia');
+    item4.uid = 'UIDP4';
+    let item5: Payment = new Payment('202001', 75, 'Cumpleaños amigo','Personal', 'Gasto');
+    item5.uid = 'UIDP5';
+    let item6: Payment = new Payment('202002', 80, 'Restaurantes','Personal', 'Gasto');
+    item6.uid = 'UIDP6';
+    let item7: Payment = new Payment('202002', 200, 'Cumpleaños','Fijo', 'Ganancia');
+    item7.uid = 'UIDP7';
+    let item8: Payment = new Payment('202002', 1500, 'Sueldo','Fijo', 'Ganancia');
+    item8.uid = 'UIDP8';
+    let item9: Payment = new Payment('202004', 80, 'Restaurantes','Personal', 'Gasto');
+    item9.uid = 'UIDP9';
+    let item10: Payment = new Payment('202004', 200, 'Cumpleaños','Fijo', 'Ganancia');
+    item10.uid = 'UIDP10';
+    let item11: Payment = new Payment('202004', 1600, 'Sueldo','Fijo', 'Ganancia');
+    item11.uid = 'UIDP11';
+    let item12: Payment = new Payment('202005', 200, 'Cumpleaños','Fijo', 'Ganancia');
+    item12.uid = 'UIDP12';
+    let item13: Payment = new Payment('202005', 1300, 'Sueldo','Fijo', 'Ganancia');
+    item13.uid = 'UIDP13';
+
+
+    list.push(item);
+    list.push(item2);
+    list.push(item3);
+    list.push(item4);
+    list.push(item5);
+    list.push(item6);
+    list.push(item7);
+    list.push(item8);
+    list.push(item9);
+    list.push(item10);
+    list.push(item11);
+    list.push(item12);
+    list.push(item13);
 
     this.storeGetAllPaymentsSuccess(list);
   }

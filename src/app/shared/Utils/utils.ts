@@ -22,3 +22,13 @@ export function currentDate() {
 
     return setPeriod(monthPeriod, yearPeriod);
 }
+
+export function periodToDate(periods: string[]): string[] {
+  let dates: string[] = [];
+  periods.forEach(period => {
+    let year = period.substr(0,4);
+    let month = period.substr(4,6);
+    dates.push(month.concat('/').concat(year));
+  });
+  return dates;
+}

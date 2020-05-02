@@ -20,6 +20,36 @@ export class AddCategorySuccess implements Action {
   constructor(public payload: Category) {}
 }
 
+// ACTIONS DELETE
+export class DeleteCategory implements Action {
+  readonly type = indexActions.DELETE_CATEGORY;
+}
+
+export class DeleteCategoryFail implements Action {
+  readonly type = indexActions.DELETE_CATEGORY_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class DeleteCategorySuccess implements Action {
+  readonly type = indexActions.DELETE_CATEGORY_SUCCESS;
+  constructor(public payload: Category) {}
+}
+
+// ACTIONS UPDATE
+export class UpdateCategory implements Action {
+  readonly type = indexActions.UPDATE_CATEGORY;
+}
+
+export class UpdateCategoryFail implements Action {
+  readonly type = indexActions.UPDATE_CATEGORY_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class UpdateCategorySuccess implements Action {
+  readonly type = indexActions.UPDATE_CATEGORY_SUCCESS;
+  constructor(public payload: Category) {}
+}
+
 // ACTIONS GET ALL
 export class GetAllCategories implements Action {
   readonly type = indexActions.GET_ALL_CATEGORIES;
@@ -43,6 +73,12 @@ export type CategoriesActions =
   | AddCategory
   | AddCategoryFail
   | AddCategorySuccess
+  | DeleteCategory
+  | DeleteCategoryFail
+  | DeleteCategorySuccess
+  | UpdateCategory
+  | UpdateCategoryFail
+  | UpdateCategorySuccess
   | GetAllCategories
   | GetAllCategoriesFail
   | GetAllCategoriesSuccess

@@ -1,17 +1,19 @@
 // DEFEAT
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// COMPONENTS
-import { PaymentStatisticsComponent } from './payment-statistics/payment-statistics.component';
-import { PaymentComponent } from './payment/payment.component';
-import { DashboardComponent } from '../dashboard/dashboard/dashboard.component';
-import { AddPaymentComponent } from './add-payment/add-payment.component';
-import { UpdatePaymentComponent } from './update-payment/update-payment.component';
-import { CategoryComponent } from './category/category.component';
-import { AddCategoryComponent } from './add-category/add-category.component';
 // MODULES
 import { SharedModule } from '../../shared/shared.module';
 import { DashboardRoutingModule } from '../dashboard/dashboard-routing.module';
+// COMPONENTS
+import { PaymentComponent } from './payment/payment.component';
+import { DashboardComponent } from '../dashboard/dashboard/dashboard.component';
+import { PaymentStatisticsComponent } from './payment-statistics/payment-statistics.component';
+import { AddPaymentComponent } from './add-payment/add-payment.component';
+import { UpdatePaymentComponent } from './update-payment/update-payment.component';
+import { HistoryPaymentComponent } from './history-payment/history-payment.component';
+import { CategoryComponent } from './category/category.component';
+import { AddCategoryComponent } from './add-category/add-category.component';
+import { UpdateCategoryComponent } from './update-category/update-category.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { DashboardRoutingModule } from '../dashboard/dashboard-routing.module';
     CategoryComponent,
     AddCategoryComponent,
     UpdatePaymentComponent,
+    HistoryPaymentComponent,
+    UpdateCategoryComponent,
   ],
   imports: [
     CommonModule,

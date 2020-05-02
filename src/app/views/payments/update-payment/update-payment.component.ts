@@ -49,7 +49,7 @@ export class UpdatePaymentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getPaymentByParams(this.route.snapshot.paramMap.get('description'));
+    this.getPaymentByParams(this.route.snapshot.paramMap.get('uid'));
     this.initForm();
   }
 
@@ -57,10 +57,10 @@ export class UpdatePaymentComponent implements OnInit, OnDestroy {
     this.subsPayment.unsubscribe();
   }
 
-  getPaymentByParams(description: string) {
+  getPaymentByParams(uid: string) {
     this.subsPayment = this.store.select('payments').subscribe((items) => {
       this.payment = items.payments.filter(
-        (payment) => payment.description === description
+        (payment) => payment.uid === uid
       )[0];
     });
   }

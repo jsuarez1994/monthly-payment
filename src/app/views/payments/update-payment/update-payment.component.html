@@ -1,57 +1,68 @@
-<div class="card mb-3">
-    <div class="row no-gutters">
-        <div class="col-lg-3">
-            <img src="../../../../assets/images/add-payment.jpg" class="card-img" alt="add-payment">
-        </div>
-        <div class="col-lg-9">
-            <div class="card-body">
-                <h5 class="card-title text-center font-weight-bold"> {{ 'UPDATE-PAYMENT.TITLE' | translate | uppercase }}
-                </h5>
-                <div class="card-text">
-                    <form (ngSubmit)="onSubmit()" [formGroup]="form">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-4">
-                                    <!--CATEGORIES MOV-->
-                                    <label class="label">{{ 'UPDATE-PAYMENT.CATEGORY' | translate }}</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="category" required
-                                            formControlName="category" disabled>
-                                    </div>
+<div class="row">
+    <div class="col-lg-3 col-md-12 col-sm-12"></div>
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="card mb-3">
+            <div class="row no-gutters">
+                <div class="col-lg-3">
+                    <img src="../../../../assets/images/add-payment.jpg" class="card-img" alt="add-payment">
+                </div>
+                <div class="col-lg-9">
+                    <div class="card-body">
+                        <h5 class="card-title text-center font-weight-bold">
+                            {{ 'UPDATE-PAYMENT.TITLE' | translate | uppercase }}
+                        </h5>
+                        <div class="card-text">
+                            <form (ngSubmit)="onSubmit()" [formGroup]="form">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <!--CATEGORIES MOV-->
+                                            <label class="label">{{ 'UPDATE-PAYMENT.CATEGORY' | translate }}</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="category" required
+                                                    formControlName="category" disabled>
+                                            </div>
 
-                                    <!-- QUANTITY -->
-                                    <label class="label">{{ 'UPDATE-PAYMENT.QUANTITY' | translate }}</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" name="quantity" required
-                                            formControlName="quantity">
-                                    </div>
+                                            <!-- QUANTITY -->
+                                            <label class="label">{{ 'UPDATE-PAYMENT.QUANTITY' | translate }}</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="quantity" required
+                                                    formControlName="quantity">
+                                            </div>
 
+                                        </div>
+
+                                        <div class="col-8">
+                                            <!-- PERIOD -->
+                                            <label class="label">{{ 'UPDATE-PAYMENT.PERIOD' | translate }}</label>
+                                            <div class="input-group" width='25%'>
+                                                <igx-month-picker formControlName="period"></igx-month-picker>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="col-8">
-                                    <!-- PERIOD -->
-                                    <label class="label">{{ 'UPDATE-PAYMENT.PERIOD' | translate }}</label>
-                                    <div class="input-group" width='25%'>
-                                        <igx-month-picker formControlName="period"></igx-month-picker>
-                                    </div>
+                                <!-- BOTONS -->
+                                <div class="form-group">
+                                    <button *ngIf="loaded" [disabled]="form.invalid"
+                                        class="btn btn-danger submit-btn btn-block"
+                                        type="submit">{{ 'UPDATE-PAYMENT.SUBMIT_UPDATE' | translate | uppercase }}</button>
+                                    <button *ngIf="!loaded" [disabled]="form.invalid"
+                                        class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}
+                                        <div class="spinner-grow" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-
-                        <!-- BOTONS -->
-                        <div class="form-group">
-                            <button *ngIf="loaded" [disabled]="form.invalid" class="btn btn-danger submit-btn btn-block"
-                                type="submit">{{ 'UPDATE-PAYMENT.SUBMIT_UPDATE' | translate | uppercase }}</button>
-                            <button *ngIf="!loaded" [disabled]="form.invalid"
-                                class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}
-                                <div class="spinner-grow" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-lg-3 col-md-12 col-sm-12 text-right">
+        <button type="button" class="btn btn-light mr-1" routerLink="/"><i class="fas fa-undo"></i>
+        </button>
     </div>
 </div>

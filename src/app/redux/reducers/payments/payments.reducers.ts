@@ -160,7 +160,7 @@ function returnStateDELETE_PAYMENT_SUCCESS(
   console.log('### DELETE PAYMENT SUCCESS PARAMS ###');
   console.log(params);
 
-  // Add new Payment
+  // Delete new Payment
   let paymentsState: Payment[] = state.payments;
   paymentsState.splice(paymentsState.indexOf(params));
 

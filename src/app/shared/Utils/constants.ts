@@ -22,7 +22,9 @@ export class Constants {
     public static DASHBOARD_PATH:string = '';
     public static PAYMENTS_STATISTICS_PATH:string = 'statistics';
     public static ADD_PAYMENTS_PATH:string = 'add-payments';
-    public static UPDATE_PAYMENTS_PATH:string = 'update-payments/:description';
-    public static ADD_CATEGORIESS_PATH:string = 'add-categories';
+    public static UPDATE_PAYMENTS_PATH:string = 'update-payments/:uid';
+    public static HISTORY_PAYMENT_PATH:string = 'history-payments/:description';
+    public static ADD_CATEGORIES_PATH:string = 'add-categories';
+    public static UPDATE_CATEGORIES_PATH:string = 'update-categories/:uid';
     public static CATEGORIES_PATH:string = 'categories';
 }

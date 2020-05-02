@@ -11,8 +11,6 @@ import { CategoryService } from '../../../services/category.service';
 // NGRX
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../redux/app.reducers';
-// MODELS
-import { Category } from 'src/app/models/category.model';
 
 @Component({
   selector: 'app-add-category',
