@@ -101,7 +101,7 @@ function returnStateADD_PAYMENT_SUCCESS(
   console.log(params);
 
   // Add new Payment
-  let paymentsState: Payment[] = state.payments;
+  let paymentsState: Payment[] = [...state.payments];
   paymentsState.push(params);
 
   return {
@@ -161,7 +161,7 @@ function returnStateDELETE_PAYMENT_SUCCESS(
   console.log(params);
 
   // Delete new Payment
-  let paymentsState: Payment[] = state.payments;
+  let paymentsState: Payment[] = [...state.payments];
   paymentsState.splice(paymentsState.indexOf(params));
 
   return {
@@ -223,7 +223,7 @@ function returnStateUPDATE_PAYMENT_SUCCESS(
   console.log(oldPeriod);
 
   // Update Payment
-  let payments: Payment[] = state.payments; // Copy list
+  let payments: Payment[] = [...state.payments]; // Copy list
   let paymentUpdate: Payment = payments.filter(
     (payment) => payment.description === payment.description && payment.period === oldPeriod
   )[0]; // find item to update

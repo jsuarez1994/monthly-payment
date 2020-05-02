@@ -111,23 +111,26 @@ export class PaymentService {
    */
   getAllPayments():void {
     this.storeGetAllPayments();
-    /*this.subs = this.getCollection()
+    this.subs = this.getCollection()
     .snapshotChanges()
     .pipe(map(items => {
       return items.map( item => {
         return {
-          uid: item.payload.doc.id,
-          ...item.payload.doc['data']
+          uid: item.payload.doc.id
         };
       });
     })
     ).subscribe( payments => {
-      this.storeGetAllPaymentsSuccess(payments);
-    });*/
+      if(payments.length === 0) {
+        this.storeGetAllPaymentsSuccess([])
+      } else {
+        this.getAllItemsByUid(payments);
+      }
+    });
     
     
     // MOCK
-    let list: Payment[] = [];
+    /*let list: Payment[] = [];
 
     let item: Payment = new Payment('202001', 450, 'Alquiler','Fijo', 'Gasto');
     item.uid = 'UIDP1';
@@ -171,16 +174,34 @@ export class PaymentService {
     list.push(item12);
     list.push(item13);
 
-    this.storeGetAllPaymentsSuccess(list);
+    this.storeGetAllPaymentsSuccess(list);*/
   }
 
+
+  /**
+   * Mapped values
+   * @param list 
+   */
+  private getAllItemsByUid(list:any[]) {
+    const user: User = this.userService.getUser();
+    let listPayment: Payment[] = []
+    list.forEach( it => {
+      this.firebaseService.doc(`${user.uid}/payments/items/${it.uid}`).valueChanges().pipe(map((item:Payment) => {
+        item.uid = it.uid;
+        listPayment.push(item);
+      })
+      ).subscribe( () => {
+        this.storeGetAllPaymentsSuccess(listPayment);
+      });
+    })
+  }
 
   /**
    * Get collection to manager payments
    */
   private getCollection() {
     const user: User = this.userService.getUser();
-    return this.firebaseService.doc(`${user.uid}/payments`).collection('items');
+    return this.firebaseService.collection(`${user.uid}/payments/items`);
   }
 
   /**

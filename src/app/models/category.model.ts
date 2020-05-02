@@ -5,13 +5,15 @@ export class Category {
     nature: string
   
     constructor(
-      description: string,
-      type: string,
-      nature: string
+      uid: string,
+      description?: string,
+      type?: string,
+      nature?: string
     ) {
-      this.description = description;
-      this.type = type;
-      this.nature = nature;
+      this.uid = uid || '';
+      this.description = description || '';
+      this.type = type || '';
+      this.nature = nature || '';
     }
   }
   

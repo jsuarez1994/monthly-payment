@@ -123,23 +123,25 @@ export class CategoryService {
 
   getAllCategories(): void {
     this.storeGetAllCategories();
-    /*const user: User = this.userService.getUser();
-    this.subs = this.firebaseService.collection(`${user.uid}/categories/items`)
+    this.subs = this.getCollection()
     .snapshotChanges()
     .pipe(map(items => {
       return items.map( item => {
         return {
-          uid: item.payload.doc.id,
-          ...item.payload.doc['data']
+          uid: item.payload.doc.id
         };
       });
     })
     ).subscribe( categories => {
-      this.storeGetAllCategoriesSuccess(categories);
-    });*/
+      if(categories.length === 0) {
+        this.storeGetAllCategoriesSuccess([]);
+      } else {
+        this.getAllItemsByUid(categories);
+      }
+    });
 
     // MOCK
-    let list: Category[] = [];
+    /*let list: Category[] = [];
 
     let cat1: Category = new Category('Alquiler', 'Fijo', 'Gasto'); 
     cat1.uid = 'UID1';
@@ -155,7 +157,25 @@ export class CategoryService {
     list.push(cat3);
     list.push(cat4);
 
-    this.storeGetAllCategoriesSuccess(list);
+    this.storeGetAllCategoriesSuccess(list);*/
+  }
+
+  /**
+   * Mapped values
+   * @param list 
+   */
+  private getAllItemsByUid(list:any[]) {
+    const user: User = this.userService.getUser();
+    let listItems: Category[] = []
+    list.forEach( it => {
+      this.firebaseService.doc(`${user.uid}/categories/items/${it.uid}`).valueChanges().pipe(map((item:Category) => {
+        item.uid = it.uid;
+        listItems.push(item);
+      })
+      ).subscribe( () => {
+        this.storeGetAllCategoriesSuccess(listItems);
+      });
+    })
   }
 
   /**

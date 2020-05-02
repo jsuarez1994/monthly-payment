@@ -101,7 +101,7 @@ function returnStateADD_CATEGORY_SUCCESS(
   console.log(params);
 
   // Add new Category
-  let categoriesState: Category[] = state.categories;
+  let categoriesState: Category[] = [...state.categories];
   categoriesState.push(params);
 
   return {
@@ -161,7 +161,7 @@ function returnStateDELETE_CATEGORY_SUCCESS(
   console.log(params);
 
   // Delete category
-  let categoriesState: Category[] = state.categories;
+  let categoriesState: Category[] = [...state.categories];
   categoriesState.splice(categoriesState.indexOf(params));
 
   return {
@@ -221,7 +221,7 @@ function returnStateUPDATE_CATEGORY_SUCCESS(
   console.log(category);
 
   // Update CATEGORY
-  let list: Category[] = state.categories; // Copy list
+  let list: Category[] = [...state.categories]; // Copy list
   let itemUpdate: Category = list.filter(
     (item) => item.uid === category.uid)[0]; // find item to update
   let indexUpdate: number = list.indexOf(itemUpdate); // find index item update
