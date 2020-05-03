@@ -24,6 +24,10 @@ import { AppState } from 'src/app/redux/app.reducers';
 // RXJS
 import { Subscription } from 'rxjs';
 import { Category } from '../../../models/category.model';
+// SWEETALERT
+import * as sweetAlert from '../../../shared/Utils/sweetalert';
+// CONSTANTS
+import { Constants } from '../../../shared/Utils/constants';
 
 @Component({
   selector: 'app-add-payment',
@@ -106,7 +110,16 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       ),
     };
 
-    this.paymentService.addPayment(payment);
-    this.form.reset();
+    // VALIDATE ELEMENT NOT REPEAT
+    if (this.paymentService.elementNotRepeat(this.paymentService.getPayments(), payment)) {
+      this.paymentService.addPayment(payment);
+      this.form.reset();
+    } else {
+      const map = this.LiteralClass.getLiterals(['ADD-PAYMENT.TOAST_TITLE_REPEAT']);
+      let toast = map.get('ADD-PAYMENT.TOAST_TITLE_REPEAT');
+      toast = toast.replace('<PERIOD>', utils.periodToDate([payment.period])[0]).replace('<CATEGORY>', payment.description);
+      sweetAlert.toastMessage(toast, Constants.ICON_ERROR);
+    }
+
   }
 }

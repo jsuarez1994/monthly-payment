@@ -20,6 +20,9 @@ import { IgxMonthPickerComponent } from 'igniteui-angular';
 // UTILS
 import * as utils from '../../../shared/Utils/utils';
 import { Constants } from '../../../shared/Utils/constants';
+// SWEET ALERT
+import * as sweetAlert from '../../../shared/Utils/sweetalert';
+import { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
   selector: 'app-update-payment',
@@ -59,9 +62,7 @@ export class UpdatePaymentComponent implements OnInit, OnDestroy {
 
   getPaymentByParams(uid: string) {
     this.subsPayment = this.store.select('payments').subscribe((items) => {
-      this.payment = items.payments.filter(
-        (payment) => payment.uid === uid
-      )[0];
+      this.payment = items.payments.filter((payment) => payment.uid === uid)[0];
     });
   }
 
@@ -89,19 +90,40 @@ export class UpdatePaymentComponent implements OnInit, OnDestroy {
   onSubmit() {
     console.log('### SUBMIT ###');
 
-    let payment: Payment = new Payment();
+    let payment: Payment = {
+      ...this.payment,
+      quantity: this.form.value.quantity,
+      period: utils.setPeriod(
+        this.form.value.period.getMonth() + 1,
+        this.form.value.period.getFullYear()
+      )
+    };
 
-    // SET ONLY TWO PROPERTIES THAT CAN MODIFY
-    payment.quantity = this.form.value.quantity;
-    payment.period = utils.setPeriod(
-      this.form.value.period.getMonth() + 1,
-      this.form.value.period.getFullYear()
-    );
-    payment.uid = this.payment.uid;
+    this.paymentService
+      .updatePayment(payment)
+      .then(() => {
+        this.messagesLiteralsToast(
+          ['UPDATE-PAYMENT.TOAST_TITLE_SUCCESS'],
+          Constants.ICON_SUCCESS
+        );
+        this.form.reset();
+        // NAVIGATO TO PAYMENTS
+        this.router.navigate(['/'.concat(Constants.DASHBOARD_PATH)]);
+      })
+      .catch(() => {
+        this.messagesLiteralsToast(
+          ['UPDATE-PAYMENT.TOAST_TITLE_FAIL'],
+          Constants.ICON_ERROR
+        );
+      });
+  }
 
-    this.paymentService.updatePayment(payment, this.payment.period);
-    this.form.reset();
-    // NAVIGATO TO PAYMENTS
-    this.router.navigate(['/'.concat(Constants.DASHBOARD_PATH)]);
+  /**
+   * Show message by literals
+   * @param literals
+   */
+  private messagesLiteralsToast(literals: string[], icon: SweetAlertIcon) {
+    const mapLiterals = this.LiteralClass.getLiterals(literals);
+    sweetAlert.toastMessage(mapLiterals.get(literals[0]), icon);
   }
 }

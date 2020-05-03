@@ -112,15 +112,8 @@ export class CategoryComponent implements OnInit {
       .then((result) => {
         if (result.value) {
           this.categoryService.deleteCategory(object);
-
-          sweetAlert.showMessage(
-            map.get('titleOpSuccess'),
-            map.get('messageOpSuccess'),
-            Constants.ICON_SUCCESS
-          );
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          sweetAlert.showMessage(
-            map.get('titleOpCanceled'),
+          sweetAlert.toastMessage(
             map.get('messageOpCanceled'),
             Constants.ICON_ERROR
           );

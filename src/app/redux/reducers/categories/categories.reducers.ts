@@ -100,16 +100,42 @@ function returnStateADD_CATEGORY_SUCCESS(
   console.log('### ADD Category SUCCESS PARAMS ###');
   console.log(params);
 
-  // Add new Category
-  let categoriesState: Category[] = [...state.categories];
-  categoriesState.push(params);
+  if (!elementNotRepeat(state.categories, params)) {
+    return {
+      ...state,
+      loaded: true,
+      error: null,
+    };
+  } else {
+    // Add new Category
+    let categoriesState: Category[] = [...state.categories];
+    categoriesState.push(params);
+    return {
+      ...state,
+      categories: categoriesState,
+      loaded: true,
+      error: null,
+    };
+  }
+}
 
-  return {
-    ...state,
-    categories: categoriesState,
-    loaded: true,
-    error: null,
-  };
+/**
+ * Valid if element not in list
+ * @param list
+ * @param element
+ */
+function elementNotRepeat(list: Category[], element: Category) {
+  let noRepeat: boolean = true;
+  list.forEach((item) => {
+    if (
+      item.nature.trim() === element.nature.trim() &&
+      item.description.trim() === element.description.trim() &&
+      item.type.trim() === element.type.trim()
+    ) {
+      noRepeat = false;
+    }
+  });
+  return noRepeat || list.length === 0;
 }
 
 /**
@@ -162,7 +188,10 @@ function returnStateDELETE_CATEGORY_SUCCESS(
 
   // Delete category
   let categoriesState: Category[] = [...state.categories];
-  categoriesState.splice(categoriesState.indexOf(params));
+  let index: number = categoriesState.indexOf(params);
+  if(index > 0) {
+    categoriesState.splice(index);
+  }
 
   return {
     ...state,
@@ -223,15 +252,11 @@ function returnStateUPDATE_CATEGORY_SUCCESS(
   // Update CATEGORY
   let list: Category[] = [...state.categories]; // Copy list
   let itemUpdate: Category = list.filter(
-    (item) => item.uid === category.uid)[0]; // find item to update
+    (item) => item.uid === category.uid
+  )[0]; // find item to update
   let indexUpdate: number = list.indexOf(itemUpdate); // find index item update
 
-  // UPDATE VALUES CAN MODIFY
-  itemUpdate.nature = category.nature;
-  itemUpdate.type = category.type;
-  itemUpdate.description = category.description;
-
-  list[indexUpdate] = itemUpdate; // SAVE IN INDEX
+  list[indexUpdate] = category; // SAVE IN INDEX
 
   return {
     ...state,

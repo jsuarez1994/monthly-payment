@@ -47,7 +47,7 @@ export class UpdatePaymentFail implements Action {
 
 export class UpdatePaymentSuccess implements Action {
   readonly type = indexActions.UPDATE_PAYMENT_SUCCESS;
-  constructor(public payload: Payment, public payload2:string) {}
+  constructor(public payload: Payment) {}
 }
 
 // ############### ACTIONS GET ALL ###############

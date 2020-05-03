@@ -18,6 +18,7 @@ import { Label } from 'ng2-charts';
 // SWEETALERT
 import * as sweetAlert from '../../../shared/Utils/sweetalert';
 import Swal from 'sweetalert2';
+import { SweetAlertIcon } from 'sweetalert2';
 // SERVICES
 import { PaymentService } from '../../../services/payment.service';
 // CONSTANTS
@@ -138,32 +139,36 @@ export class PaymentComponent implements OnInit {
       );
 
       // GET INFO PAYMENTS
-      let listPayGains: Payment[] = [];
-      listPayGains = items.payments.filter(
-        (item) =>
-          item.nature === this.natures[0] && item.period === this.periodSelect
-      );
-      if (listPayGains.length > 0) {
-        let allGains = listPayGains.reduce(
-          (sum, item) => sum + item.quantity,
-          0
+      if (this.payments.length > 0) {
+        let listPayGains: Payment[] = [];
+        listPayGains = items.payments.filter(
+          (item) =>
+            item.nature === this.natures[0] && item.period === this.periodSelect
         );
-        let porcentPermanent = allGains * 0.5;
-        let porcentPersonal = allGains * 0.3;
-        this.infoPay = new InformationPayment(
-          allGains,
-          porcentPermanent,
-          porcentPersonal
-        );
-      }
+        if (listPayGains.length > 0) {
+          let allGains = listPayGains.reduce(
+            (sum, item) => sum + item.quantity,
+            0
+          );
+          let porcentPermanent = allGains * 0.5;
+          let porcentPersonal = allGains * 0.3;
+          this.infoPay = new InformationPayment(
+            allGains,
+            porcentPermanent,
+            porcentPersonal
+          );
+        } else {
+          this.infoPay = new InformationPayment(0,0,0);
+        }
 
-      // IF NATURES IS EXPENDITURE
-      if (this.natureSelect === this.natures[1]) {
-        this.getChartExpenditure();
-      }
+        // IF NATURES IS EXPENDITURE
+        if (this.natureSelect === this.natures[1]) {
+          this.getChartExpenditure();
+        }
 
-      // CHART PAYMENTS
-      this.getPaymentsCharts();
+        // CHART PAYMENTS
+        this.getPaymentsCharts();
+      }
     });
   }
 
@@ -387,18 +392,21 @@ export class PaymentComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.paymentService.deletePayment(object);
-
-          sweetAlert.showMessage(
-            map.get('titleOpSuccess'),
-            map.get('messageOpSuccess'),
-            Constants.ICON_SUCCESS
-          );
-
+          this.paymentService.deletePayment(object)
+          .then(() => {
+            this.messagesLiteralsToast(
+              ['PAYMENT.DELETE_SUCCESS'],
+              Constants.ICON_SUCCESS
+            );
+          })
+          .catch(() => {
+            this.messagesLiteralsToast(
+              ['PAYMENT.DELETE_FAIL'],
+              Constants.ICON_ERROR
+            );
+          });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-
-          sweetAlert.showMessage(
-            map.get('titleOpCanceled'),
+          sweetAlert.toastMessage(
             map.get('messageOpCanceled'),
             Constants.ICON_ERROR
           );
@@ -415,7 +423,10 @@ export class PaymentComponent implements OnInit {
     console.log(payment);
 
     // NAVIGATO TO UPDATE PAYMENT
-    this.router.navigate(['/'.concat(Constants.UPDATE_PAYMENTS_PATH), { uid: payment.uid }]);
+    this.router.navigate([
+      '/'.concat(Constants.UPDATE_PAYMENTS_PATH),
+      { uid: payment.uid },
+    ]);
   }
 
   /**
@@ -425,9 +436,19 @@ export class PaymentComponent implements OnInit {
   findAllPeriodsByPayment(payment: Payment) {
     console.log('### FIN ALL PERIODS SAME YEAR PAYMENT ###');
     console.log(payment);
-    
-    // NAVIGATO TO UPDATE PAYMENT
-    this.router.navigate(['/'.concat(Constants.HISTORY_PAYMENT_PATH), { description: payment.description }]);
 
+    // NAVIGATO TO UPDATE PAYMENT
+    this.router.navigate([
+      '/'.concat(Constants.HISTORY_PAYMENT_PATH),
+      { description: payment.description },
+    ]);
   }
+
+  /** Show message by literals
+  * @param literals
+  */
+ private messagesLiteralsToast(literals: string[], icon: SweetAlertIcon) {
+   const mapLiterals = this.LiteralClass.getLiterals(literals);
+   sweetAlert.toastMessage(mapLiterals.get(literals[0]), icon);
+ }
 }

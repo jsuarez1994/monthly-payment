@@ -15,6 +15,8 @@ import { AppState } from '../../../redux/app.reducers';
 import { Category } from '../../../models/category.model';
 // ROUTE
 import { Router, ActivatedRoute } from '@angular/router';
+// CONSTANTS
+import { Constants } from '../../../shared/Utils/constants';
 
 
 @Component({
@@ -122,8 +124,11 @@ export class UpdateCategoryComponent implements OnInit, OnDestroy {
    * Submit form
    */
   onSubmit() {
-    this.categoryService.updateCategory({...this.form.value});
+    this.categoryService.updateCategory({...this.form.value, uid: this.category.uid}, this.category);
     this.form.reset();
+
+    // NAVIGATO TO PAYMENTS
+    this.router.navigate(['/'.concat(Constants.CATEGORIES_PATH)]);
   }
 
 }

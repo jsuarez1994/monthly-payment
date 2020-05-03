@@ -11,6 +11,11 @@ import { CategoryService } from '../../../services/category.service';
 // NGRX
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../redux/app.reducers';
+import { Category } from '../../../models/category.model';
+// SWEETALERT
+import * as sweetAlert from '../../../shared/Utils/sweetalert';
+// CONSTANTS
+import { Constants } from '../../../shared/Utils/constants';
 
 @Component({
   selector: 'app-add-category',
@@ -94,8 +99,19 @@ export class AddCategoryComponent implements OnInit {
    * Submit form
    */
   onSubmit() {
-    this.categoryService.addCategory({...this.form.value});
-    this.form.reset();
+
+    const category: Category = {...this.form.value};
+
+    // VALIDATE ELEMENT NOT REPEAT
+    if(this.categoryService.elementNotRepeat(this.categoryService.getCategories(), category)) {
+      this.categoryService.addCategory({...this.form.value});
+      this.form.reset();
+    } else {
+      const map = this.LiteralClass.getLiterals(['ADD-CATEGORY.TOAST_TITLE_REPEAT']);
+      let toast:string = map.get('ADD-CATEGORY.TOAST_TITLE_REPEAT');
+      toast = toast.replace('<CATEGORY>', category.description);
+      sweetAlert.toastMessage(toast, Constants.ICON_ERROR);
+    }
   }
 
 }

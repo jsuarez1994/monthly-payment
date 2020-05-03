@@ -20,18 +20,19 @@ import * as paymentsActions from '../redux/actions/payments/payments.actions';
 import { AppState } from '../redux/app.reducers';
 // RXJS
 import { map } from 'rxjs/operators';
-import { error } from 'protractor';
+import { error, element } from 'protractor';
 import { Subscription } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PaymentService {
-
   // TO TRADUCT LITERALS
   LiteralClass: literals.Literals;
 
   subs: Subscription = new Subscription();
+
+  payments: Payment[] = [];
 
   constructor(
     private userService: UserService,
@@ -52,83 +53,111 @@ export class PaymentService {
 
   /**
    * Add new payment
-   * @param payment 
+   * @param payment
    */
-  addPayment(payment: Payment):void {
+  addPayment(payment: Payment): void {
     this.storeAddPayment();
-    this.getCollection().add({...payment}).
-    then(() => {
-      this.storeAddPaymentSuccess(payment);
-      this.messagesLiteralsToast(['UPDATE-PAYMENT.TOAST_TITLE_SUCCESS'], Constants.ICON_SUCCESS);
-    })
-    .catch(error => {
-      this.storeAddPaymentFail(error);
-      this.messagesLiteralsToast(['UPDATE-PAYMENT.TOAST_TITLE_FAIL'], Constants.ICON_ERROR);
+    this.getCollection()
+      .add({ ...payment })
+      .then((itemSave) => {
+        this.addItemList({ ...payment, uid: itemSave.id });
+        this.storeAddPaymentSuccess({ ...payment, uid: itemSave.id });
+        this.messagesLiteralsToast(
+          ['UPDATE-PAYMENT.TOAST_TITLE_SUCCESS'],
+          Constants.ICON_SUCCESS
+        );
+      })
+      .catch((error) => {
+        this.storeAddPaymentFail(error);
+        this.messagesLiteralsToast(
+          ['UPDATE-PAYMENT.TOAST_TITLE_FAIL'],
+          Constants.ICON_ERROR
+        );
+      });
+  }
+
+  /**
+   * Valid if element not in list
+   * @param list
+   * @param element
+   */
+  elementNotRepeat(list: Payment[], element: Payment) {
+    let noRepeat: boolean = true;
+    list.forEach( item => {
+      if(item.period.trim() === element.period.trim() && item.description.trim() === element.description.trim()){
+        noRepeat = false;
+      }
     });
+    return noRepeat || list.length === 0;
   }
 
   /**
    * Add new payment
-   * @param payment 
+   * @param payment
    */
-  updatePayment(payment: Payment, oldPeriod:string):void {
+  updatePayment(payment: Payment) {
     this.storeUpdatePayment();
-    this.getCollection().doc(payment.uid).update({
-      quantity: payment.quantity,
-      period: payment.period
-    }).
-    then(() => {
-      this.storeUpdatePaymentSuccess(payment, oldPeriod);
-      this.messagesLiteralsToast(['UPDATE-PAYMENT.TOAST_TITLE_SUCCESS'], Constants.ICON_SUCCESS);
-    })
-    .catch(error => {
-      this.storeUpdatePaymentFail(error);
-      this.messagesLiteralsToast(['UPDATE-PAYMENT.TOAST_TITLE_FAIL'], Constants.ICON_ERROR);
-    });
+    return this.getCollection()
+      .doc(payment.uid)
+      .update({
+        quantity: payment.quantity,
+        period: payment.period,
+        type: payment.type,
+        nature: payment.nature,
+        description: payment.description
+      })
+      .then(() => {
+        this.updateItemList(payment);
+        this.storeUpdatePaymentSuccess(payment);
+      })
+      .catch((error) => {
+        this.storeUpdatePaymentFail(error);
+      });
   }
 
   /**
    * Delete paymeny by params
-   * @param payment 
+   * @param payment
    */
-  deletePayment(payment: Payment): void {
+  deletePayment(payment: Payment) {
     console.log(' ### DELETE PAYMENT ### ');
     this.storeDeletePayment();
-    this.getCollection().doc(payment.uid).delete().
-    then(() => {
-      this.storeDeletePaymentSuccess(payment);
-      this.messagesLiteralsToast(['PAYMENT.DELETE_SUCCESS'], Constants.ICON_SUCCESS);
-    })
-    .catch(error => {
-      this.storeDeletePaymentSuccess(error);
-      this.messagesLiteralsToast(['PAYMENT.DELETE_FAIL'], Constants.ICON_ERROR);
-    });
-
+    return this.getCollection()
+      .doc(payment.uid)
+      .delete()
+      .then(() => {
+        this.deleteItemList(payment);
+        this.storeDeletePaymentSuccess(payment);
+      })
+      .catch((error) => {
+        this.storeDeletePaymentSuccess(error);
+      });
   }
 
   /**
    * Get all payments
    */
-  getAllPayments():void {
+  getAllPayments(): void {
     this.storeGetAllPayments();
     this.subs = this.getCollection()
-    .snapshotChanges()
-    .pipe(map(items => {
-      return items.map( item => {
-        return {
-          uid: item.payload.doc.id
-        };
+      .snapshotChanges()
+      .pipe(
+        map((items) => {
+          return items.map((item) => {
+            return {
+              uid: item.payload.doc.id,
+            };
+          });
+        })
+      )
+      .subscribe((payments) => {
+        if (payments.length === 0) {
+          this.storeGetAllPaymentsSuccess([]);
+        } else {
+          this.getAllItemsByUid(payments);
+        }
       });
-    })
-    ).subscribe( payments => {
-      if(payments.length === 0) {
-        this.storeGetAllPaymentsSuccess([])
-      } else {
-        this.getAllItemsByUid(payments);
-      }
-    });
-    
-    
+
     // MOCK
     /*let list: Payment[] = [];
 
@@ -177,23 +206,73 @@ export class PaymentService {
     this.storeGetAllPaymentsSuccess(list);*/
   }
 
-
   /**
    * Mapped values
-   * @param list 
+   * @param list
    */
-  private getAllItemsByUid(list:any[]) {
+  private getAllItemsByUid(list: any[]) {
     const user: User = this.userService.getUser();
-    let listPayment: Payment[] = []
-    list.forEach( it => {
-      this.firebaseService.doc(`${user.uid}/payments/items/${it.uid}`).valueChanges().pipe(map((item:Payment) => {
-        item.uid = it.uid;
-        listPayment.push(item);
-      })
-      ).subscribe( () => {
-        this.storeGetAllPaymentsSuccess(listPayment);
-      });
-    })
+    let listPayment: Payment[] = [];
+    list.forEach((it) => {
+      this.firebaseService
+        .doc(`${user.uid}/payments/items/${it.uid}`)
+        .valueChanges()
+        .pipe(
+          map((item: Payment) => {
+            item.uid = it.uid;
+            listPayment.push(item);
+          })
+        )
+        .subscribe(() => {
+          this.payments = listPayment;
+          this.storeGetAllPaymentsSuccess(listPayment);
+        });
+    });
+  }
+
+  /**
+   * Return list already
+   */
+  getPayments() {
+    return this.payments;
+  }
+
+  /**
+   * Delete item of list
+   * @param item
+   */
+  deleteItemList(item: Payment) {
+    let index:number = this.payments.indexOf(item);
+    if(index > 0){
+      this.payments.splice(index);
+    }
+  }
+
+  /**
+   * Add item to list
+   * @param item
+   */
+  addItemList(item: Payment) {
+    if(this.elementNotRepeat(this.payments, item)) {
+      this.payments.push(item);
+    }
+  }
+
+  /**
+   * Update item to list
+   * @param item
+   * @param oldPeriod
+   */
+  updateItemList(item: Payment) {
+    // Index element to update
+    let index: number = this.payments.indexOf(
+      this.payments.filter(
+        (payment) =>
+          payment.uid === item.uid
+      )[0]
+    ); // find index item update
+
+    this.payments[index] = item; // SAVE IN INDEX
   }
 
   /**
@@ -208,104 +287,101 @@ export class PaymentService {
    * Show message by literals
    * @param literals
    */
-  private messagesLiteralsToast(literals: string[], icon:SweetAlertIcon ) {
+  private messagesLiteralsToast(literals: string[], icon: SweetAlertIcon) {
     const mapLiterals = this.LiteralClass.getLiterals(literals);
-
-    sweetAlert.toastMessage(
-      mapLiterals.get(literals[0]),
-      icon
-    );
+    sweetAlert.toastMessage(mapLiterals.get(literals[0]), icon);
   }
 
   /**
    * Call store Add Payment
    */
-  private storeAddPayment(){
+  private storeAddPayment() {
     this.store.dispatch(new paymentsActions.AddPayment());
   }
 
   /**
    * Call store Add Payment Success
    */
-  private storeAddPaymentSuccess(payload: Payment){
+  private storeAddPaymentSuccess(payload: Payment) {
     this.store.dispatch(new paymentsActions.AddPaymentSuccess(payload));
   }
 
   /**
    * Call store Add Payment Fail
    */
-  private storeAddPaymentFail(payload: any){
+  private storeAddPaymentFail(payload: any) {
     this.store.dispatch(new paymentsActions.AddPaymentFail(payload));
   }
 
   /**
    * Call store Add Payment
    */
-  private storeUpdatePayment(){
+  private storeUpdatePayment() {
     this.store.dispatch(new paymentsActions.UpdatePayment());
   }
 
   /**
    * Call store Add Payment Success
    */
-  private storeUpdatePaymentSuccess(payload: Payment, oldPeriod){
-    this.store.dispatch(new paymentsActions.UpdatePaymentSuccess(payload, oldPeriod));
+  private storeUpdatePaymentSuccess(payload: Payment) {
+    this.store.dispatch(
+      new paymentsActions.UpdatePaymentSuccess(payload)
+    );
   }
 
   /**
    * Call store Add Payment Fail
    */
-  private storeUpdatePaymentFail(payload: any){
+  private storeUpdatePaymentFail(payload: any) {
     this.store.dispatch(new paymentsActions.UpdatePaymentFail(payload));
   }
 
   /**
    * Call store Delete Payment
    */
-  private storeDeletePayment(){
+  private storeDeletePayment() {
     this.store.dispatch(new paymentsActions.DeletePayment());
   }
 
   /**
    * Call store Delete Payment Success
    */
-  private storeDeletePaymentSuccess(payload: Payment){
+  private storeDeletePaymentSuccess(payload: Payment) {
     this.store.dispatch(new paymentsActions.DeletePaymentSuccess(payload));
   }
 
   /**
    * Call store Delete Payment Fail
    */
-  private storeDeletePaymentFail(payload: any){
+  private storeDeletePaymentFail(payload: any) {
     this.store.dispatch(new paymentsActions.DeletePaymentFail(payload));
   }
 
   /**
    * Call store get all Payment
    */
-  private storeGetAllPayments(){
+  private storeGetAllPayments() {
     this.store.dispatch(new paymentsActions.GetAllPayments());
   }
 
   /**
    * Call store get all Payment success
    */
-  private storeGetAllPaymentsSuccess(payload){
+  private storeGetAllPaymentsSuccess(payload) {
     this.store.dispatch(new paymentsActions.GetAllPaymentsSuccess(payload));
   }
 
   /**
    * Call store get all Payment success
    */
-  private storeGetAllPaymentsFail(payload){
+  private storeGetAllPaymentsFail(payload) {
     this.store.dispatch(new paymentsActions.GetAllPaymentsFail(payload));
   }
 
   /**
    * Call store get all Payment success
    */
-  private storeUnsetPayments(){
+  private storeUnsetPayments() {
     this.store.dispatch(new paymentsActions.UnsetPayments());
   }
-
 }

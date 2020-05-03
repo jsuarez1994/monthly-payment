@@ -106,25 +106,8 @@ export class UserService {
 
     this.storeLogin();
 
-    this.firebaseAuthService.auth
-      .signInWithEmailAndPassword(user.email, user.password)
-      .then(response => {
-        user.uid = response.user.uid;
-        this.user = user;
-        this.storeLoginSuccess(user);
-        console.log('### VAMOS DASHBOARD ###');
-        this.router.navigate([Constants.DASHBOARD_PATH]);
-      })
-      .catch((error) => {
-        console.error('### ERROR: ' + error.message + ' ###');
-
-        this.messagesLiterals([
-          'LOGIN.ERROR_CREDENTIALS_TITLE',
-          'LOGIN.ERROR_CREDENTIALS_MESSAGE'
-        ], Constants.ICON_ERROR);
-
-        this.storeLoginFail(error);
-      });
+    return this.firebaseAuthService.auth
+      .signInWithEmailAndPassword(user.email, user.password);
   }
 
   /**
@@ -141,6 +124,13 @@ export class UserService {
    */
   getUser(): User {
     return this.user;
+  }
+
+  /**
+   * Return user loged
+   */
+  setUser(user: User) {
+    this.user = user;
   }
 
   /**

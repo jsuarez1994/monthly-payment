@@ -39,7 +39,10 @@ export function paymentReducer(
       return returnStateUPDATE_PAYMENT(state);
 
     case listActions.UPDATE_PAYMENT_SUCCESS:
-      return returnStateUPDATE_PAYMENT_SUCCESS(state, action.payload, action.payload2);
+      return returnStateUPDATE_PAYMENT_SUCCESS(
+        state,
+        action.payload
+      );
 
     case listActions.UPDATE_PAYMENT_FAIL:
       return returnStateUPDATE_PAYMENT_FAIL(state, action.payload);
@@ -100,17 +103,39 @@ function returnStateADD_PAYMENT_SUCCESS(
   console.log('### ADD PAYMENT SUCCESS PARAMS ###');
   console.log(params);
 
-  // Add new Payment
-  let paymentsState: Payment[] = [...state.payments];
-  paymentsState.push(params);
-
-  return {
-    ...state,
-    payments: paymentsState,
-    loaded: true,
-    error: null,
-  };
+  if (!elementNotRepeat(state.payments, params)) {
+    return {
+      ...state,
+      loaded: true,
+      error: null,
+    };
+  } else {
+    // Add new Payment
+    let paymentsState: Payment[] = [...state.payments];
+    paymentsState.push(params);
+    return {
+      ...state,
+      payments: paymentsState,
+      loaded: true,
+      error: null,
+    };
+  }
 }
+
+/**
+   * Valid if element not in list
+   * @param list
+   * @param element
+   */
+  function elementNotRepeat(list: Payment[], element: Payment) {
+    let noRepeat: boolean = true;
+    list.forEach( item => {
+      if(item.period.trim() === element.period.trim() && item.description.trim() === element.description.trim()){
+        noRepeat = false;
+      }
+    });
+    return noRepeat || list.length === 0;
+  }
 
 /**
  * Return state to action ADD_PAYMENT_FAIL
@@ -162,7 +187,10 @@ function returnStateDELETE_PAYMENT_SUCCESS(
 
   // Delete new Payment
   let paymentsState: Payment[] = [...state.payments];
-  paymentsState.splice(paymentsState.indexOf(params));
+  let index:number = paymentsState.indexOf(params);
+  if(index > 0){
+    paymentsState.splice(index);
+  }
 
   return {
     ...state,
@@ -213,19 +241,18 @@ function returnStateUPDATE_PAYMENT(state: PaymentState): PaymentState {
  */
 function returnStateUPDATE_PAYMENT_SUCCESS(
   state: PaymentState,
-  payment: Payment,
-  oldPeriod: string
+  payment: Payment
 ): PaymentState {
   console.log('### UPDATE PAYMENT SUCCESS STATE ###');
   console.log(state);
   console.log('### UPDATE PAYMENT SUCCESS PARAMS ###');
   console.log(payment);
-  console.log(oldPeriod);
 
   // Update Payment
   let payments: Payment[] = [...state.payments]; // Copy list
   let paymentUpdate: Payment = payments.filter(
-    (payment) => payment.description === payment.description && payment.period === oldPeriod
+    (payment) =>
+      payment.uid === payment.uid
   )[0]; // find item to update
   let indexUpdate: number = payments.indexOf(paymentUpdate); // find index item update
 
