@@ -16,8 +16,8 @@
                             {{category[header.key]}}
                         </div>
                         <div *ngIf="header.key === 'operations'" class="text-center">
-                            <button type="button" class="btn btn-danger mr-1" (click)="deleteCategory(category)"><i class="far fa-trash-alt"></i></button>
-                            <button type="button" class="btn btn-warning mr-1" (click)="updateCategory(category)"><i class="far fa-edit"></i></button>
+                            <button type="button" class="btn btn-danger mr-1 buttons-actions" (click)="deleteCategory(category)"><i class="far fa-trash-alt"></i></button>
+                            <button type="button" class="btn btn-warning mr-1 buttons-actions" (click)="updateCategory(category)"><i class="far fa-edit"></i></button>
                         </div>
                     </td>
                 </tr>

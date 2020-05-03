@@ -8,3 +8,14 @@ input, select, textarea {
     border-bottom: 1px solid black !important;
 }
 
+.buttons-actions {
+    border-radius: 50% !important;
+}
+
+.bg-none {
+    background: none  !important;
+}
+
+.input-none-border-button {
+    border-bottom: none !important;
+}
