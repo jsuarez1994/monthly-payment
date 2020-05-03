@@ -5,7 +5,7 @@ export class Category {
     nature: string
   
     constructor(
-      uid: string,
+      uid?: string,
       description?: string,
       type?: string,
       nature?: string

@@ -32,3 +32,21 @@ export function periodToDate(periods: string[]): string[] {
   });
   return dates;
 }
+
+export function periodToYears(periods: string[]): string[] {
+  let years: string[] = [];
+
+  periods.forEach(period => {
+    years.push(period.substr(0,4));
+  })
+
+  return years;
+}
+
+export function getYearByPeriod(period: string): string{
+  return period.substr(0,4);
+}
+
+export function getMonthByPeriod(period: string): string{
+  return period.substr(4,6);
+}

@@ -159,6 +159,16 @@
         "SUBMIT_UPDATE": "Actualizar catergoría",
         "TOAST_TITLE_SUCCESS": "Categoría actualizada",
         "TOAST_TITLE_FAIL": "Error al actualizar categoría"
+    },
+
+    "STATISTICS-PAYMENT": {
+        "OBJECTIVE": "OBJETIVO",
+        "REAL": "REAL",
+        "AVERAGE_ENTRY": "Ingreso medio",
+        "SAVING": "Ahorro de un <SAVING_PORCERT>",
+        "SAVING_IN_YEAR": "Esperanza ahorro anual",
+        "PERSONAL_EXPENSIVE": "Gastos personales <PERS_EXPENSIVE_PORCERT>",
+        "PERMANENT_EXPENSIVE": "Gastos fijos <PERM_EXPENSIVE_PORCERT>"
     }
 
 }

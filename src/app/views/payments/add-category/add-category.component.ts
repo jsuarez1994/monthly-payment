@@ -100,11 +100,15 @@ export class AddCategoryComponent implements OnInit {
    */
   onSubmit() {
 
-    const category: Category = {...this.form.value};
+    const category: Category = new Category();
+    category.nature = this.form.value.nature;
+    category.type = this.form.value.type;
+    let description:string = this.form.value.description;
+    category.description = description.trim();
 
     // VALIDATE ELEMENT NOT REPEAT
     if(this.categoryService.elementNotRepeat(this.categoryService.getCategories(), category)) {
-      this.categoryService.addCategory({...this.form.value});
+      this.categoryService.addCategory(category);
       this.form.reset();
     } else {
       const map = this.LiteralClass.getLiterals(['ADD-CATEGORY.TOAST_TITLE_REPEAT']);
