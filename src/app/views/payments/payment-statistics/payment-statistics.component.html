@@ -8,7 +8,7 @@
 
         <!--OBJECTIVE-->
         <h4 class="card-title text-center font-weight-bold"> {{ 'STATISTICS-PAYMENT.OBJECTIVE' | translate | uppercase }}</h4>
-        <table class="table table-bordeless table-hover mt-5">
+        <table class="table table-borderless table-hover mt-5">
             <thead>
                 <tr>
                     <th *ngFor="let header of headersObjective">{{header.value}}</th>
@@ -18,7 +18,27 @@
             <tbody>
                 <tr>
                     <td *ngFor="let header of headersObjective">
-                        {{objectiveValues[header.key] | currency:'EUR'}}
+                        {{objectiveValue[header.key] | currency:'EUR'}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <!--REAL-->
+        <h4 class="card-title text-center font-weight-bold"> {{ 'STATISTICS-PAYMENT.REAL' | translate | uppercase }}</h4>
+        <table class="table table-borderless table-hover mt-5">
+            <thead>
+                <tr>
+                    <th *ngFor="let header of headersReal">{{header.value}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let realItem of realValues">
+                    <td *ngFor="let header of headersReal">
+                        {{realItem.value[header.key] | currency:'EUR'}}
                     </td>
                 </tr>
             </tbody>

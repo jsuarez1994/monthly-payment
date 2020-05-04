@@ -168,7 +168,31 @@
         "SAVING": "Ahorro de un <SAVING_PORCERT>",
         "SAVING_IN_YEAR": "Esperanza ahorro anual",
         "PERSONAL_EXPENSIVE": "Gastos personales <PERS_EXPENSIVE_PORCERT>",
-        "PERMANENT_EXPENSIVE": "Gastos fijos <PERM_EXPENSIVE_PORCERT>"
+        "PERMANENT_EXPENSIVE": "Gastos fijos <PERM_EXPENSIVE_PORCERT>",
+        "MONTH_GAINS": "Ingreso mensual",
+        "PLUS": "Excedente",
+        "MONTH_SAVE_OBJECTIVE": "Ahorro mensual (Objetivo)",
+        "MONTH_SAVE_REAL": "Ahorro mensual (Real)",
+        "MONTH_PERSONAL_EXPENSIVE_OBJECTIVE": "Gasto personal mensual  (Objetivo)",
+        "MONTH_PERSONAL_EXPENSIVE_REAL": "Gasto personal mensual  (Real)",
+        "MONTH_PERMANENT_EXPENSIVE_OBJECTIVE": "Gasto fijo mensual  (Objetivo)",
+        "MONTH_PERMANENT_EXPENSIVE_REAL": "Gasto fijo mensual  (Real)",
+        "MONTH": "Mes"
+    },
+
+    "MONTH": {
+        "01": "ENERO",
+        "02": "FEBRERO",
+        "03": "MARZO",
+        "04": "ABRIL",
+        "05": "MAYO",
+        "06": "JUNIO",
+        "07": "JULIO",
+        "08": "AGOSTO",
+        "09": "SEPTIEMBRE",
+        "10": "OCTUBRE",
+        "11": "NOVIEMBRE",
+        "12": "DICIEMBRE"
     }
 
 }
