@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col-lg-3 col-md-12 col-sm-12"></div>
-    <div class="col-lg-6 col-md-12 col-sm-12">
+    <div class="col-lg-2 col-md-12 col-sm-12"></div>
+    <div class="col-lg-8 col-md-12 col-sm-12">
         <!--CONTENT-->
 
         <!--SELECT YEAR-->
@@ -38,14 +38,23 @@
             <tbody>
                 <tr *ngFor="let realItem of realValues">
                     <td *ngFor="let header of headersReal">
-                        {{realItem.value[header.key] | currency:'EUR'}}
+                        <div *ngIf="header.key === 'period'">
+                            {{realItem[header.key]}}
+                        </div>
+                        <div *ngIf="header.key !== 'period'" 
+                        [ngClass]="{
+                            'text-success': realItem[header.key] > 0,
+                            'text-danger': realItem[header.key] < 0
+                          }">
+                            {{realItem[header.key] | currency:'EUR'}}
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
 
     </div>
-    <div class="col-lg-3 col-md-12 col-sm-12 text-right">
+    <div class="col-lg-2 col-md-12 col-sm-12 text-right">
         <button type="button" class="btn btn-light mr-1" routerLink="/"><i class="fas fa-undo"></i>
         </button>
     </div>
