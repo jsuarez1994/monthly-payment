@@ -29,6 +29,7 @@
 
     "FOOTER": {
         "CREATE_BY": "Creado por",
+        "IDEA_BY": "Ideado por",
         "COPIRIGHT": "Derechos reservados © 2020."
     },
 
@@ -177,7 +178,9 @@
         "MONTH_PERSONAL_EXPENSIVE_REAL": "Gasto personal mensual  (Real)",
         "MONTH_PERMANENT_EXPENSIVE_OBJECTIVE": "Gasto fijo mensual  (Objetivo)",
         "MONTH_PERMANENT_EXPENSIVE_REAL": "Gasto fijo mensual  (Real)",
-        "MONTH": "Mes"
+        "MONTH": "Mes",
+        "YEAR": "Año a ver estadística",
+        "YEAR_DEFAULT": "Selecciona un año"
     },
 
     "MONTH": {

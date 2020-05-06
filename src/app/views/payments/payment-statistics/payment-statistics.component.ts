@@ -73,8 +73,9 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
    * Get disctinct years hace payments
    */
   getYears() {
-    let listY:string[] = utils.periodToYears(this.payments.map((item) => item.period));
-    this.years = utils.listStringNotRepeat(listY.filter(function(elem, index, self) {return index === self.indexOf(elem)}));
+    this.years = utils.listStringNotRepeat(
+      utils.periodToYears(this.payments.map((item) => item.period))
+    );
     // Year select now
     this.yearSelected = String(new Date().getFullYear());
   }
@@ -100,13 +101,13 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
     ]);
 
     // FUTURE VARIABLE
-    let savingHeader = headersValue
+    const savingHeader = headersValue
       .get('STATISTICS-PAYMENT.SAVING')
       .replace('<SAVING_PORCERT>', '20%');
-    let perExpensiveHeader = headersValue
+    const perExpensiveHeader = headersValue
       .get('STATISTICS-PAYMENT.PERSONAL_EXPENSIVE')
       .replace('<PERS_EXPENSIVE_PORCERT>', '30%');
-    let permExpensivegHeader = headersValue
+    const permExpensivegHeader = headersValue
       .get('STATISTICS-PAYMENT.PERMANENT_EXPENSIVE')
       .replace('<PERM_EXPENSIVE_PORCERT>', '50%');
 
@@ -136,32 +137,33 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
    */
   getValuesObjective() {
     // VALUE GAIN
-    let natureGain = this.LiteralClass.getLiterals([
+    const natureGain = this.LiteralClass.getLiterals([
       'ADD-CATEGORY.NATURE_GAIN',
     ]).get('ADD-CATEGORY.NATURE_GAIN');
     // EMPTY MODEL
     this.objectiveValue = new ObjectiveTable();
     // PAYMENTS OF YEAR SELECT
-    let paymentsByFilter = this.payments.filter(
+    const paymentsByFilter = this.payments.filter(
       (payment) =>
         utils.getYearByPeriod(payment.period) === this.yearSelected &&
         payment.nature === natureGain
     );
 
     if (paymentsByFilter.length > 0) {
-      let averageEntry =
-        paymentsByFilter.reduce((sum, item) => sum + item.quantity, 0) / this.getMonthWithGainsInYearSelect();
+      const averageEntry =
+        paymentsByFilter.reduce((sum, item) => sum + item.quantity, 0) /
+        this.getMonthWithGainsInYearSelect();
       this.objectiveValue = new ObjectiveTable(averageEntry);
     }
   }
 
   private getMonthWithGainsInYearSelect(): number {
     // VALUE GAIN
-    let natureGain = this.LiteralClass.getLiterals([
+    const natureGain = this.LiteralClass.getLiterals([
       'ADD-CATEGORY.NATURE_GAIN',
     ]).get('ADD-CATEGORY.NATURE_GAIN');
 
-    let dates = this.payments
+    const dates = this.payments
       .filter(
         (payment) =>
           payment.period.startsWith(this.yearSelected) &&
@@ -169,11 +171,8 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
       )
       .map((payment) => payment.period);
 
-    let months = utils.periodToMonths(dates);
-
-    return new Set(months).size;
+    return new Set(utils.periodToMonths(dates)).size;
   }
-
 
   /**
    * INFORMATION TABLE OBJECTIVE
@@ -193,14 +192,13 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
       'STATISTICS-PAYMENT.MONTH_PERSONAL_EXPENSIVE_OBJECTIVE',
       'STATISTICS-PAYMENT.MONTH_PERSONAL_EXPENSIVE_REAL',
       'STATISTICS-PAYMENT.MONTH_PERMANENT_EXPENSIVE_OBJECTIVE',
-      'STATISTICS-PAYMENT.MONTH_PERMANENT_EXPENSIVE_REAL'
+      'STATISTICS-PAYMENT.MONTH_PERMANENT_EXPENSIVE_REAL',
     ]);
-
 
     this.headersReal = [
       {
         key: 'period',
-        value: headersValue.get('STATISTICS-PAYMENT.MONTH'),
+        value: '',
       },
       {
         key: 'monthGains',
@@ -220,19 +218,27 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
       },
       {
         key: 'monthPersonalExpensiveObjective',
-        value: headersValue.get('STATISTICS-PAYMENT.MONTH_PERSONAL_EXPENSIVE_OBJECTIVE'),
+        value: headersValue.get(
+          'STATISTICS-PAYMENT.MONTH_PERSONAL_EXPENSIVE_OBJECTIVE'
+        ),
       },
       {
         key: 'monthPersonalExpensiveReal',
-        value: headersValue.get('STATISTICS-PAYMENT.MONTH_PERSONAL_EXPENSIVE_REAL'),
+        value: headersValue.get(
+          'STATISTICS-PAYMENT.MONTH_PERSONAL_EXPENSIVE_REAL'
+        ),
       },
       {
         key: 'monthPermanentExpensiveObjective',
-        value: headersValue.get('STATISTICS-PAYMENT.MONTH_PERMANENT_EXPENSIVE_OBJECTIVE'),
+        value: headersValue.get(
+          'STATISTICS-PAYMENT.MONTH_PERMANENT_EXPENSIVE_OBJECTIVE'
+        ),
       },
       {
         key: 'monthPermanentExpensiveReal',
-        value: headersValue.get('STATISTICS-PAYMENT.MONTH_PERMANENT_EXPENSIVE_REAL'),
+        value: headersValue.get(
+          'STATISTICS-PAYMENT.MONTH_PERMANENT_EXPENSIVE_REAL'
+        ),
       },
     ];
   }
@@ -240,13 +246,15 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
   getValuesReal() {
     // VALUES Natures
     const natures: Map<string, string> = this.LiteralClass.getLiterals([
-      'ADD-CATEGORY.NATURE_GAIN','ADD-CATEGORY.NATURE_EXPENDITURE'
+      'ADD-CATEGORY.NATURE_GAIN',
+      'ADD-CATEGORY.NATURE_EXPENDITURE',
     ]);
     const gains: string = natures.get('ADD-CATEGORY.NATURE_GAIN');
     const expenditure: string = natures.get('ADD-CATEGORY.NATURE_EXPENDITURE');
     // VALUES types
     const types: Map<string, string> = this.LiteralClass.getLiterals([
-      'ADD-CATEGORY.TYPE_PERSONAL','ADD-CATEGORY.TYPE_PERMANENT'
+      'ADD-CATEGORY.TYPE_PERSONAL',
+      'ADD-CATEGORY.TYPE_PERMANENT',
     ]);
     const personal: string = types.get('ADD-CATEGORY.TYPE_PERSONAL');
     const permanent: string = types.get('ADD-CATEGORY.TYPE_PERMANENT');
@@ -254,33 +262,71 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
     this.realValues = [];
 
     // GET PERIODS START WITH YEAR SELECTED
-    let periods:string [] = utils.listStringNotRepeat(this.payments.filter(payment => payment.period.startsWith(this.yearSelected)).map(payment => payment.period).sort());
+    const periods: string[] = utils.listStringNotRepeat(
+      this.payments
+        .filter((payment) => payment.period.startsWith(this.yearSelected))
+        .map((payment) => payment.period)
+        .sort()
+    );
 
-    periods.forEach(period => {
+    periods.forEach((period) => {
       // GAINS MONTH
-      const monthGains = this.payments.filter(payment => payment.period === period && payment.nature === gains).reduce((sum, item) => sum + item.quantity, 0);
+      const monthGains = this.payments
+        .filter(
+          (payment) => payment.period === period && payment.nature === gains
+        )
+        .reduce((sum, item) => sum + item.quantity, 0);
 
       // EXPENSIVE PERSONAL MONTH
-      const personalExpensive = this.payments.filter(payment => payment.period === period && payment.nature === expenditure && payment.type === personal).reduce((sum, item) => sum + item.quantity, 0);
+      const personalExpensive = this.payments
+        .filter(
+          (payment) =>
+            payment.period === period &&
+            payment.nature === expenditure &&
+            payment.type === personal
+        )
+        .reduce((sum, item) => sum + item.quantity, 0);
       // EXPENSIVE PERMANENT MONTH
-      const permanentExpensive = this.payments.filter(payment => payment.period === period && payment.nature === expenditure && payment.type === permanent).reduce((sum, item) => sum + item.quantity, 0);
-      
+      const permanentExpensive = this.payments
+        .filter(
+          (payment) =>
+            payment.period === period &&
+            payment.nature === expenditure &&
+            payment.type === permanent
+        )
+        .reduce((sum, item) => sum + item.quantity, 0);
+
       // DIFERENCE BETWEEN MONTH GAINS - AVERAGE GAINS (PER MONTH)
       const plusGains = monthGains - this.objectiveValue.averageEntry;
 
       // SAVE MONTH = GAINS - (ALL EXPESIVE)
-      const monthSaveReal = monthGains - (personalExpensive + permanentExpensive);
+      const monthSaveReal =
+        monthGains - (personalExpensive + permanentExpensive);
 
-      
       // GET NAME MONTH
-      let keyLiteral: string = 'MONTH.';
-      let month = this.LiteralClass.getLiterals([keyLiteral.concat(utils.getMonthByPeriod(period))]).get(keyLiteral.concat(utils.getMonthByPeriod(period)));
-      
+      const keyLiteral: string = 'MONTH.'.concat(utils.getMonthByPeriod(period));
+      const month = this.LiteralClass.getLiterals([keyLiteral]).get(keyLiteral);
+
       // SAVE DATA
-      const dataReal: RealTable = new RealTable(month,monthGains,plusGains,monthSaveReal,personalExpensive,permanentExpensive);
+      const dataReal: RealTable = new RealTable(
+        month,
+        monthGains,
+        plusGains,
+        monthSaveReal,
+        personalExpensive,
+        permanentExpensive
+      );
       this.realValues.push(dataReal);
     });
-
   }
 
+  /**
+   * Event dispatch when change year
+   * @param $event
+   */
+  changeYear($event) {
+    this.yearSelected = String($event.target.value);
+    this.infTableObjective();
+    this.infTableReal();
+  }
 }
