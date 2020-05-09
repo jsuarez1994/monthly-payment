@@ -1,1 +1,134 @@
-<p>config-user works!</p>
+<div class="row">
+    <div class="col-lg-3 col-md-12 col-sm-12"></div>
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="card text-center m-5">
+            <h5 class="card-header bg-none text-center font-weight-bold">{{ 'CONFIG-USER.TITLE' | translate | uppercase }}</h5>
+            <div class="card-body">
+                <div class="auto-form-wrapper text-left">
+                    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-12 col-sm-12">
+
+                                <h5>{{ 'CONFIG-USER.DATA_PERSONAL' | translate | uppercase }}</h5>
+
+                                <!--NAME-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'CONFIG-USER.NAME' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="name" required formControlName="name">
+                                    </div>
+                                </div>
+        
+                                <!--SURNAME-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'CONFIG-USER.SURNAME' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="surname" required
+                                            formControlName="surname">
+                                    </div>
+                                </div>
+        
+                                <!--DOCUMENT-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'CONFIG-USER.DOCUMENT' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="document" required minlength="9"
+                                            maxlength="9" formControlName="document">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-12 col-sm-12">
+
+                                <h5>{{ 'CONFIG-USER.DATA_IDENT' | translate | uppercase }}</h5>
+
+                                <!--EMAIL-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'CONFIG-USER.EMAIL' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="email" class="form-control" name="email" required disabled formControlName="email">
+                                    </div>
+                                </div>
+
+                                <!--OLD PASSWORD-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'CONFIG-USER.PASSWORD' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" name="password"
+                                            #oldPassword>
+                                    </div>
+                                </div>
+
+                                <!--NEW PASSWORD-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'CONFIG-USER.PASSWORD' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" name="password"
+                                            formControlName="password">
+                                    </div>
+                                </div>
+
+                                <!-- REPEAT PASSWORD-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'CONFIG-USER.REPEAT_PASSWORD' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" name="repeat-password"
+                                            #repeatPassword>
+                                    </div>
+                                </div>
+                            </div>    
+
+
+                            <div class="col-lg-4 col-md-12 col-sm-12">
+
+                                <h5>{{ 'CONFIG-USER.DATA_PORCENT' | translate | uppercase }}</h5>
+
+                                <!-- PORCENT PERMANENT -->
+                                <div class="form-group">
+                                    <label class="label">{{ 'CONFIG-USER.PORCENT_PERMANENT' | translate }} {{porcentPermanent}}</label>
+                                    <div class="input-group">
+                                        <input type="range" class="custom-range" min="0" max="100" id="porcentPermanent" (change)="changeValuePorcent($event)" formControlName="porcentPaymentPermanent">
+                                    </div>
+                                </div>
+
+                                <!-- PORCENT PERSONAL -->
+                                <div class="form-group">
+                                    <label class="label">{{ 'CONFIG-USER.PORCENT_PERSONAL' | translate }} {{porcentPersonal}}</label>
+                                    <div class="input-group">
+                                        <input type="range" class="custom-range" min="0" max="100" id="porcentPersonal" (change)="changeValuePorcent($event)" formControlName="porcentPaymentPersonal">
+                                    </div>
+                                </div>
+
+                                <!-- PORCENT SAVING -->
+                                <div class="form-group">
+                                    <label class="label">{{ 'CONFIG-USER.PORCENT_SAVING' | translate }} {{porcentSaving}}</label>
+                                    <div class="input-group">
+                                        <input type="range" class="custom-range" min="0" max="100" id="porcentSaving" (change)="changeValuePorcent($event)" formControlName="porcentSaving">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- BOTONS -->
+                        <div class="form-group">
+                            <button *ngIf="!load" [disabled]="form.invalid" class="btn btn-primary submit-btn btn-block"
+                                type="submit">{{ 'CONFIG-USER.REGISTER_ACTION' | translate }}</button>
+                            <button *ngIf="load" [disabled]="form.invalid"
+                                class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}</button>
+                        </div>
+
+                        <!-- GO YO REGISTER -->
+                        <div class="text-block text-center my-3">
+                            <span class="text-small font-weight-semibold">{{ 'CONFIG-USER.LOG_IN' | translate }}</span>
+                            <br>
+                            <a routerLink="/" class="text-black text-small">{{ 'CONFIG-USER.GO_LOGIN' | translate }}</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-12 col-sm-12"></div>
+</div>

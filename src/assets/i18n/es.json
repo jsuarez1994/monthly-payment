@@ -69,6 +69,32 @@
         "ERROR_PORCENT_LESS_THAN_ONE_HUNDRED": "La suma de los porcentajes es menor que 100%. Revisa bien la asignación de porcentajes"
     },
 
+    "CONFIG-USER": {
+        "TITLE": "Configuración de usuario",
+        "NAME": "Nombre",
+        "SURNAME": "Apellidos",
+        "DOCUMENT": "DNI",
+        "EMAIL": "Email",
+        "PASSWORD": "Contraseña",
+        "REPEAT_PASSWORD": "Repita la contraseña",
+        "PORCENT_PERMANENT": "Porcentaje gastos fijos: ",
+        "PORCENT_PERSONAL": "Porcentaje gastos personales: ",
+        "PORCENT_SAVING": "Porcentaje ahorros: ",
+        "REGISTER_ACTION": "Cambiar propiedades",
+        "PASSWORD_NOT_EQUALS": "Las constraseñas no son iguales",
+        "ERROR_PROCESS_TITLE": "Error en el proceso de registro",
+        "ERROR_PROCESS_MESSAGE": "Ha ocurrido un error en el proceso de cambiar configuración. Intentelo más tarde o contacte con el administrador.",
+        "ERROR_FIREBASE_AUTH_TITLE": "Error conectar Base de Datos",
+        "ERROR_FIREBASE_AUTH_MESSAGE": "Ha ocurrido un error al conectar con base de datos. Contacte con el administrador",
+        "CHANGE_PROPERTIES_ACTION_COMPLETE_SUCCESS": "Cambio de propiedades completado",
+        "CHANGE_PROPERTIES_ACTION_COMPLETE_ERROR": "Ha habido un error al cambiar propiedades, revisa los datos",
+        "ERROR_PORCENT_TITLE": "Error al asignar porcentajes",
+        "ERROR_PORCENT_MORE_THAN_ONE_HUNDRED": "La suma de los porcentajes es mayor que 100%. Revisa bien la asignación de porcentajes",
+        "ERROR_PORCENT_LESS_THAN_ONE_HUNDRED": "La suma de los porcentajes es menor que 100%. Revisa bien la asignación de porcentajes",
+        "DATA_PERSONAL": "Datos personales",
+        "DATA_IDENT": "Datos de usuario",
+        "DATA_PORCENT": "Porcentajes de saldo"
+    },
     
     "PAYMENT": {
         "GAIN_TITLE": "GANANCIAS",
