@@ -17,12 +17,14 @@ import * as sweetAlert from '../../../shared/Utils/sweetalert';
 import { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
+  selector: 'app-config-user',
+  templateUrl: './config-user.component.html',
   styles: [],
 })
-export class RegisterComponent implements OnInit {
+export class ConfigUserComponent implements OnInit {
   form: FormGroup;
+
+  @ViewChild('newPassword') newPassword: ElementRef;
 
   @ViewChild('repeatPassword') repeatPassword: ElementRef;
 
@@ -58,8 +60,12 @@ export class RegisterComponent implements OnInit {
   initForm() {
     this.load = false;
 
-    this.porcentPermanent = String(this.user.porcentPaymentPermanent).concat(' %');
-    this.porcentPersonal = String(this.user.porcentPaymentPersonal).concat(' %');
+    this.porcentPermanent = String(this.user.porcentPaymentPermanent).concat(
+      ' %'
+    );
+    this.porcentPersonal = String(this.user.porcentPaymentPersonal).concat(
+      ' %'
+    );
     this.porcentSaving = String(this.user.porcentSaving).concat(' %');
 
     this.form = new FormGroup({
@@ -69,11 +75,23 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.pattern(Constants.DOCUMENT_PATTERN),
       ]),
-      email: new FormControl(this.user.email, [Validators.required, Validators.email]),
+      email: new FormControl(this.user.email, [
+        Validators.required,
+        Validators.email,
+      ]),
       password: new FormControl('', Validators.minLength(6)),
-      porcentPaymentPermanent: new FormControl(this.user.porcentPaymentPermanent, [Validators.required, Validators.max(100)]),
-      porcentPaymentPersonal: new FormControl(this.user.porcentPaymentPersonal, [Validators.required, Validators.max(100)]),
-      porcentSaving: new FormControl(this.user.porcentSaving, [Validators.required, Validators.max(100)])
+      porcentPaymentPermanent: new FormControl(
+        this.user.porcentPaymentPermanent,
+        [Validators.required, Validators.max(100)]
+      ),
+      porcentPaymentPersonal: new FormControl(
+        this.user.porcentPaymentPersonal,
+        [Validators.required, Validators.max(100)]
+      ),
+      porcentSaving: new FormControl(this.user.porcentSaving, [
+        Validators.required,
+        Validators.max(100),
+      ]),
     });
   }
 
@@ -82,14 +100,8 @@ export class RegisterComponent implements OnInit {
    */
   onSubmit() {
     this.load = true;
-    if (this.validPocents()){
+    if (this.validPocents()) {
       if (this.validPassword()) {
-        this.showMessage([
-          'COMMONS.ERROR',
-          'CONFIG-USER.PASSWORD_NOT_EQUALS',
-        ], Constants.ICON_ERROR);
-
-      } else {
         // Call store to dispatch service user
         const user: User = { ...this.form.value };
         /*this.userService.updateUserService(user)
@@ -104,6 +116,12 @@ export class RegisterComponent implements OnInit {
           .get('CONFIG-USER.CHANGE_PROPERTIES_ACTION_COMPLETE_ERROR');
           sweetAlert.toastMessage(message, Constants.ICON_ERROR);
         });*/
+      } else {
+        // EMPTY VALUES PASWORD
+        this.form.value.password = '';
+        this.newPassword.nativeElement.value = '';
+        this.oldPassword.nativeElement.value = '';
+        this.repeatPassword.nativeElement.value = '';
       }
     }
     this.load = false;
@@ -117,12 +135,54 @@ export class RegisterComponent implements OnInit {
       return true;
     } else if (this.form.value.password === this.user.password) {
       // MENSAJE NUEVA PASSWORD IGUAL ANTERIOR
+      this.showMessage(
+        [
+          'CONFIG-USER.ERROR_PASSWORD_TITLE',
+          'CONFIG-USER.ERROR_PASSWORD_MESSAGE_1',
+        ],
+        Constants.ICON_ERROR
+      );
+      return false;
     } else if (this.oldPassword.nativeElement.value !== this.user.password) {
       // MENSAJE PASSWORD ANTERIOR NO ES IGUAL
-    } else if(this.repeatPassword.nativeElement.value !== this.form.value.password) {
+      this.showMessage(
+        [
+          'CONFIG-USER.ERROR_PASSWORD_TITLE',
+          'CONFIG-USER.ERROR_PASSWORD_MESSAGE_2',
+        ],
+        Constants.ICON_ERROR
+      );
+      return false;
+    } else if (
+      this.repeatPassword.nativeElement.value !== this.form.value.password
+    ) {
       // MENSAJE CONTRASEÑA REPETIDA NO COINCIDE
-    } else if(this.form.value.password !== '' && this.oldPassword.nativeElement.value === '') {
+      this.showMessage(
+        [
+          'CONFIG-USER.ERROR_PASSWORD_TITLE',
+          'CONFIG-USER.ERROR_PASSWORD_MESSAGE_3',
+        ],
+        Constants.ICON_ERROR
+      );
+      return false;
+    } else if (
+      this.form.value.password !== '' &&
+      this.oldPassword.nativeElement.value === ''
+    ) {
       // MENSAJE PUESTA CONTRASEÑA NUEVA PERO NO ANTIGUA
+      this.showMessage(
+        [
+          'CONFIG-USER.ERROR_PASSWORD_TITLE',
+          'CONFIG-USER.ERROR_PASSWORD_MESSAGE_4',
+        ],
+        Constants.ICON_ERROR
+      );
+      return false;
+    } else if (
+      this.oldPassword.nativeElement.value === this.user.password &&
+      this.form.value.password === this.repeatPassword.nativeElement.value
+    ) {
+      return true;
     }
   }
 
@@ -130,19 +190,32 @@ export class RegisterComponent implements OnInit {
    * Valid value of porcents
    */
   validPocents(): boolean {
-
-    const sumPorcents = this.form.value.porcentPaymentPermanent + this.form.value.porcentPaymentPersonal + this.form.value.porcentSaving;
+    const sumPorcents =
+      this.form.value.porcentPaymentPermanent +
+      this.form.value.porcentPaymentPersonal +
+      this.form.value.porcentSaving;
 
     if (sumPorcents > 100) {
-      this.showMessage(['CONFIG-USER.ERROR_PORCENT_TITLE', 'CONFIG-USER.ERROR_PORCENT_MORE_THAN_ONE_HUNDRED'], Constants.ICON_ERROR);
+      this.showMessage(
+        [
+          'CONFIG-USER.ERROR_PORCENT_TITLE',
+          'CONFIG-USER.ERROR_PORCENT_MORE_THAN_ONE_HUNDRED',
+        ],
+        Constants.ICON_ERROR
+      );
       return false;
     } else if (sumPorcents < 100) {
-      this.showMessage(['CONFIG-USER.ERROR_PORCENT_TITLE', 'CONFIG-USER.ERROR_PORCENT_LESS_THAN_ONE_HUNDRED'], Constants.ICON_ERROR);
+      this.showMessage(
+        [
+          'CONFIG-USER.ERROR_PORCENT_TITLE',
+          'CONFIG-USER.ERROR_PORCENT_LESS_THAN_ONE_HUNDRED',
+        ],
+        Constants.ICON_ERROR
+      );
       return false;
     } else {
       return true;
     }
-
   }
 
   /**
@@ -150,21 +223,23 @@ export class RegisterComponent implements OnInit {
    * @param $event
    */
   changeValuePorcent($event) {
-
     switch ($event.srcElement.id) {
       case 'porcentPermanent':
-        this.porcentPermanent = String(this.form.value.porcentPaymentPermanent).concat(' %');
+        this.porcentPermanent = String(
+          this.form.value.porcentPaymentPermanent
+        ).concat(' %');
         break;
 
       case 'porcentPersonal':
-        this.porcentPersonal = String(this.form.value.porcentPaymentPersonal).concat(' %');
+        this.porcentPersonal = String(
+          this.form.value.porcentPaymentPersonal
+        ).concat(' %');
         break;
 
       case 'porcentSaving':
         this.porcentSaving = String(this.form.value.porcentSaving).concat(' %');
         break;
     }
-
   }
 
   /**
@@ -172,7 +247,7 @@ export class RegisterComponent implements OnInit {
    * @param messages
    * @param icon
    */
-  showMessage(messages: string [], icon: SweetAlertIcon) {
+  showMessage(messages: string[], icon: SweetAlertIcon) {
     const mapLiterals = this.LiteralClass.getLiterals(messages);
     sweetAlert.showMessage(
       mapLiterals.get(messages[0]),

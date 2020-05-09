@@ -11,7 +11,7 @@ import { AddCategoryComponent } from '../payments/add-category/add-category.comp
 import { UpdatePaymentComponent } from '../payments/update-payment/update-payment.component';
 import { HistoryPaymentComponent } from '../payments/history-payment/history-payment.component';
 import { UpdateCategoryComponent } from '../payments/update-category/update-category.component';
-import { ConfigUserComponent } from '../user/config-user/config-user.component';
+import { ConfigUserComponent } from '../payments/config-user/config-user.component';
 
 
 export const dashboardRoutes: Routes = [

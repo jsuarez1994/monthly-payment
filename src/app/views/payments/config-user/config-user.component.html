@@ -10,7 +10,7 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-12 col-sm-12">
 
-                                <h5>{{ 'CONFIG-USER.DATA_PERSONAL' | translate | uppercase }}</h5>
+                                <h6 class="text-muted text-center">{{ 'CONFIG-USER.DATA_PERSONAL' | translate | uppercase }}</h6>
 
                                 <!--NAME-->
                                 <div class="form-group">
@@ -41,7 +41,7 @@
 
                             <div class="col-lg-4 col-md-12 col-sm-12">
 
-                                <h5>{{ 'CONFIG-USER.DATA_IDENT' | translate | uppercase }}</h5>
+                                <h6 class="text-muted text-center">{{ 'CONFIG-USER.DATA_IDENT' | translate | uppercase }}</h6>
 
                                 <!--EMAIL-->
                                 <div class="form-group">
@@ -53,7 +53,7 @@
 
                                 <!--OLD PASSWORD-->
                                 <div class="form-group">
-                                    <label class="label">{{ 'CONFIG-USER.PASSWORD' | translate }}</label>
+                                    <label class="label">{{ 'CONFIG-USER.OLD_PASSWORD' | translate }}</label>
                                     <div class="input-group">
                                         <input type="password" class="form-control" name="password"
                                             #oldPassword>
@@ -62,16 +62,16 @@
 
                                 <!--NEW PASSWORD-->
                                 <div class="form-group">
-                                    <label class="label">{{ 'CONFIG-USER.PASSWORD' | translate }}</label>
+                                    <label class="label">{{ 'CONFIG-USER.NEW_PASSWORD' | translate }}</label>
                                     <div class="input-group">
                                         <input type="password" class="form-control" name="password"
-                                            formControlName="password">
+                                            formControlName="password" #newPassword>
                                     </div>
                                 </div>
 
                                 <!-- REPEAT PASSWORD-->
                                 <div class="form-group">
-                                    <label class="label">{{ 'CONFIG-USER.REPEAT_PASSWORD' | translate }}</label>
+                                    <label class="label">{{ 'CONFIG-USER.REPEAT_NEW_PASSWORD' | translate }}</label>
                                     <div class="input-group">
                                         <input type="password" class="form-control" name="repeat-password"
                                             #repeatPassword>
@@ -82,7 +82,7 @@
 
                             <div class="col-lg-4 col-md-12 col-sm-12">
 
-                                <h5>{{ 'CONFIG-USER.DATA_PORCENT' | translate | uppercase }}</h5>
+                                <h6 class="text-muted text-center">{{ 'CONFIG-USER.DATA_PORCENT' | translate | uppercase }}</h6>
 
                                 <!-- PORCENT PERMANENT -->
                                 <div class="form-group">
@@ -114,16 +114,9 @@
                         <!-- BOTONS -->
                         <div class="form-group">
                             <button *ngIf="!load" [disabled]="form.invalid" class="btn btn-primary submit-btn btn-block"
-                                type="submit">{{ 'CONFIG-USER.REGISTER_ACTION' | translate }}</button>
+                                type="submit">{{ 'CONFIG-USER.CHANGE_PROPERTIES_ACTION' | translate }}</button>
                             <button *ngIf="load" [disabled]="form.invalid"
                                 class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}</button>
-                        </div>
-
-                        <!-- GO YO REGISTER -->
-                        <div class="text-block text-center my-3">
-                            <span class="text-small font-weight-semibold">{{ 'CONFIG-USER.LOG_IN' | translate }}</span>
-                            <br>
-                            <a routerLink="/" class="text-black text-small">{{ 'CONFIG-USER.GO_LOGIN' | translate }}</a>
                         </div>
                     </form>
                 </div>

@@ -14,6 +14,7 @@ import { HistoryPaymentComponent } from './history-payment/history-payment.compo
 import { CategoryComponent } from './category/category.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { UpdateCategoryComponent } from './update-category/update-category.component';
+import { ConfigUserComponent } from './config-user/config-user.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { UpdateCategoryComponent } from './update-category/update-category.compo
     UpdatePaymentComponent,
     HistoryPaymentComponent,
     UpdateCategoryComponent,
+    ConfigUserComponent,
   ],
   imports: [
     CommonModule,

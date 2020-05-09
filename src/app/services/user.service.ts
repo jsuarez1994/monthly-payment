@@ -105,11 +105,26 @@ export class UserService {
    * @param user
    */
   loginService(user: User) {
-
     this.storeLogin();
 
     return this.firebaseAuthService.auth
       .signInWithEmailAndPassword(user.email, user.password);
+  }
+
+  updateUserService(user: User, oldPassword: string, obCode: string) {
+    this.firebaseAuthService.auth.confirmPasswordReset(obCode, user.password)
+    .then(() => {
+      return this.updateUserAction(user, oldPassword);
+    })
+    .catch(error => {
+      const literal = this.LiteralClass.getLiterals(['CONFIG-USER.ERROR_PROCESS_TITLE'])
+                      .get('CONFIG-USER.ERROR_PROCESS_TITLE');
+      sweetAlert.toastMessage(literal, Constants.ICON_ERROR);
+    });
+  }
+
+  private updateUserAction(user, oldPassword) {
+
   }
 
   /**

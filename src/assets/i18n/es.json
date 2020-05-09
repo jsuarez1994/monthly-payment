@@ -75,14 +75,15 @@
         "SURNAME": "Apellidos",
         "DOCUMENT": "DNI",
         "EMAIL": "Email",
-        "PASSWORD": "Contraseña",
-        "REPEAT_PASSWORD": "Repita la contraseña",
+        "OLD_PASSWORD": "Contraseña a cambiar",
+        "NEW_PASSWORD": "Nueva contraseña",
+        "REPEAT_NEW_PASSWORD": "Repita la nueva contraseña",
         "PORCENT_PERMANENT": "Porcentaje gastos fijos: ",
         "PORCENT_PERSONAL": "Porcentaje gastos personales: ",
         "PORCENT_SAVING": "Porcentaje ahorros: ",
-        "REGISTER_ACTION": "Cambiar propiedades",
+        "CHANGE_PROPERTIES_ACTION": "Enviar",
         "PASSWORD_NOT_EQUALS": "Las constraseñas no son iguales",
-        "ERROR_PROCESS_TITLE": "Error en el proceso de registro",
+        "ERROR_PROCESS_TITLE": "Error en el proceso de cambiar propiedades",
         "ERROR_PROCESS_MESSAGE": "Ha ocurrido un error en el proceso de cambiar configuración. Intentelo más tarde o contacte con el administrador.",
         "ERROR_FIREBASE_AUTH_TITLE": "Error conectar Base de Datos",
         "ERROR_FIREBASE_AUTH_MESSAGE": "Ha ocurrido un error al conectar con base de datos. Contacte con el administrador",
@@ -93,7 +94,12 @@
         "ERROR_PORCENT_LESS_THAN_ONE_HUNDRED": "La suma de los porcentajes es menor que 100%. Revisa bien la asignación de porcentajes",
         "DATA_PERSONAL": "Datos personales",
         "DATA_IDENT": "Datos de usuario",
-        "DATA_PORCENT": "Porcentajes de saldo"
+        "DATA_PORCENT": "Porcentajes de saldo",
+        "ERROR_PASSWORD_TITLE": "Error Password",
+        "ERROR_PASSWORD_MESSAGE_1": "Nueva password es igual a la anterior",
+        "ERROR_PASSWORD_MESSAGE_2": "La password a cambiar no es la misma que la password anterior introducida",
+        "ERROR_PASSWORD_MESSAGE_3": "Intrudozca la nueva contraseña repetida de forma correcta",
+        "ERROR_PASSWORD_MESSAGE_4": "No ha introducido la contraseña a cambiar"
     },
     
     "PAYMENT": {
