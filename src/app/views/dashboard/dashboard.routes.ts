@@ -11,6 +11,7 @@ import { AddCategoryComponent } from '../payments/add-category/add-category.comp
 import { UpdatePaymentComponent } from '../payments/update-payment/update-payment.component';
 import { HistoryPaymentComponent } from '../payments/history-payment/history-payment.component';
 import { UpdateCategoryComponent } from '../payments/update-category/update-category.component';
+import { ConfigUserComponent } from '../user/config-user/config-user.component';
 
 
 export const dashboardRoutes: Routes = [
@@ -22,4 +23,5 @@ export const dashboardRoutes: Routes = [
     { path: Constants.CATEGORIES_PATH, component: CategoryComponent },
     { path: Constants.ADD_CATEGORIES_PATH, component: AddCategoryComponent },
     { path: Constants.UPDATE_CATEGORIES_PATH, component: UpdateCategoryComponent },
+    { path: Constants.CONFIG_USER_PATH, component: ConfigUserComponent }
 ];

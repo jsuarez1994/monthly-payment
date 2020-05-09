@@ -19,6 +19,8 @@ import { Constants } from '../shared/Utils/constants';
 // SWEETALERT
 import { SweetAlertIcon } from 'sweetalert2';
 import * as sweetAlert from '../shared/Utils/sweetalert';
+// RXJS
+import { map } from 'rxjs/internal/operators/map';
 
 @Injectable({
   providedIn: 'root',
@@ -74,7 +76,7 @@ export class UserService {
     this.firebaseService
       .doc(`${user.uid}/usuario`)
       .set(user)
-      .then(() => {
+      .then(response => {
         console.log('### VAMOS LOGIN ###');
 
         this.messagesLiterals([
@@ -129,8 +131,17 @@ export class UserService {
   /**
    * Return user loged
    */
-  setUser(user: User) {
-    this.user = user;
+  setUser(uid: string) {
+    this.firebaseService
+        .doc(`${uid}/usuario`)
+        .valueChanges()
+        .pipe(
+          map((item: User) => {
+            this.user = {...item};
+          })
+        ).subscribe(() => {
+          this.storeLoginSuccess(this.user);
+        });
   }
 
   /**

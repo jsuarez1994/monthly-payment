@@ -51,6 +51,9 @@
         "EMAIL": "Email",
         "PASSWORD": "Contraseña",
         "REPEAT_PASSWORD": "Repita la contraseña",
+        "PORCENT_PERMANENT": "Porcentaje gastos fijos: ",
+        "PORCENT_PERSONAL": "Porcentaje gastos personales: ",
+        "PORCENT_SAVING": "Porcentaje ahorros: ",
         "REGISTER_ACTION": "Registrar",
         "LOG_IN": "¿Tienes cuenta?",
         "GO_LOGIN": "Vamos a logearnos",
@@ -60,7 +63,10 @@
         "ERROR_FIREBASE_AUTH_TITLE": "Error conectar Base de Datos",
         "ERROR_FIREBASE_AUTH_MESSAGE": "Ha ocurrido un error al conectar con base de datos. Contacte con el administrador",
         "REGISTER_ACTION_COMPLETE_TITLE": "Registro completado",
-        "REGISTER_ACTION_COMPLETE_MESSAGE": "Has completado el registro del usuario, vamos a logearnos"
+        "REGISTER_ACTION_COMPLETE_MESSAGE": "Has completado el registro del usuario, vamos a logearnos",
+        "ERROR_PORCENT_TITLE": "Error al asignar porcentajes",
+        "ERROR_PORCENT_MORE_THAN_ONE_HUNDRED": "La suma de los porcentajes es mayor que 100%. Revisa bien la asignación de porcentajes",
+        "ERROR_PORCENT_LESS_THAN_ONE_HUNDRED": "La suma de los porcentajes es menor que 100%. Revisa bien la asignación de porcentajes"
     },
 
     

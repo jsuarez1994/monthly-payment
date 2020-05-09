@@ -65,9 +65,7 @@ export class LoginComponent implements OnInit {
     this.userService
       .loginService(user)
       .then((response) => {
-        user.uid = response.user.uid;
-        this.userService.setUser(user);
-        this.storeLoginSuccess(user);
+        this.userService.setUser(response.user.uid);
         console.log('### VAMOS DASHBOARD ###');
         this.paymentService.getAllPayments();
         this.categoryService.getAllCategories();

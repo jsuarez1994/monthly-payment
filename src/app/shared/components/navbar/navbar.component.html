@@ -35,7 +35,7 @@
                     {{ 'NAVBAR.USER' | translate }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownUser">
-                    <a class="dropdown-item" href="#"> <i class="fas fa-sliders-h"></i> {{ 'NAVBAR.SETTINGS' | translate }} </a>
+                    <a class="dropdown-item" routerLink="/config-user"> <i class="fas fa-sliders-h"></i> {{ 'NAVBAR.SETTINGS' | translate }} </a>
                     <a class="dropdown-item" style="cursor: pointer;" (click)="signOut()"> <i class="fas fa-sign-out-alt"></i> {{ 'NAVBAR.SIGN_OUT' | translate }} </a>
                 </div>
             </li>

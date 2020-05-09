@@ -14,8 +14,8 @@ import { PaymentModule } from './views/payments/payment.module'; //NOT REMOVE
 const routes: Routes = [
   { path: Constants.LOGIN_PATH, component: LoginComponent },
   { path: Constants.REGISTER_PATH, component: RegisterComponent },
-  { 
-    path: Constants.DASHBOARD_PATH, 
+  {
+    path: Constants.DASHBOARD_PATH,
     loadChildren: './views/payments/payment.module#PaymentModule'
     //canLoad: [AuthGuardService]
   },

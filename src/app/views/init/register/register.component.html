@@ -1,61 +1,93 @@
 <div class="row">
-    <div class="col-lg-4 col-md-12 col-sm-12"></div>
-    <div class="col-lg-4 col-md-12 col-sm-12">
+    <div class="col-lg-3 col-md-12 col-sm-12"></div>
+    <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="card text-center m-5">
             <h5 class="card-header bg-none text-center font-weight-bold">{{ 'REGISTER.TITLE' | translate | uppercase }}</h5>
             <div class="card-body">
                 <div class="auto-form-wrapper text-left">
                     <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
-                        <!--NAME-->
-                        <div class="form-group">
-                            <label class="label">{{ 'REGISTER.NAME' | translate }}</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="name" required formControlName="name">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <!--NAME-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'REGISTER.NAME' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="name" required formControlName="name">
+                                    </div>
+                                </div>
+        
+                                <!--SURNAME-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'REGISTER.SURNAME' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="surname" required
+                                            formControlName="surname">
+                                    </div>
+                                </div>
+        
+                                <!--DOCUMENT-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'REGISTER.DOCUMENT' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="document" required minlength="9"
+                                            maxlength="9" formControlName="document">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <!--SURNAME-->
-                        <div class="form-group">
-                            <label class="label">{{ 'REGISTER.SURNAME' | translate }}</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="surname" required
-                                    formControlName="surname">
-                            </div>
-                        </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <!--EMAIL-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'REGISTER.EMAIL' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="email" class="form-control" name="email" required formControlName="email">
+                                    </div>
+                                </div>
 
-                        <!--DOCUMENT-->
-                        <div class="form-group">
-                            <label class="label">{{ 'REGISTER.DOCUMENT' | translate }}</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="document" required minlength="9"
-                                    maxlength="9" formControlName="document">
-                            </div>
-                        </div>
+                                <!--PASSWORD-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'REGISTER.PASSWORD' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" name="password" required
+                                            formControlName="password">
+                                    </div>
+                                </div>
 
-                        <!--EMAIL-->
-                        <div class="form-group">
-                            <label class="label">{{ 'REGISTER.EMAIL' | translate }}</label>
-                            <div class="input-group">
-                                <input type="email" class="form-control" name="email" required formControlName="email">
-                            </div>
-                        </div>
+                                <!-- REPEAT PASSWORD-->
+                                <div class="form-group">
+                                    <label class="label">{{ 'REGISTER.REPEAT_PASSWORD' | translate }}</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" name="repeat-password" required
+                                            #repeatPassword>
+                                    </div>
+                                </div>
 
-                        <!--PASSWORD-->
-                        <div class="form-group">
-                            <label class="label">{{ 'REGISTER.PASSWORD' | translate }}</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" name="password" required
-                                    formControlName="password">
-                            </div>
-                        </div>
 
-                        <!-- REPEAT PASSWORD-->
-                        <div class="form-group">
-                            <label class="label">{{ 'REGISTER.REPEAT_PASSWORD' | translate }}</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" name="repeat-password" required
-                                    #repeatPassword>
+                                <!-- PORCENT PERMANENT -->
+                                <div class="form-group">
+                                    <label class="label">{{ 'REGISTER.PORCENT_PERMANENT' | translate }} {{porcentPermanent}}</label>
+                                    <div class="input-group">
+                                        <input type="range" class="custom-range" min="0" max="100" id="porcentPermanent" (change)="changeValuePorcent($event)" formControlName="porcentPaymentPermanent">
+                                    </div>
+                                </div>
+
+                                <!-- PORCENT PERSONAL -->
+                                <div class="form-group">
+                                    <label class="label">{{ 'REGISTER.PORCENT_PERSONAL' | translate }} {{porcentPersonal}}</label>
+                                    <div class="input-group">
+                                        <input type="range" class="custom-range" min="0" max="100" id="porcentPersonal" (change)="changeValuePorcent($event)" formControlName="porcentPaymentPersonal">
+                                    </div>
+                                </div>
+
+                                <!-- PORCENT SAVING -->
+                                <div class="form-group">
+                                    <label class="label">{{ 'REGISTER.PORCENT_SAVING' | translate }} {{porcentSaving}}</label>
+                                    <div class="input-group">
+                                        <input type="range" class="custom-range" min="0" max="100" id="porcentSaving" (change)="changeValuePorcent($event)" formControlName="porcentSaving">
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -78,5 +110,5 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-md-12 col-sm-12"></div>
+    <div class="col-lg-3 col-md-12 col-sm-12"></div>
 </div>

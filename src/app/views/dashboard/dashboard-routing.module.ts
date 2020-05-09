@@ -10,11 +10,11 @@ import { Constants } from '../../shared/Utils/constants';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  { path: Constants.DASHBOARD_PATH, 
-    component: DashboardComponent, 
+  { path: Constants.DASHBOARD_PATH,
+    component: DashboardComponent,
     children: dashboardRoutes,
   }
-]
+];
 
 @NgModule({
   declarations: [],
