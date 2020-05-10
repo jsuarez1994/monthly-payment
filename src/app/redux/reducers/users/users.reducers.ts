@@ -44,6 +44,15 @@ export function userReducer(
     case listUserActions.UPDATE_USER_FAIL:
       return returnStateUPDATE_USER_FAIL(state, action.payload);
 
+    case listUserActions.UPDATE_USER_PASSWORD:
+      return returnStateUPDATE_USER_PASSWORD(state);
+
+    case listUserActions.UPDATE_USER_PASSWORD_SUCCESS:
+      return returnStateUPDATE_USER_PASSWORD_SUCCESS(state, action.payload);
+
+    case listUserActions.UPDATE_USER_PASSWORD_FAIL:
+      return returnStateUPDATE_USER_PASSWORD_FAIL(state, action.payload);
+
     case listUserActions.LOGOUT_USER:
       return returnStateLOGOUT_USER(state);
 
@@ -215,6 +224,60 @@ function returnStateUPDATE_USER_SUCCESS(
  * @param params
  */
 function returnStateUPDATE_USER_FAIL(
+  state: UserState,
+  params: any
+): UserState {
+  console.log('### UPDATE USER FAIL STATE ###');
+  console.log(state);
+  console.log('### UPDATE USER FAIL PARAMS ###');
+  console.log(params);
+  return {
+    ...state,
+    error: params
+  };
+}
+
+/**
+ * Return state to action UPDATE_USER
+ * @param state
+ * @param params
+ */
+function returnStateUPDATE_USER_PASSWORD(state: UserState): UserState {
+  console.log('### UPDATE USER PASSWORD ###');
+  console.log(state);
+  return {
+    ...state,
+    error: null
+  };
+}
+
+/**
+ * Return state to action UPDATE_USER_SUCCESS
+ * @param state
+ * @param params
+ */
+function returnStateUPDATE_USER_PASSWORD_SUCCESS(
+  state: UserState,
+  params: any
+): UserState {
+  console.log('### UPDATE USER SUCCESS STATE ###');
+  console.log(state);
+  console.log('### UPDATE USER SUCCESS PARAMS ###');
+  console.log(params);
+  return {
+    ...state,
+    user: params,
+    authenticated: true,
+    error: null
+  };
+}
+
+/**
+ * Return state to action UPDATE_USER_FAIL
+ * @param state
+ * @param params
+ */
+function returnStateUPDATE_USER_PASSWORD_FAIL(
   state: UserState,
   params: any
 ): UserState {

@@ -144,6 +144,25 @@ export class UserService {
   }
 
   /**
+   * Update password user
+   * @param user
+   */
+  updateUserPasswordService(user: User) {
+    this.storeUpdateUserPassword();
+    return this.firebaseService
+      .doc(`${user.uid}/usuario`)
+      .update({
+        password: user.password,
+      })
+      .then(() => {
+        this.storeUpdateUserPasswordSuccess(user);
+      })
+      .catch(error => {
+        this.storeUpdateUserPasswordFail(error);
+      });
+  }
+
+  /**
    * Log out user
    */
   logOutService() {
@@ -248,6 +267,29 @@ export class UserService {
    */
   private storeUpdateUserFail(error: any) {
     this.store.dispatch(new userActions.UpdateUserFail(error));
+  }
+
+  /**
+   * Call action when update init service
+   */
+  private storeUpdateUserPassword() {
+    this.store.dispatch(new userActions.UpdateUserPassword());
+  }
+
+  /**
+   * Call action when update is OK
+   * @param param
+   */
+  private storeUpdateUserPasswordSuccess(param: User) {
+    this.store.dispatch(new userActions.UpdateUserPasswordSuccess(param));
+  }
+
+  /**
+   * Call action when update is KO
+   * @param error
+   */
+  private storeUpdateUserPasswordFail(error: any) {
+    this.store.dispatch(new userActions.UpdateUserPasswordFail(error));
   }
 
   /**

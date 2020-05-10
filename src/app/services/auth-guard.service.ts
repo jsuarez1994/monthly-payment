@@ -7,6 +7,9 @@ import { map, take } from 'rxjs/operators';
 import { AngularFireAuth } from 'angularfire2/auth';
 // CONSTANTS
 import { Constants } from '../shared/Utils/constants';
+// MODELS
+import { User } from '../models/user.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +17,8 @@ import { Constants } from '../shared/Utils/constants';
 export class AuthGuardService implements CanLoad {
   constructor(
     private router: Router,
-    private firebaseAuthService: AngularFireAuth
+    private firebaseAuthService: AngularFireAuth,
+    private userService: UserService
   ) {}
 
   canLoad() {
@@ -50,4 +54,14 @@ export class AuthGuardService implements CanLoad {
       url: Constants.BASE_PATH,
     });
   }
+
+  /**
+   * Reset password Authentication and 
+   * @param actionCode 
+   * @param user 
+   */
+  resetPasswordAction(actionCode: string, user: User) {
+    return this.firebaseAuthService.auth.confirmPasswordReset(actionCode, user.password);
+  }
+
 }

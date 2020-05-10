@@ -140,7 +140,7 @@ export class ConfigUserComponent implements OnInit {
         this.showMessage(message, Constants.ICON_ERROR);
         return false;
       }
-      
+
   }
 
   /**

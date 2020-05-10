@@ -44,12 +44,26 @@ function validateFormat(map: Map<string, number>): string[] {
 
 function validateValues(map: Map<string, number>): string[] {
 
-    let message: string[] = [];
-
     const porcentPaymentPermanent = map.get('porcentPaymentPermanent');
     const porcentPaymentPersonal = map.get('porcentPaymentPersonal');
     const porcentSaving = map.get('porcentSaving');
 
-
-    return message;
+    if (porcentPaymentPermanent > 50) {
+        return [
+            'COMMONS.ERROR_PORCENT_TITLE',
+            'COMMONS.ERROR_PORCENT_PERMANENT_MORE_THAN_FIFTY',
+        ];
+    } else if (porcentPaymentPersonal > 30) {
+        return [
+            'COMMONS.ERROR_PORCENT_TITLE',
+            'COMMONS.ERROR_PORCENT_PERSONAL_MORE_THAN_THITY',
+        ];
+    } else if (porcentSaving < 20) {
+        return [
+            'COMMONS.ERROR_PORCENT_TITLE',
+            'COMMONS.ERROR_PORCENT_SAVING_LESS_THAN_TWENTY',
+        ];
+    } else {
+        return [];
+    }
 }

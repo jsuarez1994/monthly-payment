@@ -50,6 +50,21 @@ export class UpdateUserSuccess implements Action {
   constructor(public payload: User) {}
 }
 
+// ACTIONS UPDATE
+export class UpdateUserPassword implements Action {
+  readonly type = indexActions.UPDATE_USER_PASSWORD;
+}
+
+export class UpdateUserPasswordFail implements Action {
+  readonly type = indexActions.UPDATE_USER_PASSWORD_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class UpdateUserPasswordSuccess implements Action {
+  readonly type = indexActions.UPDATE_USER_PASSWORD_SUCCESS;
+  constructor(public payload: User) {}
+}
+
 // ACTION LOGOUT
 export class LogoutUser implements Action {
   readonly type = indexActions.LOGOUT_USER;
@@ -65,4 +80,7 @@ export type userActions =
   | UpdateUser
   | UpdateUserSuccess
   | UpdateUserFail
+  | UpdateUserPassword
+  | UpdateUserPasswordSuccess
+  | UpdateUserPasswordFail
   | LogoutUser;

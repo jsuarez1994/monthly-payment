@@ -8,7 +8,7 @@
                     <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
                         <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12">
+                            <div class="col-lg-4 col-md-12 col-sm-12">
                                 <!--NAME-->
                                 <div class="form-group">
                                     <label class="label">{{ 'REGISTER.NAME' | translate }}</label>
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-md-12 col-sm-12">
+                            <div class="col-lg-4 col-md-12 col-sm-12">
                                 <!--EMAIL-->
                                 <div class="form-group">
                                     <label class="label">{{ 'REGISTER.EMAIL' | translate }}</label>
@@ -62,7 +62,10 @@
                                             #repeatPassword>
                                     </div>
                                 </div>
+                            </div>
 
+                            <div class="col-lg-4 col-md-12 col-sm-12">    
+                                <p class="text-muted text-justify"> {{ 'REGISTER.DATA_PORCENT_EXPLICATION' | translate }} </p>
 
                                 <!-- PORCENT PERMANENT -->
                                 <div class="form-group">
@@ -87,7 +90,6 @@
                                         <input type="range" class="custom-range" min="0" max="100" id="porcentSaving" (change)="changeValuePorcent($event)" formControlName="porcentSaving">
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 

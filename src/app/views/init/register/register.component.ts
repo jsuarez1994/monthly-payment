@@ -15,6 +15,8 @@ import * as literals from '../../../shared/Utils/literals';
 // SWEET ALERT
 import * as sweetAlert from '../../../shared/Utils/sweetalert';
 import { SweetAlertIcon } from 'sweetalert2';
+// UTILS
+import * as validatePorcent from '../../../shared/Utils/validtePorcent';
 
 @Component({
   selector: 'app-register',
@@ -68,9 +70,9 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.minLength(6),
       ]),
-      porcentPaymentPermanent: new FormControl(50, [Validators.required, Validators.max(100)]),
-      porcentPaymentPersonal: new FormControl(30, [Validators.required, Validators.max(100)]),
-      porcentSaving: new FormControl(20, [Validators.required, Validators.max(100)])
+      porcentPaymentPermanent: new FormControl(50, [Validators.required, Validators.max(50)]),
+      porcentPaymentPersonal: new FormControl(30, [Validators.required, Validators.max(30)]),
+      porcentSaving: new FormControl(20, [Validators.required, Validators.min(20)])
     });
   }
 
@@ -99,19 +101,19 @@ export class RegisterComponent implements OnInit {
    * Valid value of porcents
    */
   validPocents(): boolean {
+      const mapPorcent: Map<string, number> = new Map<string, number>();
+      mapPorcent.set('porcentPaymentPermanent', this.form.value.porcentPaymentPermanent);
+      mapPorcent.set('porcentPaymentPersonal', this.form.value.porcentPaymentPersonal);
+      mapPorcent.set('porcentSaving', this.form.value.porcentSaving);
 
-    const sumPorcents = this.form.value.porcentPaymentPermanent + this.form.value.porcentPaymentPersonal + this.form.value.porcentSaving;
+      const message = validatePorcent.validatePorcent(mapPorcent);
 
-    if (sumPorcents > 100) {
-      this.showMessage(['REGISTER.ERROR_PORCENT_TITLE', 'REGISTER.ERROR_PORCENT_MORE_THAN_ONE_HUNDRED'], Constants.ICON_ERROR);
-      return false;
-    } else if (sumPorcents < 100) {
-      this.showMessage(['REGISTER.ERROR_PORCENT_TITLE', 'REGISTER.ERROR_PORCENT_LESS_THAN_ONE_HUNDRED'], Constants.ICON_ERROR);
-      return false;
-    } else {
-      return true;
-    }
-
+      if (message.length === 0) {
+        return true;
+      } else {
+        this.showMessage(message, Constants.ICON_ERROR);
+        return false;
+      }
   }
 
   /**
