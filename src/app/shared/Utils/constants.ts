@@ -28,4 +28,8 @@ export class Constants {
     public static UPDATE_CATEGORIES_PATH = 'update-categories/:uid';
     public static CATEGORIES_PATH = 'categories';
     public static CONFIG_USER_PATH = 'config-user';
+    public static RESET_PASSWORD_PATH = 'reset-password';
+
+    public static BASE_PATH = 'http://localhost:4200/';
+    // public static BASE_PATH = 'http://localhost:4200/'; BASE PRODUCTION
 }

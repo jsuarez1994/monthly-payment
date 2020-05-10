@@ -5,16 +5,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 // TRANSLATE
 import { TranslateService } from '@ngx-translate/core';
+import * as literals from '../../../shared/Utils/literals';
 // MODELS
 import { User } from '../../../models/user.model';
 // SERVICES
 import { UserService } from '../../../services/user.service';
+import { AuthGuardService } from '../../../services/auth-guard.service';
 // CONSTANTS
 import { Constants } from '../../../shared/Utils/constants';
-import * as literals from '../../../shared/Utils/literals';
 // SWEET ALERT
 import * as sweetAlert from '../../../shared/Utils/sweetalert';
 import { SweetAlertIcon } from 'sweetalert2';
+// UTILS
+import * as validatePorcent from '../../../shared/Utils/validtePorcent';
 
 @Component({
   selector: 'app-config-user',
@@ -43,7 +46,8 @@ export class ConfigUserComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthGuardService
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
   }
@@ -82,15 +86,15 @@ export class ConfigUserComponent implements OnInit {
       password: new FormControl('', Validators.minLength(6)),
       porcentPaymentPermanent: new FormControl(
         this.user.porcentPaymentPermanent,
-        [Validators.required, Validators.max(100)]
+        [Validators.required, Validators.max(50)]
       ),
       porcentPaymentPersonal: new FormControl(
         this.user.porcentPaymentPersonal,
-        [Validators.required, Validators.max(100)]
+        [Validators.required, Validators.max(30)]
       ),
       porcentSaving: new FormControl(this.user.porcentSaving, [
         Validators.required,
-        Validators.max(100),
+        Validators.min(20),
       ]),
     });
   }
@@ -101,121 +105,54 @@ export class ConfigUserComponent implements OnInit {
   onSubmit() {
     this.load = true;
     if (this.validPocents()) {
-      if (this.validPassword()) {
-        // Call store to dispatch service user
-        const user: User = { ...this.form.value };
-        /*this.userService.updateUserService(user)
+      // Call store to dispatch service user
+      this.setValuesForm();
+      this.userService.updateUserService(this.user)
         .then(() => {
           const message = this.LiteralClass.getLiterals(['CONFIG-USER.CHANGE_PROPERTIES_ACTION_COMPLETE_SUCCESS'])
           .get('CONFIG-USER.CHANGE_PROPERTIES_ACTION_COMPLETE_SUCCESS');
           sweetAlert.toastMessage(message, Constants.ICON_SUCCESS);
-          this.form.reset();
         })
         .catch(error => {
           const message = this.LiteralClass.getLiterals(['CONFIG-USER.CHANGE_PROPERTIES_ACTION_COMPLETE_ERROR'])
           .get('CONFIG-USER.CHANGE_PROPERTIES_ACTION_COMPLETE_ERROR');
           sweetAlert.toastMessage(message, Constants.ICON_ERROR);
-        });*/
-      } else {
-        // EMPTY VALUES PASWORD
-        this.form.value.password = '';
-        this.newPassword.nativeElement.value = '';
-        this.oldPassword.nativeElement.value = '';
-        this.repeatPassword.nativeElement.value = '';
-      }
+        });
     }
     this.load = false;
-  }
-
-  /**
-   * Valid if want change password
-   */
-  validPassword() {
-    if (this.form.value.password === '') {
-      return true;
-    } else if (this.form.value.password === this.user.password) {
-      // MENSAJE NUEVA PASSWORD IGUAL ANTERIOR
-      this.showMessage(
-        [
-          'CONFIG-USER.ERROR_PASSWORD_TITLE',
-          'CONFIG-USER.ERROR_PASSWORD_MESSAGE_1',
-        ],
-        Constants.ICON_ERROR
-      );
-      return false;
-    } else if (this.oldPassword.nativeElement.value !== this.user.password) {
-      // MENSAJE PASSWORD ANTERIOR NO ES IGUAL
-      this.showMessage(
-        [
-          'CONFIG-USER.ERROR_PASSWORD_TITLE',
-          'CONFIG-USER.ERROR_PASSWORD_MESSAGE_2',
-        ],
-        Constants.ICON_ERROR
-      );
-      return false;
-    } else if (
-      this.repeatPassword.nativeElement.value !== this.form.value.password
-    ) {
-      // MENSAJE CONTRASEÑA REPETIDA NO COINCIDE
-      this.showMessage(
-        [
-          'CONFIG-USER.ERROR_PASSWORD_TITLE',
-          'CONFIG-USER.ERROR_PASSWORD_MESSAGE_3',
-        ],
-        Constants.ICON_ERROR
-      );
-      return false;
-    } else if (
-      this.form.value.password !== '' &&
-      this.oldPassword.nativeElement.value === ''
-    ) {
-      // MENSAJE PUESTA CONTRASEÑA NUEVA PERO NO ANTIGUA
-      this.showMessage(
-        [
-          'CONFIG-USER.ERROR_PASSWORD_TITLE',
-          'CONFIG-USER.ERROR_PASSWORD_MESSAGE_4',
-        ],
-        Constants.ICON_ERROR
-      );
-      return false;
-    } else if (
-      this.oldPassword.nativeElement.value === this.user.password &&
-      this.form.value.password === this.repeatPassword.nativeElement.value
-    ) {
-      return true;
-    }
   }
 
   /**
    * Valid value of porcents
    */
   validPocents(): boolean {
-    const sumPorcents =
-      this.form.value.porcentPaymentPermanent +
-      this.form.value.porcentPaymentPersonal +
-      this.form.value.porcentSaving;
 
-    if (sumPorcents > 100) {
-      this.showMessage(
-        [
-          'CONFIG-USER.ERROR_PORCENT_TITLE',
-          'CONFIG-USER.ERROR_PORCENT_MORE_THAN_ONE_HUNDRED',
-        ],
-        Constants.ICON_ERROR
-      );
-      return false;
-    } else if (sumPorcents < 100) {
-      this.showMessage(
-        [
-          'CONFIG-USER.ERROR_PORCENT_TITLE',
-          'CONFIG-USER.ERROR_PORCENT_LESS_THAN_ONE_HUNDRED',
-        ],
-        Constants.ICON_ERROR
-      );
-      return false;
-    } else {
-      return true;
-    }
+      const mapPorcent: Map<string, number> = new Map<string, number>();
+      mapPorcent.set('porcentPaymentPermanent', this.form.value.porcentPaymentPermanent);
+      mapPorcent.set('porcentPaymentPersonal', this.form.value.porcentPaymentPersonal);
+      mapPorcent.set('porcentSaving', this.form.value.porcentSaving);
+
+      const message = validatePorcent.validatePorcent(mapPorcent);
+
+      if (message.length === 0) {
+        return true;
+      } else {
+        this.showMessage(message, Constants.ICON_ERROR);
+        return false;
+      }
+      
+  }
+
+  /**
+   * Prepare user model to update
+   */
+  setValuesForm() {
+    this.user.name = this.form.value.name;
+    this.user.surname = this.form.value.surname;
+    this.user.document = this.form.value.document;
+    this.user.porcentPaymentPermanent = this.form.value.porcentPaymentPermanent;
+    this.user.porcentPaymentPersonal = this.form.value.porcentPaymentPersonal;
+    this.user.porcentSaving = this.form.value.porcentSaving;
   }
 
   /**
@@ -241,6 +178,29 @@ export class ConfigUserComponent implements OnInit {
         break;
     }
   }
+
+
+  /**
+   * Reset password step
+   */
+  resetPassword() {
+    console.log(' ### RESET ### ');
+    this.authService.resetPasswordInit(this.user.email)
+    .then(() => {
+      const message = this.LiteralClass.getLiterals(['CONFIG-USER.SEND_EMAIL_RESET_PASSWORD'])
+                      .get('CONFIG-USER.SEND_EMAIL_RESET_PASSWORD')
+                      .concat(this.user.email);
+      sweetAlert.toastMessage(message, Constants.ICON_INFO);
+    })
+    .catch(error => {
+      console.log(error);
+      const message = this.LiteralClass.getLiterals(['CONFIG-USER.SEND_EMAIL_RESET_PASSWORD_ERROR'])
+                      .get('CONFIG-USER.SEND_EMAIL_RESET_PASSWORD_ERROR');
+      sweetAlert.toastMessage(message, Constants.ICON_ERROR);
+
+    });
+  }
+
 
   /**
    * Show message by Messages

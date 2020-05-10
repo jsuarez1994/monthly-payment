@@ -10,7 +10,10 @@
         "DELETE_OPERATION_SUCCESS": "Registro eliminado",
         "DELETE_OPERATION_SUCCESS_MESSAGE": "Eliminación realizada con éxito",
         "DELETE_OPERATION_CANCELED": "Operación cancelada",
-        "DELETE_OPERATION_CANCELED_MESSAGE": "Se ha cancelado la operación"
+        "DELETE_OPERATION_CANCELED_MESSAGE": "Se ha cancelado la operación",
+        "ERROR_PORCENT_TITLE": "Error al asignar porcentajes",
+        "ERROR_PORCENT_MORE_THAN_ONE_HUNDRED": "La suma de los porcentajes es mayor que 100%. Revisa bien la asignación de porcentajes",
+        "ERROR_PORCENT_LESS_THAN_ONE_HUNDRED": "La suma de los porcentajes es menor que 100%. Revisa bien la asignación de porcentajes"
     },
 
     "NAVBAR": {
@@ -71,6 +74,7 @@
 
     "CONFIG-USER": {
         "TITLE": "Configuración de usuario",
+        "TITLE_RESET_PASSWORD": "Cambiar password",
         "NAME": "Nombre",
         "SURNAME": "Apellidos",
         "DOCUMENT": "DNI",
@@ -82,6 +86,7 @@
         "PORCENT_PERSONAL": "Porcentaje gastos personales: ",
         "PORCENT_SAVING": "Porcentaje ahorros: ",
         "CHANGE_PROPERTIES_ACTION": "Enviar",
+        "RESET_PASSWORD_ACTION": "Cambiar",
         "PASSWORD_NOT_EQUALS": "Las constraseñas no son iguales",
         "ERROR_PROCESS_TITLE": "Error en el proceso de cambiar propiedades",
         "ERROR_PROCESS_MESSAGE": "Ha ocurrido un error en el proceso de cambiar configuración. Intentelo más tarde o contacte con el administrador.",
@@ -89,11 +94,10 @@
         "ERROR_FIREBASE_AUTH_MESSAGE": "Ha ocurrido un error al conectar con base de datos. Contacte con el administrador",
         "CHANGE_PROPERTIES_ACTION_COMPLETE_SUCCESS": "Cambio de propiedades completado",
         "CHANGE_PROPERTIES_ACTION_COMPLETE_ERROR": "Ha habido un error al cambiar propiedades, revisa los datos",
-        "ERROR_PORCENT_TITLE": "Error al asignar porcentajes",
-        "ERROR_PORCENT_MORE_THAN_ONE_HUNDRED": "La suma de los porcentajes es mayor que 100%. Revisa bien la asignación de porcentajes",
-        "ERROR_PORCENT_LESS_THAN_ONE_HUNDRED": "La suma de los porcentajes es menor que 100%. Revisa bien la asignación de porcentajes",
         "DATA_PERSONAL": "Datos personales",
-        "DATA_IDENT": "Datos de usuario",
+        "RESET_PASSWORD_BUTTON": "Resetear password",
+        "SEND_EMAIL_RESET_PASSWORD": "Se ha enviado un correo de verificación a ",
+        "SEND_EMAIL_RESET_PASSWORD_ERROR": "Ha ocurrido un error en el proceso de resetear la password. Intentelo de nuevo o contacte con el administrador",
         "DATA_PORCENT": "Porcentajes de saldo",
         "ERROR_PASSWORD_TITLE": "Error Password",
         "ERROR_PASSWORD_MESSAGE_1": "Nueva password es igual a la anterior",

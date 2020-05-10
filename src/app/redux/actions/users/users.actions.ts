@@ -35,6 +35,22 @@ export class RegisterUserSuccess implements Action {
   constructor(public payload: User) {}
 }
 
+// ACTIONS UPDATE
+export class UpdateUser implements Action {
+  readonly type = indexActions.UPDATE_USER;
+}
+
+export class UpdateUserFail implements Action {
+  readonly type = indexActions.UPDATE_USER_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class UpdateUserSuccess implements Action {
+  readonly type = indexActions.UPDATE_USER_SUCCESS;
+  constructor(public payload: User) {}
+}
+
+// ACTION LOGOUT
 export class LogoutUser implements Action {
   readonly type = indexActions.LOGOUT_USER;
 }
@@ -46,4 +62,7 @@ export type userActions =
   | RegisterUser
   | RegisterUserFail
   | RegisterUserSuccess
+  | UpdateUser
+  | UpdateUserSuccess
+  | UpdateUserFail
   | LogoutUser;

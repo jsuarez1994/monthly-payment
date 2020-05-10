@@ -8,7 +8,7 @@
                     <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
                         <div class="row">
-                            <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="col-lg-6 col-md-12 col-sm-12">
 
                                 <h6 class="text-muted text-center">{{ 'CONFIG-USER.DATA_PERSONAL' | translate | uppercase }}</h6>
 
@@ -37,50 +37,15 @@
                                             maxlength="9" formControlName="document">
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                <!--BUTTON RESET PASSWORD-->
+                                <button class="btn btn-danger submit-btn btn-block mb-5" (click)="resetPassword()"
+                                type="button">{{ 'CONFIG-USER.RESET_PASSWORD_BUTTON' | translate | uppercase }}</button>
 
-                                <h6 class="text-muted text-center">{{ 'CONFIG-USER.DATA_IDENT' | translate | uppercase }}</h6>
-
-                                <!--EMAIL-->
-                                <div class="form-group">
-                                    <label class="label">{{ 'CONFIG-USER.EMAIL' | translate }}</label>
-                                    <div class="input-group">
-                                        <input type="email" class="form-control" name="email" required disabled formControlName="email">
-                                    </div>
-                                </div>
-
-                                <!--OLD PASSWORD-->
-                                <div class="form-group">
-                                    <label class="label">{{ 'CONFIG-USER.OLD_PASSWORD' | translate }}</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" name="password"
-                                            #oldPassword>
-                                    </div>
-                                </div>
-
-                                <!--NEW PASSWORD-->
-                                <div class="form-group">
-                                    <label class="label">{{ 'CONFIG-USER.NEW_PASSWORD' | translate }}</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" name="password"
-                                            formControlName="password" #newPassword>
-                                    </div>
-                                </div>
-
-                                <!-- REPEAT PASSWORD-->
-                                <div class="form-group">
-                                    <label class="label">{{ 'CONFIG-USER.REPEAT_NEW_PASSWORD' | translate }}</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" name="repeat-password"
-                                            #repeatPassword>
-                                    </div>
-                                </div>
                             </div>    
 
 
-                            <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="col-lg-6 col-md-12 col-sm-12">
 
                                 <h6 class="text-muted text-center">{{ 'CONFIG-USER.DATA_PORCENT' | translate | uppercase }}</h6>
 
@@ -88,7 +53,7 @@
                                 <div class="form-group">
                                     <label class="label">{{ 'CONFIG-USER.PORCENT_PERMANENT' | translate }} {{porcentPermanent}}</label>
                                     <div class="input-group">
-                                        <input type="range" class="custom-range" min="0" max="100" id="porcentPermanent" (change)="changeValuePorcent($event)" formControlName="porcentPaymentPermanent">
+                                        <input type="range" class="custom-range" min="0" max="50" id="porcentPermanent" (change)="changeValuePorcent($event)" formControlName="porcentPaymentPermanent">
                                     </div>
                                 </div>
 
@@ -96,7 +61,7 @@
                                 <div class="form-group">
                                     <label class="label">{{ 'CONFIG-USER.PORCENT_PERSONAL' | translate }} {{porcentPersonal}}</label>
                                     <div class="input-group">
-                                        <input type="range" class="custom-range" min="0" max="100" id="porcentPersonal" (change)="changeValuePorcent($event)" formControlName="porcentPaymentPersonal">
+                                        <input type="range" class="custom-range" min="0" max="30" id="porcentPersonal" (change)="changeValuePorcent($event)" formControlName="porcentPaymentPersonal">
                                     </div>
                                 </div>
 
@@ -104,7 +69,7 @@
                                 <div class="form-group">
                                     <label class="label">{{ 'CONFIG-USER.PORCENT_SAVING' | translate }} {{porcentSaving}}</label>
                                     <div class="input-group">
-                                        <input type="range" class="custom-range" min="0" max="100" id="porcentSaving" (change)="changeValuePorcent($event)" formControlName="porcentSaving">
+                                        <input type="range" class="custom-range" min="20" max="100" id="porcentSaving" (change)="changeValuePorcent($event)" formControlName="porcentSaving">
                                     </div>
                                 </div>
 
@@ -114,7 +79,7 @@
                         <!-- BOTONS -->
                         <div class="form-group">
                             <button *ngIf="!load" [disabled]="form.invalid" class="btn btn-primary submit-btn btn-block"
-                                type="submit">{{ 'CONFIG-USER.CHANGE_PROPERTIES_ACTION' | translate }}</button>
+                                type="submit">{{ 'CONFIG-USER.CHANGE_PROPERTIES_ACTION' | translate | uppercase }}</button>
                             <button *ngIf="load" [disabled]="form.invalid"
                                 class="btn btn-warning submit-btn btn-block">{{ 'COMMONS.IN_PROCESS' | translate }}</button>
                         </div>

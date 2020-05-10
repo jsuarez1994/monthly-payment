@@ -12,6 +12,7 @@ import { UpdatePaymentComponent } from '../payments/update-payment/update-paymen
 import { HistoryPaymentComponent } from '../payments/history-payment/history-payment.component';
 import { UpdateCategoryComponent } from '../payments/update-category/update-category.component';
 import { ConfigUserComponent } from '../payments/config-user/config-user.component';
+import { ResetPasswordComponent } from '../payments/reset-password/reset-password.component';
 
 
 export const dashboardRoutes: Routes = [
@@ -23,5 +24,6 @@ export const dashboardRoutes: Routes = [
     { path: Constants.CATEGORIES_PATH, component: CategoryComponent },
     { path: Constants.ADD_CATEGORIES_PATH, component: AddCategoryComponent },
     { path: Constants.UPDATE_CATEGORIES_PATH, component: UpdateCategoryComponent },
-    { path: Constants.CONFIG_USER_PATH, component: ConfigUserComponent }
+    { path: Constants.CONFIG_USER_PATH, component: ConfigUserComponent },
+    { path: Constants.RESET_PASSWORD_PATH, component: ResetPasswordComponent }
 ];

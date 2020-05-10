@@ -15,6 +15,7 @@ import { CategoryComponent } from './category/category.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { UpdateCategoryComponent } from './update-category/update-category.component';
 import { ConfigUserComponent } from './config-user/config-user.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ConfigUserComponent } from './config-user/config-user.component';
     HistoryPaymentComponent,
     UpdateCategoryComponent,
     ConfigUserComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     CommonModule,

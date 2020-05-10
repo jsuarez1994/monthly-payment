@@ -21,6 +21,7 @@ import { SweetAlertIcon } from 'sweetalert2';
 import * as sweetAlert from '../shared/Utils/sweetalert';
 // RXJS
 import { map } from 'rxjs/internal/operators/map';
+import { error } from 'protractor';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +45,6 @@ export class UserService {
    * @param user
    */
   registerService(user: User) {
-
     this.storeRegister();
 
     // Register to authentication
@@ -58,10 +58,13 @@ export class UserService {
       .catch((error) => {
         console.error('### ERROR: ' + error.message + ' ###');
 
-        this.messagesLiterals([
-          'REGISTER.ERROR_FIREBASE_AUTH_TITLE',
-          'REGISTER.ERROR_FIREBASE_AUTH_MESSAGE',
-        ], Constants.ICON_ERROR);
+        this.messagesLiterals(
+          [
+            'REGISTER.ERROR_FIREBASE_AUTH_TITLE',
+            'REGISTER.ERROR_FIREBASE_AUTH_MESSAGE',
+          ],
+          Constants.ICON_ERROR
+        );
 
         this.storeRegisterFail(error);
       });
@@ -76,13 +79,16 @@ export class UserService {
     this.firebaseService
       .doc(`${user.uid}/usuario`)
       .set(user)
-      .then(response => {
+      .then((response) => {
         console.log('### VAMOS LOGIN ###');
 
-        this.messagesLiterals([
-          'REGISTER.REGISTER_ACTION_COMPLETE_TITLE',
-          'REGISTER.REGISTER_ACTION_COMPLETE_MESSAGE',
-        ], Constants.ICON_SUCCESS);
+        this.messagesLiterals(
+          [
+            'REGISTER.REGISTER_ACTION_COMPLETE_TITLE',
+            'REGISTER.REGISTER_ACTION_COMPLETE_MESSAGE',
+          ],
+          Constants.ICON_SUCCESS
+        );
 
         this.router.navigate([Constants.LOGIN_PATH]);
 
@@ -91,11 +97,11 @@ export class UserService {
       .catch((error) => {
         console.error('### ERROR: ' + error.message + ' ###');
 
-        this.messagesLiterals([
-          'REGISTER.ERROR_PROCESS_TITLE',
-          'REGISTER.ERROR_PROCESS_MESSAGE',
-        ], Constants.ICON_ERROR);
-        
+        this.messagesLiterals(
+          ['REGISTER.ERROR_PROCESS_TITLE', 'REGISTER.ERROR_PROCESS_MESSAGE'],
+          Constants.ICON_ERROR
+        );
+
         this.storeRegisterFail(error);
       });
   }
@@ -107,24 +113,34 @@ export class UserService {
   loginService(user: User) {
     this.storeLogin();
 
-    return this.firebaseAuthService.auth
-      .signInWithEmailAndPassword(user.email, user.password);
+    return this.firebaseAuthService.auth.signInWithEmailAndPassword(
+      user.email,
+      user.password
+    );
   }
 
-  updateUserService(user: User, oldPassword: string, obCode: string) {
-    this.firebaseAuthService.auth.confirmPasswordReset(obCode, user.password)
-    .then(() => {
-      return this.updateUserAction(user, oldPassword);
-    })
-    .catch(error => {
-      const literal = this.LiteralClass.getLiterals(['CONFIG-USER.ERROR_PROCESS_TITLE'])
-                      .get('CONFIG-USER.ERROR_PROCESS_TITLE');
-      sweetAlert.toastMessage(literal, Constants.ICON_ERROR);
-    });
-  }
-
-  private updateUserAction(user, oldPassword) {
-
+  /**
+   * Update data user
+   * @param user
+   */
+  updateUserService(user: User) {
+    this.storeUpdateUser();
+    return this.firebaseService
+      .doc(`${user.uid}/usuario`)
+      .update({
+        name: user.name,
+        surname: user.surname,
+        document: user.document,
+        porcentPaymentPermanent: user.porcentPaymentPermanent,
+        porcentPaymentPersonal: user.porcentPaymentPersonal,
+        porcentSaving: user.porcentSaving,
+      })
+      .then(() => {
+        this.storeUpdateUserSuccess(user);
+      })
+      .catch(error => {
+        this.storeUpdateUserFail(error);
+      });
   }
 
   /**
@@ -147,23 +163,38 @@ export class UserService {
    * Return user loged
    */
   setUser(uid: string) {
-    this.firebaseService
-        .doc(`${uid}/usuario`)
-        .valueChanges()
-        .pipe(
-          map((item: User) => {
-            this.user = {...item};
-          })
-        ).subscribe(() => {
-          this.storeLoginSuccess(this.user);
-        });
+    return this.firebaseService
+      .doc(`${uid}/usuario`)
+      .valueChanges()
+      .pipe(
+        map((item: User) => {
+          this.user = { ...item };
+        })
+      )
+      .subscribe(() => {
+        this.storeLoginSuccess(this.user);
+      });
+  }
+
+  /**
+   * Return user loged when reset password
+   */
+  setUserAlreadyLoged(uid: string) {
+    return this.firebaseService
+      .doc(`${uid}/usuario`)
+      .valueChanges()
+      .pipe(
+        map((item: User) => {
+          this.user = { ...item };
+        })
+      );
   }
 
   /**
    * Show message by literals
    * @param literals
    */
-  private messagesLiterals(literals: string[], icon:SweetAlertIcon ) {
+  private messagesLiterals(literals: string[], icon: SweetAlertIcon) {
     const mapLiterals = this.LiteralClass.getLiterals(literals);
 
     sweetAlert.showMessage(
@@ -176,53 +207,76 @@ export class UserService {
   /**
    * Call action when register init service
    */
-  private storeRegister(){
+  private storeRegister() {
     this.store.dispatch(new userActions.RegisterUser());
   }
 
   /**
    * Call action when register is OK
-   * @param param 
+   * @param param
    */
-  private storeRegisterSuccess(param: User){
+  private storeRegisterSuccess(param: User) {
     this.store.dispatch(new userActions.RegisterUserSuccess(param));
   }
 
   /**
    * Call action when register is KO
-   * @param error 
+   * @param error
    */
-  private storeRegisterFail(error: any){
+  private storeRegisterFail(error: any) {
     this.store.dispatch(new userActions.RegisterUserFail(error));
+  }
+
+  /**
+   * Call action when update init service
+   */
+  private storeUpdateUser() {
+    this.store.dispatch(new userActions.UpdateUser());
+  }
+
+  /**
+   * Call action when update is OK
+   * @param param
+   */
+  private storeUpdateUserSuccess(param: User) {
+    this.store.dispatch(new userActions.UpdateUserSuccess(param));
+  }
+
+  /**
+   * Call action when update is KO
+   * @param error
+   */
+  private storeUpdateUserFail(error: any) {
+    this.store.dispatch(new userActions.UpdateUserFail(error));
   }
 
   /**
    * Call action when register init service
    */
-  private storeLogin(){
+  private storeLogin() {
     this.store.dispatch(new userActions.LoginUser());
   }
 
   /**
    * Call action when register is OK
-   * @param param 
+   * @param param
    */
-  private storeLoginSuccess(param: User){
+  private storeLoginSuccess(param: User) {
     this.store.dispatch(new userActions.LoginUserSuccess(param));
   }
 
   /**
    * Call action when register is KO
-   * @param error 
+   * @param error
    */
-  private storeLoginFail(error: any){
+  private storeLoginFail(error: any) {
     this.store.dispatch(new userActions.LoginUserFail(error));
   }
 
   /**
    * Call action when log out
    */
-  private storeLogout(){
+  private storeLogout() {
     this.store.dispatch(new userActions.LogoutUser());
   }
 }
