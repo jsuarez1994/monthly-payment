@@ -65,11 +65,13 @@ export class LoginComponent implements OnInit {
     this.userService
       .loginService(user)
       .then((response) => {
-        this.userService.setUser(response.user.uid);
-        console.log('### VAMOS DASHBOARD ###');
-        this.paymentService.getAllPayments();
-        this.categoryService.getAllCategories();
-        this.router.navigate([Constants.DASHBOARD_PATH]);
+        this.userService.setUser(response.user.uid)
+        .subscribe(() => {
+          console.log('### VAMOS DASHBOARD ###');
+          this.paymentService.getAllPayments();
+          this.categoryService.getAllCategories();
+          this.router.navigate([Constants.DASHBOARD_PATH]);
+        });
       })
       .catch((error) => {
         console.error('### ERROR: ' + error.message + ' ###');

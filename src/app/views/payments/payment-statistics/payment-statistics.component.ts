@@ -4,6 +4,7 @@ import { Constants } from '../../../shared/Utils/constants';
 // ROUTER
 import { Router } from '@angular/router';
 // MODELS
+import { User } from '../../../models/user.model';
 import { Payment } from 'src/app/models/payment.model';
 import { ObjectiveTable } from 'src/app/models/objective-table.model';
 import { RealTable } from '../../../models/real-table.model';
@@ -16,6 +17,8 @@ import * as utils from '../../../shared/Utils/utils';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../redux/app.reducers';
 import { Subscription } from 'rxjs';
+// SERVICES
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-payment-statistics',
@@ -41,16 +44,24 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
   objectiveValue: ObjectiveTable;
   // VALUES TABLE OBJECTIVE
   realValues: RealTable[] = [];
+  // USER
+  user: User;
 
   constructor(
     private store: Store<AppState>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private userService: UserService
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
   }
 
   ngOnInit(): void {
+    this.getUser();
     this.getAllPayments();
+  }
+
+  getUser() {
+    this.user = this.userService.getUser();
   }
 
   ngOnDestroy() {
@@ -103,13 +114,13 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
     // FUTURE VARIABLE
     const savingHeader = headersValue
       .get('STATISTICS-PAYMENT.SAVING')
-      .replace('<SAVING_PORCERT>', '20%');
+      .replace('<SAVING_PORCERT>', String(this.user.porcentSaving).concat('%'));
     const perExpensiveHeader = headersValue
       .get('STATISTICS-PAYMENT.PERSONAL_EXPENSIVE')
-      .replace('<PERS_EXPENSIVE_PORCERT>', '30%');
+      .replace('<PERS_EXPENSIVE_PORCERT>', String(this.user.porcentPaymentPersonal).concat('%'));
     const permExpensivegHeader = headersValue
       .get('STATISTICS-PAYMENT.PERMANENT_EXPENSIVE')
-      .replace('<PERM_EXPENSIVE_PORCERT>', '50%');
+      .replace('<PERM_EXPENSIVE_PORCERT>', String(this.user.porcentPaymentPermanent).concat('%'));
 
     this.headersObjective = [
       {
@@ -153,7 +164,12 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
       const averageEntry =
         paymentsByFilter.reduce((sum, item) => sum + item.quantity, 0) /
         this.getMonthWithGainsInYearSelect();
-      this.objectiveValue = new ObjectiveTable(averageEntry);
+      this.objectiveValue = new ObjectiveTable(
+        averageEntry,
+        this.user.porcentSaving,
+        this.user.porcentPaymentPermanent,
+        this.user.porcentPaymentPersonal
+      );
     }
   }
 
@@ -314,7 +330,10 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
         plusGains,
         monthSaveReal,
         personalExpensive,
-        permanentExpensive
+        permanentExpensive,
+        this.user.porcentSaving,
+        this.user.porcentPaymentPermanent,
+        this.user.porcentPaymentPersonal
       );
       this.realValues.push(dataReal);
     });

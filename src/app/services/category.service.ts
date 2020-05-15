@@ -208,15 +208,11 @@ export class CategoryService {
     // MOCK
     /*let list: Category[] = [];
 
-    let cat1: Category = new Category('Alquiler', 'Fijo', 'Gasto'); 
-    cat1.uid = 'UID1';
-    let cat2: Category = new Category('Coche', 'Personal', 'Gasto'); 
-    cat2.uid = 'UID1';
-    let cat3: Category = new Category('Luz', 'Fijo', 'Gasto'); 
-    cat3.uid = 'UID1';
-    let cat4: Category = new Category('Sueldo', 'Fijo', 'Ganancia'); 
-    cat4.uid = 'UID1';
-    
+    let cat1: Category = new Category('UID1', 'Alquiler', 'Fijo', 'Gasto');
+    let cat2: Category = new Category('UID2', 'Coche', 'Personal', 'Gasto');
+    let cat3: Category = new Category('UID3', 'Luz', 'Fijo', 'Gasto');
+    let cat4: Category = new Category('UID4', 'Sueldo', 'Fijo', 'Ganancia');
+
     list.push(cat1);
     list.push(cat2);
     list.push(cat3);

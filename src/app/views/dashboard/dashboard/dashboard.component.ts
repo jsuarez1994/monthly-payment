@@ -26,9 +26,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // IF USER IS AUTHENTICATED
     this.sub = this.store.select('user').subscribe((response) => {
-      if (response.authenticated) {
-        console.log(' ### AUTHENTICATED ### ');
-      } else {
+      if (!response.authenticated) {
         console.log(' ### NOT AUTHENTICATED ### ');
         // NAVIGATO TO UPDATE PAYMENT
         this.router.navigate(['/'.concat(Constants.LOGIN_PATH)]);

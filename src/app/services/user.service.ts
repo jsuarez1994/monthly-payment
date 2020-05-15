@@ -188,11 +188,9 @@ export class UserService {
       .pipe(
         map((item: User) => {
           this.user = { ...item };
+          this.storeLoginSuccess(this.user);
         })
-      )
-      .subscribe(() => {
-        this.storeLoginSuccess(this.user);
-      });
+      );
   }
 
   /**

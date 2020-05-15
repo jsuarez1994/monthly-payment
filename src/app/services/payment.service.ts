@@ -63,14 +63,14 @@ export class PaymentService {
         this.addItemList({ ...payment, uid: itemSave.id });
         this.storeAddPaymentSuccess({ ...payment, uid: itemSave.id });
         this.messagesLiteralsToast(
-          ['UPDATE-PAYMENT.TOAST_TITLE_SUCCESS'],
+          ['ADD-PAYMENT.TOAST_TITLE_SUCCESS'],
           Constants.ICON_SUCCESS
         );
       })
       .catch((error) => {
         this.storeAddPaymentFail(error);
         this.messagesLiteralsToast(
-          ['UPDATE-PAYMENT.TOAST_TITLE_FAIL'],
+          ['ADD-PAYMENT.TOAST_TITLE_FAIL'],
           Constants.ICON_ERROR
         );
       });
@@ -161,33 +161,30 @@ export class PaymentService {
     // MOCK
     /*let list: Payment[] = [];
 
-    let item: Payment = new Payment('202001', 450, 'Alquiler','Fijo', 'Gasto');
-    item.uid = 'UIDP1';
-    let item2: Payment = new Payment('202001', 800, 'Luz','Fijo', 'Gasto');
-    item2.uid = 'UIDP2';
-    let item3: Payment = new Payment('202001', 100, 'Coche','Fijo', 'Gasto');
-    item3.uid = 'UIDP3';
-    let item4: Payment = new Payment('202001', 1100, 'Sueldo','Fijo', 'Ganancia');
-    item4.uid = 'UIDP4';
-    let item5: Payment = new Payment('202001', 75, 'Cumpleaños amigo','Personal', 'Gasto');
-    item5.uid = 'UIDP5';
-    let item6: Payment = new Payment('202002', 80, 'Restaurantes','Personal', 'Gasto');
-    item6.uid = 'UIDP6';
-    let item7: Payment = new Payment('202002', 200, 'Cumpleaños','Fijo', 'Ganancia');
-    item7.uid = 'UIDP7';
-    let item8: Payment = new Payment('202002', 1500, 'Sueldo','Fijo', 'Ganancia');
-    item8.uid = 'UIDP8';
-    let item9: Payment = new Payment('202004', 80, 'Restaurantes','Personal', 'Gasto');
-    item9.uid = 'UIDP9';
-    let item10: Payment = new Payment('202004', 200, 'Cumpleaños','Fijo', 'Ganancia');
-    item10.uid = 'UIDP10';
-    let item11: Payment = new Payment('202004', 1600, 'Sueldo','Fijo', 'Ganancia');
-    item11.uid = 'UIDP11';
-    let item12: Payment = new Payment('202005', 200, 'Cumpleaños','Fijo', 'Ganancia');
-    item12.uid = 'UIDP12';
-    let item13: Payment = new Payment('202005', 1300, 'Sueldo','Fijo', 'Ganancia');
-    item13.uid = 'UIDP13';
+    let item: Payment = new Payment('UIDP1','202001', 450, 'Alquiler','Fijo', 'Gasto');
+    let item2: Payment = new Payment('UIDP2','202001', 800, 'Luz','Fijo', 'Gasto');
+    let item3: Payment = new Payment('UIDP3','202001', 100, 'Coche','Fijo', 'Gasto');
+    let item5: Payment = new Payment('UIDP5','202001', 75, 'Cumpleaños amigo','Personal', 'Gasto');
+    let item4: Payment = new Payment('UIDP4','202001', 1100, 'Sueldo','Fijo', 'Ganancia');
+    // GAINS 202001 = 1100
 
+    let item6: Payment = new Payment('UIDP6','202002', 80, 'Restaurantes','Personal', 'Gasto');
+    let item7: Payment = new Payment('UIDP7','202002', 200, 'Cumpleaños','Fijo', 'Ganancia');
+    let item8: Payment = new Payment('UIDP8','202002', 1500, 'Sueldo','Fijo', 'Ganancia');
+    // GAINS 202002 = 1700
+    
+    let item12: Payment = new Payment('UIDP12','202005', 200, 'Cumpleaños','Fijo', 'Ganancia');
+    let item13: Payment = new Payment('UIDP13','202005', 1300, 'Sueldo','Fijo', 'Ganancia');
+    // GAINS 202005 = 1500
+
+    let item9: Payment = new Payment('UIDP9','202004', 80, 'Restaurantes','Personal', 'Gasto');
+    let item10: Payment = new Payment('UIDP10','202004', 200, 'Cumpleaños','Fijo', 'Ganancia');
+    let item11: Payment = new Payment('UIDP11','202004', 1600, 'Sueldo','Fijo', 'Ganancia');
+    // GAINS 202004 = 1800
+
+
+
+    // AVERAGE = (1100+1700+1800+1500) / 4 = 1525
 
     list.push(item);
     list.push(item2);

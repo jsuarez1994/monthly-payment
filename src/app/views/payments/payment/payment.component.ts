@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 // MODELS
 import { Payment } from 'src/app/models/payment.model';
 import { InformationPayment } from 'src/app/models/information-payment.model';
+import { User } from '../../../models/user.model';
 // TRANSLATE
 import { TranslateService } from '@ngx-translate/core';
 import * as literals from '../../../shared/Utils/literals';
@@ -21,6 +22,7 @@ import Swal from 'sweetalert2';
 import { SweetAlertIcon } from 'sweetalert2';
 // SERVICES
 import { PaymentService } from '../../../services/payment.service';
+import { UserService } from '../../../services/user.service';
 // CONSTANTS
 import { Constants } from '../../../shared/Utils/constants';
 // ROUTER
@@ -37,6 +39,8 @@ export class PaymentComponent implements OnInit {
   // PAYMENTS
   payments: Payment[];
   sumQuantity: number;
+  // USER
+  user: User;
   // HEADERS
   headers: any[];
   // TO TRADUCT LITERALS
@@ -63,17 +67,23 @@ export class PaymentComponent implements OnInit {
     private store: Store<AppState>,
     private translate: TranslateService,
     private paymentService: PaymentService,
+    private userService: UserService,
     private router: Router
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
   }
 
   ngOnInit(): void {
+    this.getUser();
     this.getAllNatures();
     this.configCharts();
     this.defaultFilters();
     this.getHeaders();
     this.getAllPayments();
+  }
+
+  getUser() {
+    this.user = this.userService.getUser();
   }
 
   /**
@@ -150,8 +160,8 @@ export class PaymentComponent implements OnInit {
             (sum, item) => sum + item.quantity,
             0
           );
-          let porcentPermanent = allGains * 0.5;
-          let porcentPersonal = allGains * 0.3;
+          let porcentPermanent = allGains * (this.user.porcentPaymentPermanent / 100);
+          let porcentPersonal = allGains * (this.user.porcentPaymentPersonal / 100);
           this.infoPay = new InformationPayment(
             allGains,
             porcentPermanent,
