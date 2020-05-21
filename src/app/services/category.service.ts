@@ -80,7 +80,9 @@ export class CategoryService {
   elementNotRepeat(list: Category[], element: Category) {
     let noRepeat: boolean = true;
     list.forEach((item) => {
-      if (item.description.trim() === element.description.trim()) {
+      if (  item.description.trim() === element.description.trim()
+          && item.type.trim() === element.type.trim()
+          && item.nature.trim() === element.nature.trim()) {
         noRepeat = false;
       }
     });

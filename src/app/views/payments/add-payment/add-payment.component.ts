@@ -92,8 +92,14 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   changeCategory() {
+
+    const separate = this.form.value.category.split('-');
+
+    const description = separate[0].trim();
+    const nature = separate[1].trim();
+
     this.categorySelect = this.categories.filter(
-      (category) => category.description === this.form.value.category
+      (category) => category.description === description && category.nature === nature
     )[0];
   }
 

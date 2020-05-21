@@ -84,7 +84,10 @@ export class PaymentService {
   elementNotRepeat(list: Payment[], element: Payment) {
     let noRepeat: boolean = true;
     list.forEach( item => {
-      if(item.period.trim() === element.period.trim() && item.description.trim() === element.description.trim()){
+      if (item.period.trim() === element.period.trim()
+          && item.description === element.description
+          && item.nature === element.nature
+          && item.type === element.type){
         noRepeat = false;
       }
     });
