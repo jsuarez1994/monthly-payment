@@ -18,11 +18,11 @@
         <!-- PAYMENTS -->
         <div class="card">
             <div *ngIf="payments.length > 0" class="card-body">
-                <h4 class="card-title text-center font-weight-bold"> {{ natureSelect | uppercase }} </h4>
+                <h4 class="card-title text-center font-weight-bold color-corporative"> {{ natureSelect | uppercase }} </h4>
                 <table class="table table-bordeless table-hover mt-5">
                     <thead>
                         <tr>
-                            <th *ngFor="let header of headers">{{header.value}}</th>
+                            <th *ngFor="let header of headers" class="color-corporative">{{header.value}}</th>
                         </tr>
                     </thead>
 
@@ -68,7 +68,7 @@
         <div class="col-12 p-5">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title font-weight-bold"> {{ 'PAYMENT.CHART_PAYMENTS_GENERAL' | translate | uppercase }} </h5>
+                    <h5 class="card-title font-weight-bold color-corporative text-center"> {{ 'PAYMENT.CHART_PAYMENTS_GENERAL' | translate | uppercase }} </h5>
                     <div style="display: block">
                         <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
                             [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
@@ -84,7 +84,7 @@
     <div class="col-lg-8 col-md-12 col-sm-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title font-weight-bold">{{ 'PAYMENT.CHART_PAYMENTS_EXPENDITURE' | translate | uppercase }}</h5>
+                <h5 class="card-title font-weight-bold color-corporative text-center">{{ 'PAYMENT.CHART_PAYMENTS_EXPENDITURE' | translate | uppercase }}</h5>
                 <!-- CHART DOUGHNUT -->
                 <div class="col-lg-8 col-md-12 col-sm-12">
                     <div style="display: block">
