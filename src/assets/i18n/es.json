@@ -115,11 +115,13 @@
     
     "PAYMENT": {
         "GAIN_TITLE": "GANANCIAS",
+        "MOVES_TITLE": "MOVIMIENTOS",
         "EXPENDITURE_TITLE": "GASTOS",
         "HEADER_NATURE": "TIPO DE MOVIMIENTO",
         "HEADER_DESCRIPTION": "DESCRIPCIÓN",
         "HEADER_QUATITY": "CUANTÍA",
         "HEADER_TYPE": "FIJO/PERSONAL",
+        "ALL_NATURES": "Todos Movimientos",
         "NATURE_GAIN": "Ganancia",
         "NATURE_EXPENDITURE": "Gasto",
         "TYPE_PERSONAL": "Personal",

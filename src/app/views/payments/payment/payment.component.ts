@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 // NGRX
 import { AppState } from 'src/app/redux/app.reducers';
 import { Store } from '@ngrx/store';
@@ -27,16 +27,19 @@ import { UserService } from '../../../services/user.service';
 import { Constants } from '../../../shared/Utils/constants';
 // ROUTER
 import { Router } from '@angular/router';
+//RXJS
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styles: [],
 })
-export class PaymentComponent implements OnInit {
+export class PaymentComponent implements OnInit, OnDestroy {
   // INFORMATION PAYMENTS
   infoPay: InformationPayment;
   // PAYMENTS
+  allPayments: Payment[];
   payments: Payment[];
   sumQuantity: number;
   // USER
@@ -49,6 +52,7 @@ export class PaymentComponent implements OnInit {
   natures: string[];
   @ViewChild('naturePayment') naturePayment: ElementRef;
   natureSelect: string;
+  titleTableDefault: string;
   // DATES
   periodSelect: string;
   // CHART DOUGHNUT
@@ -62,6 +66,9 @@ export class PaymentComponent implements OnInit {
   barChartType: ChartType;
   barChartLegend: boolean;
   barChartLabels: Label[] = [];
+  //UNSUSBCRIBE
+  subsPayments: Subscription = new Subscription();
+  subsUser: Subscription = new Subscription();
 
   constructor(
     private store: Store<AppState>,
@@ -75,15 +82,22 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
-    this.getAllNatures();
-    this.configCharts();
-    this.defaultFilters();
-    this.getHeaders();
-    this.getAllPayments();
+  }
+
+  ngOnDestroy() {
+    this.subsUser.unsubscribe();
+    this.subsPayments.unsubscribe();
   }
 
   getUser() {
-    this.user = this.userService.getUser();
+    this.subsUser = this.store.select('user').subscribe(user => {
+      this.user = user.user;
+      this.getAllNatures();
+      this.configCharts();
+      this.defaultFilters();
+      this.getHeaders();
+      this.getAllPayments();
+    });
   }
 
   /**
@@ -91,10 +105,12 @@ export class PaymentComponent implements OnInit {
    */
   getAllNatures() {
     const mapLiterals = this.LiteralClass.getLiterals([
+      'PAYMENT.ALL_NATURES',
       'PAYMENT.NATURE_GAIN',
       'PAYMENT.NATURE_EXPENDITURE',
     ]);
     this.natures = [
+      mapLiterals.get('PAYMENT.ALL_NATURES'),
       mapLiterals.get('PAYMENT.NATURE_GAIN'),
       mapLiterals.get('PAYMENT.NATURE_EXPENDITURE'),
     ];
@@ -105,7 +121,10 @@ export class PaymentComponent implements OnInit {
    */
   defaultFilters() {
     // Value nature
-    this.natureSelect = this.natures[0];
+    this.titleTableDefault = this.LiteralClass.getLiterals([
+      'PAYMENT.MOVES_TITLE',
+    ]).get('PAYMENT.MOVES_TITLE');
+    this.natureSelect = this.titleTableDefault;
     // Value period
     this.periodSelect = utils.currentDate();
   }
@@ -135,18 +154,12 @@ export class PaymentComponent implements OnInit {
    * Get all payments by filters
    */
   getAllPayments() {
-    this.store.select('payments').subscribe((items) => {
+    this.subsPayments = this.store.select('payments').subscribe((items) => {
       // GET PAYMENTS GAINS
-      this.payments = items.payments.filter(
-        (payments) =>
-          payments.nature === this.natureSelect &&
-          payments.period === this.periodSelect
-      );
+      this.allPayments = items.payments;
+      this.payments = this.getPaymentsByFilter(items.payments);
       // GET SUM ALL QUANTITIES
-      this.sumQuantity = this.payments.reduce(
-        (sum, item) => sum + item.quantity,
-        0
-      );
+      this.sumQuantity = this.payments.reduce((sum, item) => sum + item.quantity, 0);
 
       // GET INFO PAYMENTS
       if (this.payments.length > 0) {
@@ -156,26 +169,24 @@ export class PaymentComponent implements OnInit {
             item.nature === this.natures[0] && item.period === this.periodSelect
         );
         if (listPayGains.length > 0) {
-          let allGains = listPayGains.reduce(
+          const allGains = listPayGains.reduce(
             (sum, item) => sum + item.quantity,
             0
           );
-          let porcentPermanent = allGains * (this.user.porcentPaymentPermanent / 100);
-          let porcentPersonal = allGains * (this.user.porcentPaymentPersonal / 100);
+          const porcentPermanent =
+            allGains * (this.user.porcentPaymentPermanent / 100);
+          const porcentPersonal =
+            allGains * (this.user.porcentPaymentPersonal / 100);
           this.infoPay = new InformationPayment(
             allGains,
             porcentPermanent,
             porcentPersonal
           );
         } else {
-          this.infoPay = new InformationPayment(0,0,0);
+          this.infoPay = new InformationPayment(0, 0, 0);
         }
 
-        // IF NATURES IS EXPENDITURE
-        if (this.natureSelect === this.natures[1]) {
-          this.getChartExpenditure();
-        }
-
+        this.getChartExpenditure();
         // CHART PAYMENTS
         this.getPaymentsCharts();
       }
@@ -218,7 +229,10 @@ export class PaymentComponent implements OnInit {
    * Find in payments by new filters
    */
   findByFilter() {
-    this.natureSelect = this.naturePayment.nativeElement.value;
+    this.natureSelect =
+      this.naturePayment.nativeElement.value === this.natures[0]
+        ? this.titleTableDefault
+        : this.naturePayment.nativeElement.value;
     // CALL GET ALL PAYMENTS
     this.getAllPayments();
   }
@@ -232,7 +246,7 @@ export class PaymentComponent implements OnInit {
     let sumPersonal = 0;
     let sumPermanent = 0;
 
-    this.payments.forEach((payment) => {
+    this.allPayments.forEach((payment) => {
       // TYPE == PERSONAL
       if (payment.type === this.doughnutChartLabels[0]) {
         sumPersonal += payment.quantity;
@@ -402,19 +416,20 @@ export class PaymentComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.paymentService.deletePayment(object)
-          .then(() => {
-            this.messagesLiteralsToast(
-              ['PAYMENT.DELETE_SUCCESS'],
-              Constants.ICON_SUCCESS
-            );
-          })
-          .catch(() => {
-            this.messagesLiteralsToast(
-              ['PAYMENT.DELETE_FAIL'],
-              Constants.ICON_ERROR
-            );
-          });
+          this.paymentService
+            .deletePayment(object)
+            .then(() => {
+              this.messagesLiteralsToast(
+                ['PAYMENT.DELETE_SUCCESS'],
+                Constants.ICON_SUCCESS
+              );
+            })
+            .catch(() => {
+              this.messagesLiteralsToast(
+                ['PAYMENT.DELETE_FAIL'],
+                Constants.ICON_ERROR
+              );
+            });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           sweetAlert.toastMessage(
             map.get('messageOpCanceled'),
@@ -455,10 +470,19 @@ export class PaymentComponent implements OnInit {
   }
 
   /** Show message by literals
-  * @param literals
-  */
- private messagesLiteralsToast(literals: string[], icon: SweetAlertIcon) {
-   const mapLiterals = this.LiteralClass.getLiterals(literals);
-   sweetAlert.toastMessage(mapLiterals.get(literals[0]), icon);
- }
+   * @param literals
+   */
+  private messagesLiteralsToast(literals: string[], icon: SweetAlertIcon) {
+    const mapLiterals = this.LiteralClass.getLiterals(literals);
+    sweetAlert.toastMessage(mapLiterals.get(literals[0]), icon);
+  }
+
+  private getPaymentsByFilter(list: Payment[]) {
+    if (this.natureSelect === this.titleTableDefault) {
+      return list.filter((payment) => payment.period === this.periodSelect);
+    } else {
+      return list.filter((payment) => payment.period === this.periodSelect && payment.nature === this.natureSelect);
+    }
+  }
+
 }
