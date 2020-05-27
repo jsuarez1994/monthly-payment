@@ -166,7 +166,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         let listPayGains: Payment[] = [];
         listPayGains = items.payments.filter(
           (item) =>
-            item.nature === this.natures[0] && item.period === this.periodSelect
+            item.nature === this.natures[1] && item.period === this.periodSelect
         );
         if (listPayGains.length > 0) {
           const allGains = listPayGains.reduce(
@@ -186,6 +186,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
           this.infoPay = new InformationPayment(0, 0, 0);
         }
 
+        //CHART EXPENSIVES
         this.getChartExpenditure();
         // CHART PAYMENTS
         this.getPaymentsCharts();
@@ -248,10 +249,10 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
     this.allPayments.forEach((payment) => {
       // TYPE == PERSONAL
-      if (payment.type === this.doughnutChartLabels[0]) {
+      if (payment.type === this.doughnutChartLabels[0] && payment.nature === this.natures[2]) {
         sumPersonal += payment.quantity;
         // TYPE == FIJO
-      } else if (payment.type === this.doughnutChartLabels[1]) {
+      } else if (payment.type === this.doughnutChartLabels[1]  && payment.nature === this.natures[2]) {
         sumPermanent += payment.quantity;
       }
     });
