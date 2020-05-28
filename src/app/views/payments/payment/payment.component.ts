@@ -51,8 +51,13 @@ export class PaymentComponent implements OnInit, OnDestroy {
   // NATURES
   natures: string[];
   @ViewChild('naturePayment') naturePayment: ElementRef;
-  natureSelect: string;
-  titleTableDefault: string;
+  natureSelectValue: string;
+  natureSelectKey: number;
+  keyGain: number;
+  keyExpenditure: number;
+  // TYPES
+  keyPersonal: number;
+  keyPermanent: number;
   // DATES
   periodSelect: string;
   // CHART DOUGHNUT
@@ -108,23 +113,31 @@ export class PaymentComponent implements OnInit, OnDestroy {
       'PAYMENT.ALL_NATURES',
       'PAYMENT.NATURE_GAIN',
       'PAYMENT.NATURE_EXPENDITURE',
+      'PAYMENT.NATURE_GAIN_KEY',
+      'PAYMENT.NATURE_EXPENDITURE_KEY',
+      'PAYMENT.TYPE_PERSONAL_KEY',
+      'PAYMENT.TYPE_PERMANENT_KEY',
     ]);
     this.natures = [
       mapLiterals.get('PAYMENT.ALL_NATURES'),
       mapLiterals.get('PAYMENT.NATURE_GAIN'),
       mapLiterals.get('PAYMENT.NATURE_EXPENDITURE'),
     ];
+
+    this.keyGain = Number(mapLiterals.get('PAYMENT.NATURE_GAIN_KEY'));
+    this.keyExpenditure = Number(mapLiterals.get('PAYMENT.NATURE_EXPENDITURE_KEY'));
+
+    this.keyPermanent = Number(mapLiterals.get('PAYMENT.TYPE_PERMANENT_KEY'));
+    this.keyPersonal = Number(mapLiterals.get('PAYMENT.TYPE_PERSONAL_KEY'));
+
   }
 
   /**
    * Give values to filter by default
    */
   defaultFilters() {
-    // Value nature
-    this.titleTableDefault = this.LiteralClass.getLiterals([
-      'PAYMENT.MOVES_TITLE',
-    ]).get('PAYMENT.MOVES_TITLE');
-    this.natureSelect = this.titleTableDefault;
+    this.natureSelectValue = this.natures[0];
+    this.natureSelectKey = -1;
     // Value period
     this.periodSelect = utils.currentDate();
   }
@@ -166,7 +179,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         let listPayGains: Payment[] = [];
         listPayGains = items.payments.filter(
           (item) =>
-            item.nature === this.natures[1] && item.period === this.periodSelect
+            item.nature === this.keyGain && item.period === this.periodSelect
         );
         if (listPayGains.length > 0) {
           const allGains = listPayGains.reduce(
@@ -230,10 +243,19 @@ export class PaymentComponent implements OnInit, OnDestroy {
    * Find in payments by new filters
    */
   findByFilter() {
-    this.natureSelect =
-      this.naturePayment.nativeElement.value === this.natures[0]
-        ? this.titleTableDefault
-        : this.naturePayment.nativeElement.value;
+    const natureSelect: string = this.naturePayment.nativeElement.value;
+
+    if (natureSelect === this.natures[1]) { //GAINS
+      this.natureSelectValue = this.natures[1];
+      this.natureSelectKey = this.keyGain;
+    } else if (natureSelect === this.natures[2]) { //EXPENDITURE
+      this.natureSelectValue = this.natures[2];
+      this.natureSelectKey = this.keyExpenditure;
+    } else { // OTHER
+      this.natureSelectValue = this.natures[0];
+      this.natureSelectKey = -1;
+    }
+
     // CALL GET ALL PAYMENTS
     this.getAllPayments();
   }
@@ -249,10 +271,10 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
     this.allPayments.forEach((payment) => {
       // TYPE == PERSONAL
-      if (payment.type === this.doughnutChartLabels[0] && payment.nature === this.natures[2]) {
+      if (payment.type === this.keyPersonal && payment.nature === this.keyExpenditure) {
         sumPersonal += payment.quantity;
         // TYPE == FIJO
-      } else if (payment.type === this.doughnutChartLabels[1]  && payment.nature === this.natures[2]) {
+      } else if (payment.type === this.keyPermanent && payment.nature === this.keyExpenditure) {
         sumPermanent += payment.quantity;
       }
     });
@@ -479,11 +501,27 @@ export class PaymentComponent implements OnInit, OnDestroy {
   }
 
   private getPaymentsByFilter(list: Payment[]) {
-    if (this.natureSelect === this.titleTableDefault) {
+    if (this.natureSelectKey === -1) {
       return list.filter((payment) => payment.period === this.periodSelect);
     } else {
-      return list.filter((payment) => payment.period === this.periodSelect && payment.nature === this.natureSelect);
+      return list.filter((payment) => payment.period === this.periodSelect && payment.nature === this.natureSelectKey);
     }
+  }
+
+  translateColumn(key: number, column: string) {
+
+    const mapNature: Map<number, string> = new Map<number, string>();
+    const mapType: Map<number, string> = new Map<number, string>();
+
+    // NATURE
+    mapNature.set(this.keyGain, this.natures[1]);
+    mapNature.set(this.keyExpenditure, this.natures[2]);
+
+    // TYPE
+    mapType.set(this.keyPersonal, this.LiteralClass.getLiterals(['PAYMENT.TYPE_PERSONAL']).get('PAYMENT.TYPE_PERSONAL'));
+    mapType.set(this.keyPermanent, this.LiteralClass.getLiterals(['PAYMENT.TYPE_PERMANENT']).get('PAYMENT.TYPE_PERMANENT'));
+
+    return (column === 'nature') ? mapNature.get(key) : mapType.get(key);
   }
 
 }
