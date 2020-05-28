@@ -74,6 +74,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
   //UNSUSBCRIBE
   subsPayments: Subscription = new Subscription();
   subsUser: Subscription = new Subscription();
+  // TITLE CHARTS
+  titleExpenditure: string;
+  titleGeneral: string;
 
   constructor(
     private store: Store<AppState>,
@@ -217,6 +220,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
       'PAYMENT.HEADER_QUATITY',
       'PAYMENT.HEADER_TYPE',
       'COMMONS.OPERATIONS',
+      'PAYMENT.CHART_PAYMENTS_GENERAL',
+      'PAYMENT.CHART_PAYMENTS_EXPENDITURE',
     ]);
     this.headers = [
       { key: 'nature', value: headersValue.get('PAYMENT.HEADER_NATURE') },
@@ -228,6 +233,10 @@ export class PaymentComponent implements OnInit, OnDestroy {
       { key: 'quantity', value: headersValue.get('PAYMENT.HEADER_QUATITY') },
       { key: 'operations', value: '' },
     ];
+
+    // TITLES CHARTS
+    this.titleExpenditure = headersValue.get('PAYMENT.CHART_PAYMENTS_EXPENDITURE');
+    this.titleGeneral = headersValue.get('PAYMENT.CHART_PAYMENTS_GENERAL');
   }
 
   /**

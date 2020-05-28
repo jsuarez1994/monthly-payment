@@ -31,7 +31,7 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/igniteui-angular/styles/igniteui-angular.css",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "src/assets/style/PrimeNg/primeNg.css"
             ],
             "scripts": []
           },

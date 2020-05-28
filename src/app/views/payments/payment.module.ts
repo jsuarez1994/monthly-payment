@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 // MODULES
 import { SharedModule } from '../../shared/shared.module';
 import { DashboardRoutingModule } from '../dashboard/dashboard-routing.module';
+import { PrimeModule } from './prime.module';
+
 // COMPONENTS
 import { PaymentComponent } from './payment/payment.component';
 import { DashboardComponent } from '../dashboard/dashboard/dashboard.component';
@@ -26,7 +28,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
   imports: [
     CommonModule,
     SharedModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    PrimeModule
   ],
 })
 export class PaymentModule {}
