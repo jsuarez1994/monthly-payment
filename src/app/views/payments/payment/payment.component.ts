@@ -224,14 +224,13 @@ export class PaymentComponent implements OnInit, OnDestroy {
       'PAYMENT.CHART_PAYMENTS_EXPENDITURE',
     ]);
     this.headers = [
-      { key: 'nature', value: headersValue.get('PAYMENT.HEADER_NATURE') },
-      { key: 'type', value: headersValue.get('PAYMENT.HEADER_TYPE') },
+      { field: 'nature', header: headersValue.get('PAYMENT.HEADER_NATURE') },
+      { field: 'type', header: headersValue.get('PAYMENT.HEADER_TYPE') },
       {
-        key: 'description',
-        value: headersValue.get('PAYMENT.HEADER_DESCRIPTION'),
+        field: 'description',
+        header: headersValue.get('PAYMENT.HEADER_DESCRIPTION'),
       },
-      { key: 'quantity', value: headersValue.get('PAYMENT.HEADER_QUATITY') },
-      { key: 'operations', value: '' },
+      { field: 'quantity', header: headersValue.get('PAYMENT.HEADER_QUATITY') }
     ];
 
     // TITLES CHARTS
@@ -515,22 +514,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
     } else {
       return list.filter((payment) => payment.period === this.periodSelect && payment.nature === this.natureSelectKey);
     }
-  }
-
-  translateColumn(key: number, column: string) {
-
-    const mapNature: Map<number, string> = new Map<number, string>();
-    const mapType: Map<number, string> = new Map<number, string>();
-
-    // NATURE
-    mapNature.set(this.keyGain, this.natures[1]);
-    mapNature.set(this.keyExpenditure, this.natures[2]);
-
-    // TYPE
-    mapType.set(this.keyPersonal, this.LiteralClass.getLiterals(['PAYMENT.TYPE_PERSONAL']).get('PAYMENT.TYPE_PERSONAL'));
-    mapType.set(this.keyPermanent, this.LiteralClass.getLiterals(['PAYMENT.TYPE_PERMANENT']).get('PAYMENT.TYPE_PERMANENT'));
-
-    return (column === 'nature') ? mapNature.get(key) : mapType.get(key);
   }
 
 }

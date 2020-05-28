@@ -1,0 +1,31 @@
+<p-table [columns]="headers" [value]="list" selectionMode="single" [(selection)]="ItemSelect" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+            <td *ngFor="let col of columns">
+                <div *ngIf="col.field === 'quantity'">
+                    {{rowData[col.field] | currency:'EUR'}}
+                </div>
+                <div *ngIf="col.field !== 'quantity'">
+                    <div *ngIf="col.field === 'nature' || col.field === 'type'; then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock>{{translateColumn(rowData[col.field], col.field)}}</ng-template>
+                    <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+        <div style="text-align:left">
+            <button type="button" class="btn btn-danger mr-1 buttons-actions" (click)="showDialogToAdd()">
+                <i class="far fa-trash-alt"></i>{{ 'COMMONS.ADD_OPERATION_LABEL' | translate }}
+            </button>
+        </div>
+    </ng-template>    
+</p-table>

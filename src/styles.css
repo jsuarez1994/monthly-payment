@@ -9,7 +9,7 @@ input, select, textarea {
 }
 
 .buttons-actions {
-    border-radius: 50% !important;
+    border-radius: 5% !important;
 }
 
 .bg-none {
@@ -75,5 +75,9 @@ h1, h2, h3, h4, h5 {
 }
 
 .card {
+    border: none !important;
+}
+
+.cdk-text-field-autofill-monitored:not(:-webkit-autofill){
     border: none !important;
 }

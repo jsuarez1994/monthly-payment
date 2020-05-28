@@ -3,10 +3,10 @@
 <div class="row">
     <div class="col-lg-2 col-md-12 col-sm-12"></div>
     <div class="col-lg-8 col-md-12 col-sm-12">
-        <div class="col-lg-6 col-md-8 col-sm-6">
+        <div class="col-lg-4 col-md-8 col-sm-6">
             <app-input-datapicker (newPeriod)="changePeriod($event)"></app-input-datapicker>
         </div>
-        <div class="col-lg-4  col-md-4 col-sm-6">
+        <div class="col-lg-4 col-md-4 col-sm-6">
             <div class="input-group">
                 <select class="form-control" #naturePayment (change)="findByFilter()">
                     <option value="" disabled>{{ 'ADD-PAYMENT.TYPE_DEFEAT' | translate }}</option>
@@ -24,7 +24,8 @@
         <div class="card">
             <div *ngIf="payments.length > 0" class="card-body">
                 <h4 class="card-title text-center font-weight-bold color-corporative"> {{ natureSelectValue | uppercase }} </h4>
-                <table class="table table-bordeless table-hover mt-5">
+                <app-table-crud [list]="payments" [headers]="headers"></app-table-crud>
+                <!--<table class="table table-bordeless table-hover mt-5">
                     <thead>
                         <tr>
                             <th *ngFor="let header of headers" class="color-corporative">{{header.value}}</th>
@@ -64,7 +65,7 @@
                             </td>
                         </tr>
                     </tfoot>
-                </table>
+                </table>-->
             </div>
             <div *ngIf="payments.length === 0" class="card-body text-center bg-danger text-white align-middle">
                 <h4> {{ 'PAYMENT.PAYMENTS_EMPTY' | translate }} <i class="far fa-folder-open"></i></h4>
@@ -101,7 +102,7 @@
         <div class="card">
             <div class="card-body">
                 <p-fieldset [legend]="titleExpenditure" [toggleable]="true">
-                    <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
                         <div style="display: block">
                             <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" chartType="doughnut">
                             </canvas>

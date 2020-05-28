@@ -17,7 +17,16 @@
         "ERROR_PORCENT_PERMANENT_MORE_THAN_FIFTY": "No es recomendable que los gastos fijos superen 50%",
         "ERROR_PORCENT_PERSONAL_MORE_THAN_THITY": "No es recomendable que los gastos personales superen 30%",
         "ERROR_PORCENT_SAVING_LESS_THAN_TWENTY": "No es recomendable que los ahorros sean inferior a 20%",
-        "UPDATE": "Actualizado"
+        "UPDATE": "Actualizado",
+        "NATURE_GAIN": "Ganancia",
+        "NATURE_GAIN_KEY": 0,
+        "NATURE_EXPENDITURE": "Gasto",
+        "NATURE_EXPENDITURE_KEY": 1,
+        "TYPE_PERSONAL": "Personal",
+        "TYPE_PERSONAL_KEY": 0,
+        "TYPE_PERMANENT": "Fijo",
+        "TYPE_PERMANENT_KEY": 1,
+        "ADD_OPERATION_LABEL": "Agregar"
     },
 
     "NAVBAR": {
