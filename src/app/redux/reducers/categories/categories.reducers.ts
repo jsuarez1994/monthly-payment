@@ -128,9 +128,9 @@ function elementNotRepeat(list: Category[], element: Category) {
   let noRepeat: boolean = true;
   list.forEach((item) => {
     if (
-      item.nature.trim() === element.nature.trim() &&
-      item.description.trim() === element.description.trim() &&
-      item.type.trim() === element.type.trim()
+      item.nature === element.nature &&
+      item.description.trim() === element.description &&
+      item.type === element.type
     ) {
       noRepeat = false;
     }

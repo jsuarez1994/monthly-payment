@@ -81,8 +81,8 @@ export class CategoryService {
     let noRepeat: boolean = true;
     list.forEach((item) => {
       if (  item.description.trim() === element.description.trim()
-          && item.type.trim() === element.type.trim()
-          && item.nature.trim() === element.nature.trim()) {
+          && item.type === element.type
+          && item.nature === element.nature) {
         noRepeat = false;
       }
     });

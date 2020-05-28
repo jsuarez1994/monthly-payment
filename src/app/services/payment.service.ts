@@ -113,7 +113,7 @@ export class PaymentService {
         this.updateItemList(payment);
         this.storeUpdatePaymentSuccess(payment);
       })
-      .catch((error) => {
+      .catch( error => {
         this.storeUpdatePaymentFail(error);
       });
   }
@@ -132,7 +132,7 @@ export class PaymentService {
         this.deleteItemList(payment);
         this.storeDeletePaymentSuccess(payment);
       })
-      .catch((error) => {
+      .catch( error => {
         this.storeDeletePaymentSuccess(error);
       });
   }
@@ -242,7 +242,7 @@ export class PaymentService {
    * @param item
    */
   deleteItemList(item: Payment) {
-    let index:number = this.payments.indexOf(item);
+    const index: number = this.payments.indexOf(item);
     if(index > 0){
       this.payments.splice(index);
     }
@@ -253,7 +253,7 @@ export class PaymentService {
    * @param item
    */
   addItemList(item: Payment) {
-    if(this.elementNotRepeat(this.payments, item)) {
+    if (this.elementNotRepeat(this.payments, item)) {
       this.payments.push(item);
     }
   }
@@ -265,7 +265,7 @@ export class PaymentService {
    */
   updateItemList(item: Payment) {
     // Index element to update
-    let index: number = this.payments.indexOf(
+    const index: number = this.payments.indexOf(
       this.payments.filter(
         (payment) =>
           payment.uid === item.uid

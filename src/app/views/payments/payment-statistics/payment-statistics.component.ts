@@ -35,6 +35,7 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
   yearSelected: string;
   montsInYears: string[];
   // SUBS
+  subsUser: Subscription = new Subscription();
   subsPayments: Subscription = new Subscription();
   // HEADERS OBJECTIVE
   headersObjective: any[] = [];
@@ -46,6 +47,12 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
   realValues: RealTable[] = [];
   // USER
   user: User;
+  // NATURE
+  keyGain: number;
+  keyExpenditure: number;
+  // TYPES
+  keyPersonal: number;
+  keyPermanent: number;
 
   constructor(
     private store: Store<AppState>,
@@ -57,15 +64,18 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getUser();
-    this.getAllPayments();
   }
 
   getUser() {
-    this.user = this.userService.getUser();
+    this.subsUser = this.store.select('user').subscribe(user => {
+      this.user = user.user;
+      this.getAllPayments();
+    });
   }
 
   ngOnDestroy() {
     this.subsPayments.unsubscribe();
+    this.subsUser.unsubscribe();
   }
 
   /**
@@ -74,10 +84,24 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
   getAllPayments() {
     this.subsPayments = this.store.select('payments').subscribe((items) => {
       this.payments = items.payments;
+      this.getTypesAndNatureCode();
       this.getYears();
       this.infTableObjective();
       this.infTableReal();
     });
+  }
+
+  getTypesAndNatureCode() {
+    const mapLiterals = this.LiteralClass.getLiterals([
+      'PAYMENT.NATURE_GAIN_KEY', 'PAYMENT.NATURE_EXPENDITURE_KEY',
+      'PAYMENT.TYPE_PERSONAL_KEY', 'PAYMENT.TYPE_PERMANENT_KEY'
+    ]);
+
+    this.keyGain = Number(mapLiterals.get('PAYMENT.NATURE_GAIN_KEY'));
+    this.keyExpenditure = Number(mapLiterals.get('PAYMENT.NATURE_EXPENDITURE_KEY'));
+
+    this.keyPermanent = Number(mapLiterals.get('PAYMENT.TYPE_PERMANENT_KEY'));
+    this.keyPersonal = Number(mapLiterals.get('PAYMENT.TYPE_PERSONAL_KEY'));
   }
 
   /**
@@ -147,17 +171,13 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
    * Values table objective
    */
   getValuesObjective() {
-    // VALUE GAIN
-    const natureGain = this.LiteralClass.getLiterals([
-      'ADD-CATEGORY.NATURE_GAIN',
-    ]).get('ADD-CATEGORY.NATURE_GAIN');
     // EMPTY MODEL
     this.objectiveValue = new ObjectiveTable();
     // PAYMENTS OF YEAR SELECT
     const paymentsByFilter = this.payments.filter(
       (payment) =>
         utils.getYearByPeriod(payment.period) === this.yearSelected &&
-        payment.nature === natureGain
+        payment.nature === this.keyGain
     );
 
     if (paymentsByFilter.length > 0) {
@@ -174,16 +194,11 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
   }
 
   private getMonthWithGainsInYearSelect(): number {
-    // VALUE GAIN
-    const natureGain = this.LiteralClass.getLiterals([
-      'ADD-CATEGORY.NATURE_GAIN',
-    ]).get('ADD-CATEGORY.NATURE_GAIN');
-
     const dates = this.payments
       .filter(
         (payment) =>
           payment.period.startsWith(this.yearSelected) &&
-          payment.nature === natureGain
+          payment.nature === this.keyGain
       )
       .map((payment) => payment.period);
 
@@ -260,20 +275,6 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
   }
 
   getValuesReal() {
-    // VALUES Natures
-    const natures: Map<string, string> = this.LiteralClass.getLiterals([
-      'ADD-CATEGORY.NATURE_GAIN',
-      'ADD-CATEGORY.NATURE_EXPENDITURE',
-    ]);
-    const gains: string = natures.get('ADD-CATEGORY.NATURE_GAIN');
-    const expenditure: string = natures.get('ADD-CATEGORY.NATURE_EXPENDITURE');
-    // VALUES types
-    const types: Map<string, string> = this.LiteralClass.getLiterals([
-      'ADD-CATEGORY.TYPE_PERSONAL',
-      'ADD-CATEGORY.TYPE_PERMANENT',
-    ]);
-    const personal: string = types.get('ADD-CATEGORY.TYPE_PERSONAL');
-    const permanent: string = types.get('ADD-CATEGORY.TYPE_PERMANENT');
 
     this.realValues = [];
 
@@ -289,7 +290,7 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
       // GAINS MONTH
       const monthGains = this.payments
         .filter(
-          (payment) => payment.period === period && payment.nature === gains
+          (payment) => payment.period === period && payment.nature === this.keyGain
         )
         .reduce((sum, item) => sum + item.quantity, 0);
 
@@ -298,8 +299,8 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
         .filter(
           (payment) =>
             payment.period === period &&
-            payment.nature === expenditure &&
-            payment.type === personal
+            payment.nature === this.keyExpenditure &&
+            payment.type === this.keyPersonal
         )
         .reduce((sum, item) => sum + item.quantity, 0);
       // EXPENSIVE PERMANENT MONTH
@@ -307,8 +308,8 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
         .filter(
           (payment) =>
             payment.period === period &&
-            payment.nature === expenditure &&
-            payment.type === permanent
+            payment.nature === this.keyExpenditure &&
+            payment.type === this.keyPermanent
         )
         .reduce((sum, item) => sum + item.quantity, 0);
 
