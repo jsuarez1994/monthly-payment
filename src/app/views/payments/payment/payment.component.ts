@@ -230,7 +230,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
         field: 'description',
         header: headersValue.get('PAYMENT.HEADER_DESCRIPTION'),
       },
-      { field: 'quantity', header: headersValue.get('PAYMENT.HEADER_QUATITY') }
+      { field: 'quantity', header: headersValue.get('PAYMENT.HEADER_QUATITY') },
+      { field: 'operations', header: '' }
     ];
 
     // TITLES CHARTS
@@ -411,17 +412,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Delete payment
-   * @param payment
-   */
-  deletePayment(payment: Payment) {
-    console.log('### DELETE PAYMENT ###');
-    console.log(payment);
-
-    this.modalDelete(this.LiteralClass.getMapModalDelete(), payment);
-  }
-
-  /**
    * MODAL TO ACTION DELETE
    * @param map
    * @param object
@@ -471,21 +461,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Update payment
-   * @param payment
-   */
-  updatePayment(payment: Payment) {
-    console.log('### UPDATE PAYMENT ###');
-    console.log(payment);
-
-    // NAVIGATO TO UPDATE PAYMENT
-    this.router.navigate([
-      '/'.concat(Constants.UPDATE_PAYMENTS_PATH),
-      { uid: payment.uid },
-    ]);
-  }
-
-  /**
    * Find payment all others period this year
    * @param payment
    */
@@ -515,5 +490,25 @@ export class PaymentComponent implements OnInit, OnDestroy {
       return list.filter((payment) => payment.period === this.periodSelect && payment.nature === this.natureSelectKey);
     }
   }
+
+
+
+  // CRUD PAYMENT
+  addPayment(payment: Payment) {
+    console.log('ADD PAYMENT');
+  }
+
+  updatePayment(payment: Payment) {
+    console.log('UPDATE PAYMENT');
+  }
+
+  /**
+   * Delete payment
+   * @param payment
+   */
+  deletePayment(payment: Payment) {
+    this.modalDelete(this.LiteralClass.getMapModalDelete(), payment);
+  }
+
 
 }

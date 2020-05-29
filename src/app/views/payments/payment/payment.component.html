@@ -24,7 +24,11 @@
         <div class="card">
             <div *ngIf="payments.length > 0" class="card-body">
                 <h4 class="card-title text-center font-weight-bold color-corporative"> {{ natureSelectValue | uppercase }} </h4>
-                <app-table-crud [list]="payments" [headers]="headers"></app-table-crud>
+                <app-table-crud [list]="payments" [headers]="headers" 
+                                                                    (methodHistoric)="findAllPeriodsByPayment($event)" 
+                                                                    (methodAdd)="addPayment($event)"
+                                                                    (methodUpdate)="updatePayment($event)"
+                                                                    (methodDelete)="deletePayment($event)"></app-table-crud>
                 <!--<table class="table table-bordeless table-hover mt-5">
                     <thead>
                         <tr>

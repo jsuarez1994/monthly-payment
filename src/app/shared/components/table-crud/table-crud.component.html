@@ -1,7 +1,7 @@
-<p-table [columns]="headers" [value]="list" selectionMode="single" [(selection)]="ItemSelect" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10">
+<p-table [columns]="headers" [value]="list" selectionMode="single" [(selection)]="itemSelect" (showDialogToUpdate)="showDialogToUpdate($event)" [paginator]="true" [rows]="5">
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            <th *ngFor="let col of columns" class="text-center" [pSortableColumn]="col.field">
                 {{col.header}}
                 <p-sortIcon [field]="col.field"></p-sortIcon>
             </th>
@@ -18,14 +18,56 @@
                     <ng-template #thenBlock>{{translateColumn(rowData[col.field], col.field)}}</ng-template>
                     <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
                 </div>
+                <div *ngIf="col.field === 'operations'" class="text-center">
+                    <button type="button" class="btn btn-danger mr-1 buttons-actions" (click)="deleteItem(rowData)"><i class="far fa-trash-alt"></i></button>
+                    <button type="button" class="btn btn-info buttons-actions" (click)="findAllPeriodsByPayment(rowData)"><i class="fas fa-search"></i></button>
+                </div>
             </td>
         </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
-        <div style="text-align:left">
-            <button type="button" class="btn btn-danger mr-1 buttons-actions" (click)="showDialogToAdd()">
+        <div style="text-align:center">
+            <button type="button" class="btn btn-success mr-1 buttons-actions" (click)="showDialogToAdd()">
                 <i class="far fa-trash-alt"></i>{{ 'COMMONS.ADD_OPERATION_LABEL' | translate }}
             </button>
         </div>
     </ng-template>    
 </p-table>
+
+
+
+<!--DIALOG ACTION-->
+<!--<p-dialog header="Car Details" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true"  [style]="{width: '300px'}">
+    <div class="p-grid ui-fluid" >
+        <div class="p-col-4">
+            <label for="vin">Vin</label>
+        </div>
+        <div class="p-col-8">
+            <input pInputText id="vin"  autofocus />
+        </div>
+        <div class="p-col-4">
+            <label for="year">Year</label>
+        </div>
+        <div class="p-col-8">
+            <input pInputText id="year" />
+        </div>
+        <div class="p-col-4">
+            <label for="brand">Brand</label>
+        </div>
+        <div class="p-col-8">
+            <input pInputText id="brand"  />
+        </div>
+        <div class="p-col-4">
+            <label for="color">Color</label>
+        </div>
+        <div class="p-col-8">
+            <input pInputText id="color"  />
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="pi pi-times" (click)="actionDialog()" label="buttonAction"></button>
+            <button type="button" pButton icon="pi pi-check" (click)="hiddenDialog()" [label]="buttonCancel"></button>
+        </div>
+    </p-footer>
+</p-dialog>-->
