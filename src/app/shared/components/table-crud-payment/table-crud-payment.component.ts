@@ -273,16 +273,4 @@ export class TableCrudPaymentComponent implements OnInit {
     const mapLiterals = this.LiteralClass.getLiterals(literals);
     sweetAlert.toastMessage(mapLiterals.get(literals[0]), icon);
   }
-
-  changeCategory() {
-    const separate = this.itemDialog.value.category.split('-');
-    const description = separate[0].trim();
-    const nature = separate[1].trim();
-
-    this.itemDialog.patchValue({
-      category: this.categories.filter(
-        (category) => category.description === description && category.nature === nature
-      )[0]
-    });
-  }
 }

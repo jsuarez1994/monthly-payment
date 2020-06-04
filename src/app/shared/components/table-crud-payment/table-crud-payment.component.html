@@ -46,16 +46,14 @@
                     <!--CATEGORIES MOV-->
                     <label class="label">{{ 'OPERATION-PAYMENT.CATEGORY' | translate }}</label>
                     <div class="input-group mb-4">
-                        <select class="form-control" (change)="changeCategory()" [disabled]="newElement" formControlName="category">
+                        <select class="form-control" [attr.disabled]="newElement ? null : ''" formControlName="category">
                             <option value="" disabled selected>
                                 {{ 'OPERATION-PAYMENT.CATEGORY_DEFEAT' | translate }}
                             </option>
-                            <option *ngFor="let category of categories">
+                            <option *ngFor="let category of categories" [ngValue]="category">
                                 {{ category.description }} - {{ translateColumn(category.nature,'nature') }}</option>
                         </select>
                     </div>
-
-                    
 
                     <!-- QUANTITY -->
                     <label class="label">{{ 'OPERATION-PAYMENT.QUANTITY' | translate }}</label>
