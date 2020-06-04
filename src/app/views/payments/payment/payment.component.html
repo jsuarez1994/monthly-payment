@@ -9,7 +9,7 @@
         <div class="col-lg-4 col-md-4 col-sm-6">
             <div class="input-group">
                 <select class="form-control" #naturePayment (change)="findByFilter()">
-                    <option value="" disabled>{{ 'ADD-PAYMENT.TYPE_DEFEAT' | translate }}</option>
+                    <option value="" disabled>{{ 'PAYMENT.TYPE_DEFEAT' | translate }}</option>
                     <option *ngFor="let nature of natures"> {{ nature }}</option>
                 </select>
             </div>
@@ -24,11 +24,10 @@
         <div class="card">
             <div *ngIf="payments.length > 0" class="card-body">
                 <h4 class="card-title text-center font-weight-bold color-corporative"> {{ natureSelectValue | uppercase }} </h4>
-                <app-table-crud [list]="payments" [headers]="headers" 
-                                                                    (methodHistoric)="findAllPeriodsByPayment($event)" 
-                                                                    (methodAdd)="addPayment($event)"
-                                                                    (methodUpdate)="updatePayment($event)"
-                                                                    (methodDelete)="deletePayment($event)"></app-table-crud>
+                <app-table-crud-payment
+                [payments]="payments" 
+                [headers]="headersPayment"
+                [categories]="allCategories"></app-table-crud-payment>
                 <!--<table class="table table-bordeless table-hover mt-5">
                     <thead>
                         <tr>

@@ -1,0 +1,82 @@
+<p-table [columns]="headers" [value]="payments" selectionMode="single" [(selection)]="itemSelect" (onRowSelect)="onRowSelect()" [paginator]="true" [rows]="5">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" class="text-center" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+            <td *ngFor="let col of columns">
+                <div *ngIf="col.field === 'quantity'">
+                    {{rowData[col.field] | currency:'EUR'}}
+                </div>
+                <div *ngIf="col.field !== 'quantity'">
+                    <div *ngIf="col.field === 'nature' || col.field === 'type'; then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock>{{translateColumn(rowData[col.field], col.field)}}</ng-template>
+                    <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
+                </div>
+                <div *ngIf="col.field === 'operations'" class="text-center">
+                    <button type="button" class="btn btn-danger mr-1 buttons-actions" (click)="deletePayment(rowData)"><i class="far fa-trash-alt"></i></button>
+                    <button type="button" class="btn btn-info buttons-actions" (click)="findAllPeriodsByPayment(rowData)"><i class="fas fa-search"></i></button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+        <div style="text-align:center">
+            <button type="button" class="btn btn-success mr-1 buttons-actions" (click)="showDialogToAdd()">
+                <i class="far fa-trash-alt"></i>{{ 'COMMONS.ADD_OPERATION_TITLE' | translate }}
+            </button>
+        </div>
+    </ng-template>    
+</p-table>
+
+
+
+<!--DIALOG ACTION-->
+<p-dialog [(header)]="titleDialog" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true"  [style]="{width: '25%', overflow: 'hidden'}">
+    <form (ngSubmit)="actionDialog()" [formGroup]="itemDialog">
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-8">
+                    <!--CATEGORIES MOV-->
+                    <label class="label">{{ 'OPERATION-PAYMENT.CATEGORY' | translate }}</label>
+                    <div class="input-group mb-4">
+                        <select class="form-control" (change)="changeCategory()" [disabled]="newElement" formControlName="category">
+                            <option value="" disabled selected>
+                                {{ 'OPERATION-PAYMENT.CATEGORY_DEFEAT' | translate }}
+                            </option>
+                            <option *ngFor="let category of categories">
+                                {{ category.description }} - {{ translateColumn(category.nature,'nature') }}</option>
+                        </select>
+                    </div>
+
+                    
+
+                    <!-- QUANTITY -->
+                    <label class="label">{{ 'OPERATION-PAYMENT.QUANTITY' | translate }}</label>
+                    <div class="input-group mb-4">
+                        <input type="number" class="form-control" name="quantity" required
+                            formControlName="quantity">
+                    </div>
+
+                    <!-- PERIOD -->
+                    <label class="label">{{ 'OPERATION-PAYMENT.PERIOD' | translate }}</label>
+                    <div class="input-group" width='25%'>
+                        <app-input-datapicker (newPeriod)="changePeriod($event)"></app-input-datapicker>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p-footer>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" icon="pi pi-check" >{{buttonAction | uppercase}}</button>
+                <button type="button" class="btn btn-danger" icon="pi pi-times" (click)="hiddenDialog()" >{{buttonCancel | uppercase}}</button>
+            </div>
+        </p-footer>
+    </form>
+</p-dialog>

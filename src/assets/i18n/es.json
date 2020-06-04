@@ -26,7 +26,9 @@
         "TYPE_PERSONAL_KEY": 0,
         "TYPE_PERMANENT": "Fijo",
         "TYPE_PERMANENT_KEY": 1,
-        "ADD_OPERATION_LABEL": "Agregar",
+        "ADD_OPERATION_TITLE": "Agregar Elemento",
+        "UPDATE_OPERATION_TITLE": "Actualizar Elemento",
+        "ADD_OPERATION_LABEL": "Guardar",
         "UPDATE_OPERATION_LABEL": "Actualizar",
         "CANCEL_OPERATION_LABEL": "Cancelar"
     },
@@ -133,6 +135,7 @@
         "HEADER_QUATITY": "CUANTÍA",
         "HEADER_TYPE": "FIJO/PERSONAL",
         "ALL_NATURES": "Todos Movimientos",
+        "TYPE_DEFEAT": "Seleccione tipo movimiento",
         "ALL_NATURES_KEY": -1,
         "NATURE_GAIN": "Ganancia",
         "NATURE_GAIN_KEY": 0,
@@ -159,9 +162,8 @@
         "DELETE_FAIL": "Ha ocurrido un error al eliminar el registro"
     },
 
-    "ADD-PAYMENT": {
+    "OPERATION-PAYMENT": {
         "TITLE": "Agregar movimiento",
-        "TYPE_DEFEAT": "Seleccione tipo movimiento",
         "CATEGORY": "Categoría de movimiento",
         "CATEGORY_DEFEAT": "Selecciona una categoría.",
         "QUANTITY": "Cantidad",
@@ -172,18 +174,8 @@
         "TOAST_TITLE_REPEAT": "Ya hay un movimiento en el periodo <PERIOD> con la categoría <CATEGORY>"
     },
 
-    "UPDATE-PAYMENT": {
-        "TITLE": "Actualizar movimiento",
-        "CATEGORY": "Categoría de movimiento",
-        "QUANTITY": "Cantidad",
-        "PERIOD": "Periodo de transacción",
-        "SUBMIT_UPDATE": "Actualizar movimiento",
-        "TOAST_TITLE_SUCCESS": "Movimiento actualizado",
-        "TOAST_TITLE_FAIL": "Error al actualizar movimiento"
-    },
-
     "HISTORY-PAYMENT": {
-        "TITLE": "Historia del movimiento"
+        "TITLE": "Historial del movimiento"
     },
 
     "CATEGORY": {
@@ -196,7 +188,7 @@
         "DELETE_FAIL": "Ha ocurrido un error al eliminar la categoría"
     },
 
-    "ADD-CATEGORY": {
+    "OPERATION-CATEGORY": {
         "TITLE": "Agregar categoría",
         "NATURE_MOV": "Naturaleza del movimiento",
         "NATURE_DEFEAT": "Selecciona una naturaleza de movimiento",
@@ -211,22 +203,6 @@
         "TOAST_TITLE_SUCCESS": "Categoría agregada",
         "TOAST_TITLE_FAIL": "Error al agregar categoría",
         "TOAST_TITLE_REPEAT": "Ya hay una categoría la descripción <CATEGORY>"
-    },
-
-    "UPDATE-CATEGORY": {
-        "TITLE": "Actualizar categoría",
-        "NATURE_MOV": "Naturaleza del movimiento",
-        "NATURE_DEFEAT": "Selecciona una naturaleza de movimiento",
-        "NATURE_GAIN": "Ganancia",
-        "NATURE_EXPENDITURE": "Gasto",
-        "TYPE_MOV": "Tipo movimiento",
-        "TYPE_DEFEAT": "Selecciona un tipo movimiento",
-        "TYPE_PERSONAL": "Personal",
-        "TYPE_PERMANENT": "Fijo",
-        "DESCRIPTION": "Descripción",
-        "SUBMIT_UPDATE": "Actualizar catergoría",
-        "TOAST_TITLE_SUCCESS": "Categoría actualizada",
-        "TOAST_TITLE_FAIL": "Error al actualizar categoría"
     },
 
     "STATISTICS-PAYMENT": {

@@ -1274,6 +1274,7 @@ input[type=text]::-ms-clear {
     position: relative;
     border: 0;
     flex-shrink: 0;
+    text-align: center;
 }
 
 .ui-dialog .ui-dialog-content {
@@ -1282,6 +1283,7 @@ input[type=text]::-ms-clear {
     padding: .5em .75em;
     background: none;
     overflow-y: auto;
+    overflow-x: hidden !important;
 }
 
 .ui-dialog-maximized {

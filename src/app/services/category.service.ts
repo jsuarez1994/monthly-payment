@@ -59,14 +59,14 @@ export class CategoryService {
         this.addItemList({ ...category, uid: itemSave.id });
         this.storeAddCategorySuccess({ ...category, uid: itemSave.id });
         this.messagesLiteralsToast(
-          ['ADD-CATEGORY.TOAST_TITLE_SUCCESS'],
+          ['OPERATION-CATEGORY.TOAST_TITLE_SUCCESS'],
           Constants.ICON_SUCCESS
         );
       })
       .catch((error) => {
         this.storeAddCategoryFail(error);
         this.messagesLiteralsToast(
-          ['ADD-CATEGORY.TOAST_TITLE_FAIL'],
+          ['OPERATION-CATEGORY.TOAST_TITLE_FAIL'],
           Constants.ICON_ERROR
         );
       });
@@ -108,14 +108,14 @@ export class CategoryService {
         // UPDATE PAYMENTS WITH THIS CATEGORY
         this.updatePaymentsNewCategory(category, oldCategory);
         this.messagesLiteralsToast(
-          ['UPDATE-CATEGORY.TOAST_TITLE_SUCCESS'],
+          ['OPERATION-CATEGORY.TOAST_TITLE_SUCCESS'],
           Constants.ICON_SUCCESS
         );
       })
       .catch((error) => {
         this.storeUpdateCategoryFail(error);
         this.messagesLiteralsToast(
-          ['UPDATE-CATEGORY.TOAST_TITLE_FAIL'],
+          ['OPERATION-CATEGORY.TOAST_TITLE_FAIL'],
           Constants.ICON_ERROR
         );
       });

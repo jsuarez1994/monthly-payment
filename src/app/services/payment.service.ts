@@ -63,14 +63,14 @@ export class PaymentService {
         this.addItemList({ ...payment, uid: itemSave.id });
         this.storeAddPaymentSuccess({ ...payment, uid: itemSave.id });
         this.messagesLiteralsToast(
-          ['ADD-PAYMENT.TOAST_TITLE_SUCCESS'],
+          ['OPERATION-PAYMENT.TOAST_TITLE_SUCCESS'],
           Constants.ICON_SUCCESS
         );
       })
       .catch((error) => {
         this.storeAddPaymentFail(error);
         this.messagesLiteralsToast(
-          ['ADD-PAYMENT.TOAST_TITLE_FAIL'],
+          ['OPERATION-PAYMENT.TOAST_TITLE_FAIL'],
           Constants.ICON_ERROR
         );
       });

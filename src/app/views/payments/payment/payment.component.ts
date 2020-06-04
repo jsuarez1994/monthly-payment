@@ -20,15 +20,11 @@ import { Label } from 'ng2-charts';
 import * as sweetAlert from '../../../shared/Utils/sweetalert';
 import Swal from 'sweetalert2';
 import { SweetAlertIcon } from 'sweetalert2';
-// SERVICES
-import { PaymentService } from '../../../services/payment.service';
-import { UserService } from '../../../services/user.service';
 // CONSTANTS
 import { Constants } from '../../../shared/Utils/constants';
-// ROUTER
-import { Router } from '@angular/router';
 //RXJS
 import { Subscription } from 'rxjs';
+import { Category } from 'src/app/models/category.model';
 
 @Component({
   selector: 'app-payment',
@@ -42,10 +38,15 @@ export class PaymentComponent implements OnInit, OnDestroy {
   allPayments: Payment[];
   payments: Payment[];
   sumQuantity: number;
+  // CATEGORIES
+  allCategories: Category[];
   // USER
   user: User;
   // HEADERS
-  headers: any[];
+  headersPayment: any[];
+  headersCategory: any[];
+  // LABELS PAYMENT
+  labelsPayment: any[];
   // TO TRADUCT LITERALS
   LiteralClass: literals.Literals;
   // NATURES
@@ -73,6 +74,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
   barChartLabels: Label[] = [];
   //UNSUSBCRIBE
   subsPayments: Subscription = new Subscription();
+  subsCategories: Subscription = new Subscription();
   subsUser: Subscription = new Subscription();
   // TITLE CHARTS
   titleExpenditure: string;
@@ -80,10 +82,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private translate: TranslateService,
-    private paymentService: PaymentService,
-    private userService: UserService,
-    private router: Router
+    private translate: TranslateService
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
   }
@@ -103,8 +102,12 @@ export class PaymentComponent implements OnInit, OnDestroy {
       this.getAllNatures();
       this.configCharts();
       this.defaultFilters();
-      this.getHeaders();
+      // PAYMENT
+      this.getHeadersPayment();
       this.getAllPayments();
+      //CATEGOY
+      this.getHeadersCategory();
+      this.getAllCategories();
     });
   }
 
@@ -210,10 +213,16 @@ export class PaymentComponent implements OnInit, OnDestroy {
     });
   }
 
+  getAllCategories() {
+    this.subsCategories = this.store.select('categories').subscribe((items) => {
+      this.allCategories = items.categories;
+    });
+  }
+
   /**
    * Get Headers
    */
-  getHeaders() {
+  getHeadersPayment() {
     const headersValue = this.LiteralClass.getLiterals([
       'PAYMENT.HEADER_NATURE',
       'PAYMENT.HEADER_DESCRIPTION',
@@ -223,7 +232,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
       'PAYMENT.CHART_PAYMENTS_GENERAL',
       'PAYMENT.CHART_PAYMENTS_EXPENDITURE',
     ]);
-    this.headers = [
+    this.headersPayment = [
       { field: 'nature', header: headersValue.get('PAYMENT.HEADER_NATURE') },
       { field: 'type', header: headersValue.get('PAYMENT.HEADER_TYPE') },
       {
@@ -237,6 +246,22 @@ export class PaymentComponent implements OnInit, OnDestroy {
     // TITLES CHARTS
     this.titleExpenditure = headersValue.get('PAYMENT.CHART_PAYMENTS_EXPENDITURE');
     this.titleGeneral = headersValue.get('PAYMENT.CHART_PAYMENTS_GENERAL');
+  }
+
+  /**
+   * Get Headers
+   */
+  getHeadersCategory() {
+    const headersValue = this.LiteralClass.getLiterals([
+      'CATEGORY.HEADER_NATURE',
+      'CATEGORY.HEADER_TYPE',
+      'CATEGORY.HEADER_DESCRIPTION',
+    ]);
+    this.headersCategory = [
+      { field: 'nature', header: headersValue.get('CATEGORY.HEADER_NATURE') },
+      { field: 'type', header: headersValue.get('CATEGORY.HEADER_TYPE') },
+      { field: 'description', header: headersValue.get('CATEGORY.HEADER_DESCRIPTION') }
+    ];
   }
 
   /**
@@ -411,78 +436,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * MODAL TO ACTION DELETE
-   * @param map
-   * @param object
-   */
-  private modalDelete(map: Map<string, string>, object) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger',
-      },
-      buttonsStyling: false,
-    });
-
-    swalWithBootstrapButtons
-      .fire({
-        title: map.get('title'),
-        text: map.get('message'),
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: map.get('textButtonYes'),
-        cancelButtonText: map.get('textButtonNo'),
-        reverseButtons: true,
-      })
-      .then((result) => {
-        if (result.value) {
-          this.paymentService
-            .deletePayment(object)
-            .then(() => {
-              this.messagesLiteralsToast(
-                ['PAYMENT.DELETE_SUCCESS'],
-                Constants.ICON_SUCCESS
-              );
-            })
-            .catch(() => {
-              this.messagesLiteralsToast(
-                ['PAYMENT.DELETE_FAIL'],
-                Constants.ICON_ERROR
-              );
-            });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          sweetAlert.toastMessage(
-            map.get('messageOpCanceled'),
-            Constants.ICON_ERROR
-          );
-        }
-      });
-  }
-
-  /**
-   * Find payment all others period this year
-   * @param payment
-   */
-  findAllPeriodsByPayment(payment: Payment) {
-    console.log('### FIN ALL PERIODS SAME YEAR PAYMENT ###');
-    console.log(payment);
-
-    // NAVIGATO TO UPDATE PAYMENT
-    this.router.navigate([
-      '/'.concat(Constants.HISTORY_PAYMENT_PATH),
-      { description: payment.description },
-    ]);
-  }
-
-  /** Show message by literals
-   * @param literals
-   */
-  private messagesLiteralsToast(literals: string[], icon: SweetAlertIcon) {
-    const mapLiterals = this.LiteralClass.getLiterals(literals);
-    sweetAlert.toastMessage(mapLiterals.get(literals[0]), icon);
-  }
-
   private getPaymentsByFilter(list: Payment[]) {
     if (this.natureSelectKey === -1) {
       return list.filter((payment) => payment.period === this.periodSelect);
@@ -490,25 +443,5 @@ export class PaymentComponent implements OnInit, OnDestroy {
       return list.filter((payment) => payment.period === this.periodSelect && payment.nature === this.natureSelectKey);
     }
   }
-
-
-
-  // CRUD PAYMENT
-  addPayment(payment: Payment) {
-    console.log('ADD PAYMENT');
-  }
-
-  updatePayment(payment: Payment) {
-    console.log('UPDATE PAYMENT');
-  }
-
-  /**
-   * Delete payment
-   * @param payment
-   */
-  deletePayment(payment: Payment) {
-    this.modalDelete(this.LiteralClass.getMapModalDelete(), payment);
-  }
-
 
 }

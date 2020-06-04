@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { InputDatapickerComponent } from './components/input-datapicker/input-datapicker.component';
-import { TableCrudComponent } from './components/table-crud/table-crud.component';
+import { TableCrudPaymentComponent } from './components/table-crud-payment/table-crud-payment.component';
 // DATAPICKER MONTH
 import { HammerModule } from '@angular/platform-browser';
 import { IgxCalendarModule } from 'igniteui-angular';
@@ -24,7 +24,7 @@ import { PrimeModule } from './prime.module';
 
 
 @NgModule({
-  declarations: [FooterComponent, NavbarComponent, InputDatapickerComponent, TableCrudComponent],
+  declarations: [FooterComponent, NavbarComponent, InputDatapickerComponent, TableCrudPaymentComponent],
   imports: [
     CommonModule,
     TranslateModule,
@@ -54,12 +54,12 @@ import { PrimeModule } from './prime.module';
     FooterComponent,
     NavbarComponent,
     InputDatapickerComponent,
+    TableCrudPaymentComponent,
     // MATERIAL
     MatNativeDateModule,
     MaterialModule,
     // PRIME
-    PrimeModule,
-    TableCrudComponent
+    PrimeModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
