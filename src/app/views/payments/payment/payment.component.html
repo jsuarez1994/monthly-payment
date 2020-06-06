@@ -18,9 +18,10 @@
     <div class="col-lg-2 col-md-12 col-sm-12"></div>
 </div>
 <div class="row">
+    <div class="col-lg-1 col-md-12 col-sm-12"></div>
+    
     <!-- PAYMENTS -->
-    <div class="col-lg-2 col-md-12 col-sm-12"></div>
-    <div class="col-lg-8 col-md-12 col-sm-12">
+    <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="card">
             <div *ngIf="payments.length > 0" class="card-body">
                 
@@ -36,20 +37,43 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-2 col-md-12 col-sm-12"></div>
+
+    <!-- CATEGORIES -->
+    <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="card">
+            <div *ngIf="allCategories.length > 0" class="card-body">
+                
+                <h4 class="card-title text-center font-weight-bold color-corporative"> {{ 'CATEGORY.CATEGORY_TITLE' | translate | uppercase }} </h4>
+                <app-table-crud-category
+                [categories]="allCategories" 
+                [headers]="headersCategory"></app-table-crud-category>
+                
+            </div>
+            <div *ngIf="payments.length === 0" class="card-body text-center bg-danger text-white align-middle">
+                <h4> {{ 'CATEGORY.CATEGORIES_EMPTY' | translate }} <i class="far fa-folder-open"></i></h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-1 col-md-12 col-sm-12"></div>
 </div>
 <div class="row">
     <!-- CHART PAYMENTS -->
     <div class="col-lg-2 col-md-12 col-sm-12"></div>
+
     <div class="col-lg-8 col-md-12 col-sm-12" *ngIf="payments.length > 0">
         <div class="col-12 p-5">
             <div class="card">
                 <div class="card-body">
                     <p-fieldset [legend]="titleGeneral" [toggleable]="true">
                         <div style="display: block">
-                            <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
-                                [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
-                                [chartType]="barChartType">
+                            <canvas baseChart   
+                                    [datasets]="barChartData" 
+                                    [labels]="barChartLabels"
+                                    [options]="barChartOptions" 
+                                    [plugins]="barChartPlugins" 
+                                    [legend]="barChartLegend"
+                                    [chartType]="barChartType">
                             </canvas>
                         </div>
                     </p-fieldset>
@@ -57,6 +81,7 @@
             </div>
         </div>
     </div>
+
     <div class="col-lg-2 col-md-12 col-sm-12"></div>
 </div>
 <div class="row ml-1 mt-3" *ngIf="payments.length > 0">
@@ -68,7 +93,10 @@
                 <p-fieldset [legend]="titleExpenditure" [toggleable]="true">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div style="display: block">
-                            <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" chartType="doughnut">
+                            <canvas baseChart 
+                                    [data]="doughnutChartData" 
+                                    [labels]="doughnutChartLabels" 
+                                    chartType="doughnut">
                             </canvas>
                         </div>
                     </div>

@@ -5,34 +5,35 @@ import * as literals from '../../Utils/literals';
 import { map } from 'rxjs/operators';
 import { Literals } from '../../Utils/literals';
 import { ConfirmationService } from 'primeng/api';
-import { Payment } from '../../../models/payment.model';
 import { Constants } from '../../Utils/constants';
 import * as sweetAlert from '../../Utils/sweetalert';
 import Swal from 'sweetalert2';
 import { SweetAlertIcon } from 'sweetalert2';
-import { PaymentService } from '../../../services/payment.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from '../../../models/category.model';
+import { CategoryService } from '../../../services/category.service';
 
 @Component({
-  selector: 'app-table-crud-payment',
-  templateUrl: './table-crud-payment.component.html',
+  selector: 'app-table-crud-category',
+  templateUrl: './table-crud-category.component.html',
   styles: [],
   providers: [ConfirmationService],
 })
-export class TableCrudPaymentComponent implements OnInit {
-  @Input() payments: Payment[];
-  @Input() headers: any[];
+export class TableCrudCategoryComponent implements OnInit {
   @Input() categories: Category[];
+  @Input() headers: any[];
 
-  itemSelect: Payment;
+  itemSelect: Category;
   displayDialog: boolean;
   titleDialog: string;
   buttonAction: string;
   buttonCancel: string;
   itemDialog: FormGroup;
   newElement: boolean;
+
+  natures: any[];
+  types: any[];
 
   placeholderFinder: string;
 
@@ -41,13 +42,15 @@ export class TableCrudPaymentComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private paymentService: PaymentService,
+    private categoryService: CategoryService,
     private router: Router
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
   }
 
   ngOnInit(): void {
+    this.getAllNatures();
+    this.getAllTypes();
     this.newElement = false;
     this.displayDialog = false;
     this.buttonCancel = this.LiteralClass.getLiterals([
@@ -55,16 +58,40 @@ export class TableCrudPaymentComponent implements OnInit {
     ]).get('COMMONS.CANCEL_OPERATION_LABEL');
     this.buttonAction = '';
     this.placeholderFinder = this.LiteralClass.getLiterals([
-      'COMMONS.FIND_BY_DESCRIPTION_OR_QUANTITY',
-    ]).get('COMMONS.FIND_BY_DESCRIPTION_OR_QUANTITY');
+      'COMMONS.FIND_BY_DESCRIPTION',
+    ]).get('COMMONS.FIND_BY_DESCRIPTION');
     this.initForm();
+  }
+
+  getAllNatures() {
+
+    const natureGainKey = Number(this.LiteralClass.getLiterals(['COMMONS.NATURE_GAIN_KEY']).get('COMMONS.NATURE_GAIN_KEY'));
+    const natureGainLabel = this.LiteralClass.getLiterals(['COMMONS.NATURE_GAIN']).get('COMMONS.NATURE_GAIN');
+
+    const natureExpenditureKey = Number(this.LiteralClass.getLiterals(['COMMONS.NATURE_EXPENDITURE_KEY']).get('COMMONS.NATURE_EXPENDITURE_KEY'));
+    const natureExpenditureLabel = this.LiteralClass.getLiterals(['COMMONS.NATURE_EXPENDITURE']).get('COMMONS.NATURE_EXPENDITURE');
+
+    this.natures = [  {key: natureGainKey, value: natureGainLabel},
+                      {key: natureExpenditureKey, value: natureExpenditureLabel}];
+  }
+
+  getAllTypes() {
+
+    const typePersonalKey = Number(this.LiteralClass.getLiterals(['COMMONS.TYPE_PERSONAL_KEY']).get('COMMONS.TYPE_PERSONAL_KEY'));
+    const typePersonalLabel = this.LiteralClass.getLiterals(['COMMONS.TYPE_PERSONAL']).get('COMMONS.TYPE_PERSONAL');
+
+    const typePermanentKey = Number(this.LiteralClass.getLiterals(['COMMONS.TYPE_PERMANENT_KEY']).get('COMMONS.TYPE_PERMANENT_KEY'));
+    const typePermanentLabel = this.LiteralClass.getLiterals(['COMMONS.TYPE_PERMANENT']).get('COMMONS.TYPE_PERMANENT');
+
+    this.types = [  {key: typePersonalKey, value: typePersonalLabel},
+                    {key: typePermanentKey, value: typePermanentLabel}];
   }
 
   initForm() {
     this.itemDialog = new FormGroup({
-      category: new FormControl('', Validators.required),
-      quantity: new FormControl(0, [Validators.required, Validators.min(1)]),
-      period: new FormControl('', Validators.required),
+      nature: new FormControl('', Validators.required),
+      type: new FormControl(0, [Validators.required, Validators.min(1)]),
+      description: new FormControl('', Validators.required),
     });
   }
 
@@ -130,18 +157,6 @@ export class TableCrudPaymentComponent implements OnInit {
     this.titleDialog = '';
   }
 
-  onRowSelect() {
-    this.newElement = false;
-    this.setValuesForm();
-    this.displayDialog = true;
-    this.titleDialog = this.LiteralClass.getLiterals([
-      'COMMONS.UPDATE_OPERATION_TITLE',
-    ]).get('COMMONS.UPDATE_OPERATION_TITLE');
-    this.buttonAction = this.LiteralClass.getLiterals([
-      'COMMONS.UPDATE_OPERATION_LABEL',
-    ]).get('COMMONS.UPDATE_OPERATION_LABEL');
-  }
-
   showDialogToAdd() {
     this.newElement = true;
     this.displayDialog = true;
@@ -154,6 +169,17 @@ export class TableCrudPaymentComponent implements OnInit {
     this.itemDialog.reset();
   }
 
+  onRowSelect() {
+    this.newElement = false;
+    this.setValuesForm();
+    this.displayDialog = true;
+    this.titleDialog = this.LiteralClass.getLiterals([
+      'COMMONS.UPDATE_OPERATION_TITLE',
+    ]).get('COMMONS.UPDATE_OPERATION_TITLE');
+    this.buttonAction = this.LiteralClass.getLiterals([
+      'COMMONS.UPDATE_OPERATION_LABEL',
+    ]).get('COMMONS.UPDATE_OPERATION_LABEL');
+  }
 
   actionDialog() {
     const mapLiterals = this.LiteralClass.getLiterals([
@@ -162,48 +188,35 @@ export class TableCrudPaymentComponent implements OnInit {
     ]);
 
     if (this.titleDialog === mapLiterals.get('COMMONS.ADD_OPERATION_TITLE')) {
-      this.addPayment(this.itemDialog);
+      this.addCategory(this.itemDialog);
     } else if (
       this.titleDialog === mapLiterals.get('COMMONS.UPDATE_OPERATION_TITLE')
     ) {
-      this.updatePayment(this.itemDialog);
+      this.updateCategory(this.itemDialog);
     }
   }
 
   // #### CRUD PAYMENT ####
-  addPayment(payment: FormGroup) {
-    console.log('ADD PAYMENT');
+  addCategory(payment: FormGroup) {
   }
 
-  updatePayment(payment: FormGroup) {
-    console.log('UPDATE PAYMENT');
+  updateCategory(payment: FormGroup) {
+  }
+
+  setValuesForm() {
+    this.itemDialog.patchValue({
+      nature: this.itemSelect.nature,
+      type: this.itemSelect.type,
+      description: this.itemSelect.description
+    });
   }
 
   /**
    * Delete payment
    * @param payment
    */
-  deletePayment(payment: Payment) {
-    this.modalDelete(this.LiteralClass.getMapModalDelete(), payment);
-  }
-
-  /**
-   * Get new period select in input datapicker
-   * @param period
-   */
-  changePeriod(period: string) {
-    this.itemDialog.patchValue({
-      period: period
-    });
-  }
-  setValuesForm() {
-    this.itemDialog.patchValue({
-      period: this.itemSelect.period,
-      category: this.categories.filter(
-        (category) => category.description === this.itemSelect.description && category.nature === this.itemSelect.nature
-      )[0],
-      quantity: this.itemSelect.quantity
-    });
+  deleteCategory(category: Category) {
+    this.modalDelete(this.LiteralClass.getMapModalDelete(), category);
   }
 
   /**
@@ -232,20 +245,8 @@ export class TableCrudPaymentComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.paymentService
-            .deletePayment(object)
-            .then(() => {
-              this.messagesLiteralsToast(
-                ['PAYMENT.DELETE_SUCCESS'],
-                Constants.ICON_SUCCESS
-              );
-            })
-            .catch(() => {
-              this.messagesLiteralsToast(
-                ['PAYMENT.DELETE_FAIL'],
-                Constants.ICON_ERROR
-              );
-            });
+          this.categoryService
+            .deleteCategory(object);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           sweetAlert.toastMessage(
             map.get('messageOpCanceled'),
@@ -253,21 +254,6 @@ export class TableCrudPaymentComponent implements OnInit {
           );
         }
       });
-  }
-
-  /**
-   * Find payment all others period this year
-   * @param payment
-   */
-  findAllPeriodsByPayment(payment: Payment) {
-    console.log('### FIN ALL PERIODS SAME YEAR PAYMENT ###');
-    console.log(payment);
-
-    // NAVIGATO TO UPDATE PAYMENT
-    this.router.navigate([
-      '/'.concat(Constants.HISTORY_PAYMENT_PATH),
-      { description: payment.description },
-    ]);
   }
 
   /** Show message by literals

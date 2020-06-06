@@ -256,11 +256,13 @@ export class PaymentComponent implements OnInit, OnDestroy {
       'CATEGORY.HEADER_NATURE',
       'CATEGORY.HEADER_TYPE',
       'CATEGORY.HEADER_DESCRIPTION',
+      'COMMONS.OPERATIONS'
     ]);
     this.headersCategory = [
       { field: 'nature', header: headersValue.get('CATEGORY.HEADER_NATURE') },
       { field: 'type', header: headersValue.get('CATEGORY.HEADER_TYPE') },
-      { field: 'description', header: headersValue.get('CATEGORY.HEADER_DESCRIPTION') }
+      { field: 'description', header: headersValue.get('CATEGORY.HEADER_DESCRIPTION') },
+      { field: 'operations', header: '' }
     ];
   }
 

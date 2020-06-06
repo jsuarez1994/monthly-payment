@@ -1,4 +1,4 @@
-<p-table #dt [columns]="headers" [value]="payments" selectionMode="single" [(selection)]="itemSelect" styleClass="table-crud" (onRowSelect)="onRowSelect()" [paginator]="true" [rows]="5">
+<p-table #dt [columns]="headers" [value]="categories" selectionMode="single" [(selection)]="itemSelect" (onRowSelect)="onRowSelect()" [paginator]="true" [rows]="5">
     <ng-template pTemplate="caption">
         <div class="ui-table-globalfilter-container">
             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" [placeholder]="placeholderFinder" />
@@ -17,17 +17,11 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
             <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'quantity'">
-                    {{rowData[col.field] | currency:'EUR'}}
-                </div>
-                <div *ngIf="col.field !== 'quantity'">
-                    <div *ngIf="col.field === 'nature' || col.field === 'type'; then thenBlock else elseBlock"></div>
+                <div *ngIf="col.field === 'nature' || col.field === 'type'; then thenBlock else elseBlock"></div>
                     <ng-template #thenBlock>{{translateColumn(rowData[col.field], col.field)}}</ng-template>
                     <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
-                </div>
                 <div *ngIf="col.field === 'operations'" class="text-center">
-                    <button type="button" class="btn btn-danger mr-1 buttons-actions" (click)="deletePayment(rowData)"><i class="far fa-trash-alt"></i></button>
-                    <button type="button" class="btn btn-info buttons-actions" (click)="findAllPeriodsByPayment(rowData)"><i class="fas fa-search"></i></button>
+                    <button type="button" class="btn btn-danger mr-1 buttons-actions" (click)="deleteCategory(rowData)"><i class="far fa-trash-alt"></i></button>
                 </div>
             </td>
         </tr>
@@ -49,34 +43,36 @@
 
         <div class="form-group">
             <div class="row">
-                <div class="col-2"></div>
                 <div class="col-8">
-                    <!--CATEGORIES MOV-->
-                    <label class="label">{{ 'OPERATION-PAYMENT.CATEGORY' | translate }}</label>
-                    <div class="input-group mb-4">
-                        <select class="form-control" [attr.disabled]="newElement ? null : ''" formControlName="category">
-                            <option value="" disabled selected>
-                                {{ 'OPERATION-PAYMENT.CATEGORY_DEFEAT' | translate }}
+                    <!-- ARREGLAR EL MUESTREO DE NATURE Y TYPE -->
+                    <!--NATURE MOV-->
+                    <label class="label">{{ 'OPERATION-CATEGORY.NATURE_MOV' | translate }}</label>
+                    <div class="input-group">
+                        <select class="form-control" [attr.disabled]="newElement ? null : ''" formControlName="nature">
+                            <option value="" disabled>{{ 'OPERATION-CATEGORY.NATURE_DEFEAT' | translate }}
                             </option>
-                            <option *ngFor="let category of categories" [ngValue]="category">
-                                {{ category.description }} - {{ translateColumn(category.nature,'nature') }}</option>
+                            <option [value]="nature.key" *ngFor="let nature of natures"> {{ nature.value }}</option>
                         </select>
                     </div>
 
-                    <!-- QUANTITY -->
-                    <label class="label">{{ 'OPERATION-PAYMENT.QUANTITY' | translate }}</label>
-                    <div class="input-group mb-4">
-                        <input type="number" class="form-control" name="quantity" required
-                            formControlName="quantity">
+                    <!--TYPE MOV-->
+                    <label class="label">{{ 'OPERATION-CATEGORY.TYPE_MOV' | translate }}</label>
+                    <div class="input-group">
+                        <select class="form-control" [attr.disabled]="newElement ? null : ''" formControlName="type">
+                            <option value="" disabled>{{ 'OPERATION-CATEGORY.TYPE_DEFEAT' | translate }}
+                            </option>
+                            <option [value]="type.key" *ngFor="let type of types"> {{ type.value }}</option>
+                        </select>
                     </div>
 
-                    <!-- PERIOD -->
-                    <label class="label">{{ 'OPERATION-PAYMENT.PERIOD' | translate }}</label>
-                    <div class="input-group" width='25%'>
-                        <app-input-datapicker (newPeriod)="changePeriod($event)"></app-input-datapicker>
+                    <!--DESC-->
+                    <label class="label">{{ 'OPERATION-CATEGORY.DESCRIPTION' | translate }}</label>
+                    <div class="input-group">
+                        <textarea class="form-control" name="description"
+                        formControlName="description" rows="3"></textarea>
                     </div>
+
                 </div>
-                <div class="col-2"></div>
             </div>
         </div>
         <p-footer>

@@ -1,5 +1,6 @@
 .ui-widget, .ui-widget * {
     box-sizing: border-box;
+    border: none !important;
 }
 .ui-helper-hidden {
     display: none !important;

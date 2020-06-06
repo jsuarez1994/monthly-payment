@@ -9,6 +9,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { InputDatapickerComponent } from './components/input-datapicker/input-datapicker.component';
 import { TableCrudPaymentComponent } from './components/table-crud-payment/table-crud-payment.component';
+import { TableCrudCategoryComponent } from './components/table-crud-category/table-crud-category.component';
 // DATAPICKER MONTH
 import { HammerModule } from '@angular/platform-browser';
 import { IgxCalendarModule } from 'igniteui-angular';
@@ -24,7 +25,7 @@ import { PrimeModule } from './prime.module';
 
 
 @NgModule({
-  declarations: [FooterComponent, NavbarComponent, InputDatapickerComponent, TableCrudPaymentComponent],
+  declarations: [FooterComponent, NavbarComponent, InputDatapickerComponent, TableCrudPaymentComponent, TableCrudCategoryComponent],
   imports: [
     CommonModule,
     TranslateModule,
@@ -55,6 +56,7 @@ import { PrimeModule } from './prime.module';
     NavbarComponent,
     InputDatapickerComponent,
     TableCrudPaymentComponent,
+    TableCrudCategoryComponent,
     // MATERIAL
     MatNativeDateModule,
     MaterialModule,
