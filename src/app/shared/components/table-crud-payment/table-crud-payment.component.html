@@ -3,6 +3,10 @@
         <div class="ui-table-globalfilter-container">
             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" [placeholder]="placeholderFinder" />
         </div>
+        <div class="ui-helper-clearfix" style="text-align: right">
+            <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+            <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
+        </div>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
@@ -44,12 +48,11 @@
 
 
 <!--DIALOG ACTION-->
-<p-dialog [(header)]="titleDialog" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true"  [style]="{width: '25%', overflow: 'hidden'}">
+<p-dialog [(header)]="titleDialog" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true">
     <form (ngSubmit)="actionDialog()" [formGroup]="itemDialog">
 
         <div class="form-group">
             <div class="row">
-                <div class="col-2"></div>
                 <div class="col-8">
                     <!--CATEGORIES MOV-->
                     <label class="label">{{ 'OPERATION-PAYMENT.CATEGORY' | translate }}</label>
@@ -76,7 +79,6 @@
                         <app-input-datapicker (newPeriod)="changePeriod($event)"></app-input-datapicker>
                     </div>
                 </div>
-                <div class="col-2"></div>
             </div>
         </div>
         <p-footer>

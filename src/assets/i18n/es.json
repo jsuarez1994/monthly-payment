@@ -32,7 +32,8 @@
         "UPDATE_OPERATION_LABEL": "Actualizar",
         "CANCEL_OPERATION_LABEL": "Cancelar",
         "FIND_BY_DESCRIPTION_OR_QUANTITY": "Busca por descripción o cuantía",
-        "FIND_BY_DESCRIPTION": "Busca por descripción"
+        "FIND_BY_DESCRIPTION": "Busca por descripción",
+        "EXPORT_TITLE": "Lista_Movimientos_"
     },
 
     "NAVBAR": {
@@ -171,8 +172,8 @@
         "QUANTITY": "Cantidad",
         "PERIOD": "Periodo de transacción",
         "SUBMIT_ADD": "Agregar movimiento",
-        "TOAST_TITLE_SUCCESS": "Movimiento agregado",
-        "TOAST_TITLE_FAIL": "Error al agregar movimiento",
+        "TOAST_TITLE_SUCCESS": "Transacción del movimiento realizado con éxito",
+        "TOAST_TITLE_FAIL": "Error con la transacción del movimiento",
         "TOAST_TITLE_REPEAT": "Ya hay un movimiento en el periodo <PERIOD> con la categoría <CATEGORY>"
     },
 
@@ -202,8 +203,8 @@
         "TYPE_PERMANENT": "Fijo",
         "DESCRIPTION": "Descripción",
         "SUBMIT_ADD": "Agregar categoría",
-        "TOAST_TITLE_SUCCESS": "Categoría agregada",
-        "TOAST_TITLE_FAIL": "Error al agregar categoría",
+        "TOAST_TITLE_SUCCESS": "Transacción de la categoría realizada con éxito",
+        "TOAST_TITLE_FAIL": "Error con la transacción de la categoría",
         "TOAST_TITLE_REPEAT": "Ya hay una categoría la descripción <CATEGORY>"
     },
 

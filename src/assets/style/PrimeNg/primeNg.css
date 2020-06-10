@@ -2,6 +2,11 @@
     box-sizing: border-box;
     border: none !important;
 }
+
+.ui-widget > input, select {
+    border-bottom: 1px solid black !important;
+}
+
 .ui-helper-hidden {
     display: none !important;
 }
@@ -1268,6 +1273,9 @@ input[type=text]::-ms-clear {
     flex-direction: column;
     max-height: 90%;
     position: relative;
+    width: 25% !important; 
+    min-width: 350px !important;
+    overflow: 'hidden' !important;
 }
 
 .ui-dialog .ui-dialog-titlebar {
@@ -1276,6 +1284,7 @@ input[type=text]::-ms-clear {
     border: 0;
     flex-shrink: 0;
     text-align: center;
+    text-transform: uppercase;
 }
 
 .ui-dialog .ui-dialog-content {
@@ -1596,6 +1605,7 @@ input[type=text]::-ms-clear {
     cursor:pointer;
     white-space: nowrap;
     display: block;
+    background-color: transparent !important;
 }
 
 .ui-fieldset .ui-fieldset-toggler {

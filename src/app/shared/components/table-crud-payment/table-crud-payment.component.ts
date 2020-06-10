@@ -14,6 +14,9 @@ import { PaymentService } from '../../../services/payment.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from '../../../models/category.model';
+// UTILS
+import * as utils from '../../../shared/Utils/utils';
+import { ExportDataService } from '../../../services/export-data.service';
 
 @Component({
   selector: 'app-table-crud-payment',
@@ -42,7 +45,8 @@ export class TableCrudPaymentComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private paymentService: PaymentService,
-    private router: Router
+    private router: Router,
+    private exportDataService: ExportDataService
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
   }
@@ -64,7 +68,7 @@ export class TableCrudPaymentComponent implements OnInit {
     this.itemDialog = new FormGroup({
       category: new FormControl('', Validators.required),
       quantity: new FormControl(0, [Validators.required, Validators.min(1)]),
-      period: new FormControl('', Validators.required),
+      period: new FormControl(utils.currentDate(), Validators.required),
     });
   }
 
@@ -145,15 +149,20 @@ export class TableCrudPaymentComponent implements OnInit {
   showDialogToAdd() {
     this.newElement = true;
     this.displayDialog = true;
+
     this.titleDialog = this.LiteralClass.getLiterals([
       'COMMONS.ADD_OPERATION_TITLE',
     ]).get('COMMONS.ADD_OPERATION_TITLE');
+
     this.buttonAction = this.LiteralClass.getLiterals([
       'COMMONS.ADD_OPERATION_LABEL',
     ]).get('COMMONS.ADD_OPERATION_LABEL');
-    this.itemDialog.reset();
-  }
 
+    this.itemDialog.reset();
+    this.itemDialog.patchValue({
+      period: utils.currentDate()
+    });
+  }
 
   actionDialog() {
     const mapLiterals = this.LiteralClass.getLiterals([
@@ -171,12 +180,66 @@ export class TableCrudPaymentComponent implements OnInit {
   }
 
   // #### CRUD PAYMENT ####
-  addPayment(payment: FormGroup) {
-    console.log('ADD PAYMENT');
+  addPayment(paymentDialog: FormGroup) {
+    const category: Category = paymentDialog.controls['category'].value;
+    const payment: Payment = {
+      uid: '',
+      description: category.description,
+      type: category.type,
+      nature: category.nature,
+      quantity: paymentDialog.controls['quantity'].value,
+      period: paymentDialog.controls['period'].value,
+    };
+
+    // VALIDATE ELEMENT NOT REPEAT
+    if (
+      this.paymentService.elementNotRepeat(
+        this.paymentService.getPayments(),
+        payment
+      )
+    ) {
+      this.paymentService.addPayment(payment);
+      this.itemDialog.reset();
+      this.itemDialog.patchValue({
+        period: utils.currentDate()
+      });
+      this.hiddenDialog();
+    } else {
+      const map = this.LiteralClass.getLiterals([
+        'OPERATION-PAYMENT.TOAST_TITLE_REPEAT',
+      ]);
+      let toast = map.get('OPERATION-PAYMENT.TOAST_TITLE_REPEAT');
+      toast = toast
+        .replace('<PERIOD>', utils.periodToDate([payment.period])[0])
+        .replace('<CATEGORY>', payment.description);
+      sweetAlert.toastMessage(toast, Constants.ICON_ERROR);
+    }
   }
 
-  updatePayment(payment: FormGroup) {
-    console.log('UPDATE PAYMENT');
+  updatePayment(paymentDialog: FormGroup) {
+    const payment: Payment = this.itemSelect;
+    payment.period = paymentDialog.controls['period'].value;
+    payment.quantity = paymentDialog.controls['quantity'].value;
+
+    this.paymentService
+      .updatePayment(payment)
+      .then(() => {
+        this.messagesLiteralsToast(
+          ['OPERATION-PAYMENT.TOAST_TITLE_SUCCESS'],
+          Constants.ICON_SUCCESS
+        );
+        this.itemDialog.reset();
+        this.itemDialog.patchValue({
+          period: utils.currentDate()
+        });
+        this.hiddenDialog();
+      })
+      .catch(() => {
+        this.messagesLiteralsToast(
+          ['OPERATION-PAYMENT.TOAST_TITLE_FAIL'],
+          Constants.ICON_ERROR
+        );
+      });
   }
 
   /**
@@ -193,16 +256,19 @@ export class TableCrudPaymentComponent implements OnInit {
    */
   changePeriod(period: string) {
     this.itemDialog.patchValue({
-      period: period
+      period: period,
     });
   }
+
   setValuesForm() {
     this.itemDialog.patchValue({
       period: this.itemSelect.period,
       category: this.categories.filter(
-        (category) => category.description === this.itemSelect.description && category.nature === this.itemSelect.nature
+        (category) =>
+          category.description === this.itemSelect.description &&
+          category.nature === this.itemSelect.nature
       )[0],
-      quantity: this.itemSelect.quantity
+      quantity: this.itemSelect.quantity,
     });
   }
 
@@ -276,5 +342,21 @@ export class TableCrudPaymentComponent implements OnInit {
   private messagesLiteralsToast(literals: string[], icon: SweetAlertIcon) {
     const mapLiterals = this.LiteralClass.getLiterals(literals);
     sweetAlert.toastMessage(mapLiterals.get(literals[0]), icon);
+  }
+
+
+  /**EXPORTS DATA*/
+  exportPdf() {
+    const period = this.payments[0].period;
+    const startTitlePDF = this.LiteralClass.getLiterals(['COMMONS.EXPORT_TITLE']).get('COMMONS.EXPORT_TITLE');
+    const titlePDF = startTitlePDF.concat(period).concat('.pdf');
+    this.exportDataService.exportPdfData(this.payments, this.headers, titlePDF);
+  }
+
+  exportExcel() {
+      const period = this.payments[0].period;
+      const startTitleExcel = this.LiteralClass.getLiterals(['COMMONS.EXPORT_TITLE']).get('COMMONS.EXPORT_TITLE');
+      const titleExcel = startTitleExcel.concat(period).concat('.xlsx');
+      this.exportDataService.exportExcelData(this.payments, titleExcel);
   }
 }

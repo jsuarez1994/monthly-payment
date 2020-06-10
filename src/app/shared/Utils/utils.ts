@@ -85,6 +85,6 @@ export function getMonthByPeriod(period: string): string{
  * List elements not repeat
  * @param list 
  */
-export function listStringNotRepeat(list:string[]) {
+export function listStringNotRepeat(list: string[]) {
   return list.filter(function(elem, index, self) {return index === self.indexOf(elem)});
 }

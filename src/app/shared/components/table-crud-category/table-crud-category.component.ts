@@ -89,8 +89,8 @@ export class TableCrudCategoryComponent implements OnInit {
 
   initForm() {
     this.itemDialog = new FormGroup({
-      nature: new FormControl('', Validators.required),
-      type: new FormControl(0, [Validators.required, Validators.min(1)]),
+      nature: new FormControl(0, Validators.required),
+      type: new FormControl(0, [Validators.required]),
       description: new FormControl('', Validators.required),
     });
   }
@@ -197,10 +197,32 @@ export class TableCrudCategoryComponent implements OnInit {
   }
 
   // #### CRUD PAYMENT ####
-  addCategory(payment: FormGroup) {
+  addCategory(categoryDialog: FormGroup) {
+    const category: Category = new Category();
+    category.nature = Number(categoryDialog.value.nature);
+    category.type = Number(categoryDialog.value.type);
+    const description: string = categoryDialog.value.description;
+    category.description = description.trim();
+
+    // VALIDATE ELEMENT NOT REPEAT
+    if (this.categoryService.elementNotRepeat(this.categoryService.getCategories(), category)) {
+      this.categoryService.addCategory(category);
+      this.itemDialog.reset();
+      this.hiddenDialog();
+    } else {
+      const mapToast = this.LiteralClass.getLiterals(['OPERATION-CATEGORY.TOAST_TITLE_REPEAT']);
+      let toast: string = mapToast.get('OPERATION-CATEGORY.TOAST_TITLE_REPEAT');
+      toast = toast.replace('<CATEGORY>', category.description);
+      sweetAlert.toastMessage(toast, Constants.ICON_ERROR);
+    }
   }
 
-  updateCategory(payment: FormGroup) {
+  updateCategory(categoryDialog: FormGroup) {
+    const descriptionValue = String(categoryDialog.controls['description'].value).trim();
+    categoryDialog.patchValue({description: descriptionValue});
+    this.categoryService.updateCategory({...categoryDialog.value, uid: this.itemSelect.uid}, this.itemSelect);
+    this.itemDialog.reset();
+    this.hiddenDialog();
   }
 
   setValuesForm() {
@@ -254,13 +276,5 @@ export class TableCrudCategoryComponent implements OnInit {
           );
         }
       });
-  }
-
-  /** Show message by literals
-   * @param literals
-   */
-  private messagesLiteralsToast(literals: string[], icon: SweetAlertIcon) {
-    const mapLiterals = this.LiteralClass.getLiterals(literals);
-    sweetAlert.toastMessage(mapLiterals.get(literals[0]), icon);
   }
 }
