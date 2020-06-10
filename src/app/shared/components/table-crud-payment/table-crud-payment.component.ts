@@ -78,54 +78,7 @@ export class TableCrudPaymentComponent implements OnInit {
    * @param column
    */
   translateColumn(key: number, column: string) {
-    const mapNature: Map<number, string> = new Map<number, string>();
-    const mapType: Map<number, string> = new Map<number, string>();
-
-    // NATURE
-    mapNature.set(
-      Number(
-        this.LiteralClass.getLiterals(['COMMONS.NATURE_GAIN_KEY']).get(
-          'COMMONS.NATURE_GAIN_KEY'
-        )
-      ),
-      this.LiteralClass.getLiterals(['COMMONS.NATURE_GAIN']).get(
-        'COMMONS.NATURE_GAIN'
-      )
-    );
-    mapNature.set(
-      Number(
-        this.LiteralClass.getLiterals(['COMMONS.NATURE_EXPENDITURE_KEY']).get(
-          'COMMONS.NATURE_EXPENDITURE_KEY'
-        )
-      ),
-      this.LiteralClass.getLiterals(['COMMONS.NATURE_EXPENDITURE']).get(
-        'COMMONS.NATURE_EXPENDITURE'
-      )
-    );
-
-    // TYPE
-    mapType.set(
-      Number(
-        this.LiteralClass.getLiterals(['COMMONS.TYPE_PERSONAL_KEY']).get(
-          'COMMONS.TYPE_PERSONAL_KEY'
-        )
-      ),
-      this.LiteralClass.getLiterals(['COMMONS.TYPE_PERSONAL']).get(
-        'COMMONS.TYPE_PERSONAL'
-      )
-    );
-    mapType.set(
-      Number(
-        this.LiteralClass.getLiterals(['COMMONS.TYPE_PERMANENT_KEY']).get(
-          'COMMONS.TYPE_PERMANENT_KEY'
-        )
-      ),
-      this.LiteralClass.getLiterals(['COMMONS.TYPE_PERMANENT']).get(
-        'COMMONS.TYPE_PERMANENT'
-      )
-    );
-
-    return column === 'nature' ? mapNature.get(key) : mapType.get(key);
+    return this.exportDataService.translateColumn(key, column);
   }
 
   hiddenDialog() {
@@ -348,15 +301,15 @@ export class TableCrudPaymentComponent implements OnInit {
   /**EXPORTS DATA*/
   exportPdf() {
     const period = this.payments[0].period;
-    const startTitlePDF = this.LiteralClass.getLiterals(['COMMONS.EXPORT_TITLE']).get('COMMONS.EXPORT_TITLE');
+    const startTitlePDF = this.LiteralClass.getLiterals(['COMMONS.EXPORT_PAYMENTS_TITLE']).get('COMMONS.EXPORT_PAYMENTS_TITLE');
     const titlePDF = startTitlePDF.concat(period).concat('.pdf');
-    this.exportDataService.exportPdfData(this.payments, this.headers, titlePDF);
+    this.exportDataService.exportPdfData(this.payments, this.headers, titlePDF, Constants.MODEL_PAYMENT);
   }
 
   exportExcel() {
       const period = this.payments[0].period;
-      const startTitleExcel = this.LiteralClass.getLiterals(['COMMONS.EXPORT_TITLE']).get('COMMONS.EXPORT_TITLE');
+      const startTitleExcel = this.LiteralClass.getLiterals(['COMMONS.EXPORT_PAYMENTS_TITLE']).get('COMMONS.EXPORT_PAYMENTS_TITLE');
       const titleExcel = startTitleExcel.concat(period).concat('.xlsx');
-      this.exportDataService.exportExcelData(this.payments, titleExcel);
+      this.exportDataService.exportExcelData(this.payments, titleExcel, Constants.MODEL_PAYMENT);
   }
 }

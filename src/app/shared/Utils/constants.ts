@@ -30,6 +30,14 @@ export class Constants {
     public static CONFIG_USER_PATH = 'config-user';
     public static RESET_PASSWORD_PATH = 'reset-password';
 
+    /********** MODELS **********/
+    public static MODEL_PAYMENT = 'payment';
+    public static MODEL_CATEGORY = 'category';
+
+    /********** FILES **********/
+    public static FILE_PDF = 'pdf';
+    public static FILE_EXCEL = 'xlsx';
+
     public static BASE_PATH = 'http://localhost:4200/';
     // public static BASE_PATH = 'http://localhost:4200/'; BASE PRODUCTION
 }

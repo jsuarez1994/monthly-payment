@@ -26,14 +26,15 @@
         "TYPE_PERSONAL_KEY": 0,
         "TYPE_PERMANENT": "Fijo",
         "TYPE_PERMANENT_KEY": 1,
-        "ADD_OPERATION_TITLE": "Agregar Elemento",
+        "ADD_OPERATION_TITLE": " Agregar Elemento",
         "UPDATE_OPERATION_TITLE": "Actualizar Elemento",
         "ADD_OPERATION_LABEL": "Guardar",
         "UPDATE_OPERATION_LABEL": "Actualizar",
         "CANCEL_OPERATION_LABEL": "Cancelar",
         "FIND_BY_DESCRIPTION_OR_QUANTITY": "Busca por descripción o cuantía",
         "FIND_BY_DESCRIPTION": "Busca por descripción",
-        "EXPORT_TITLE": "Lista_Movimientos_"
+        "EXPORT_PAYMENTS_TITLE": "Lista_Movimientos_",
+        "EXPORT_CATEGORIES_TITLE": "Lista_Categorias"
     },
 
     "NAVBAR": {

@@ -13,6 +13,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from '../../../models/category.model';
 import { CategoryService } from '../../../services/category.service';
+import { ExportDataService } from '../../../services/export-data.service';
 
 @Component({
   selector: 'app-table-crud-category',
@@ -43,7 +44,8 @@ export class TableCrudCategoryComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    private exportDataService: ExportDataService
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
   }
@@ -101,54 +103,7 @@ export class TableCrudCategoryComponent implements OnInit {
    * @param column
    */
   translateColumn(key: number, column: string) {
-    const mapNature: Map<number, string> = new Map<number, string>();
-    const mapType: Map<number, string> = new Map<number, string>();
-
-    // NATURE
-    mapNature.set(
-      Number(
-        this.LiteralClass.getLiterals(['COMMONS.NATURE_GAIN_KEY']).get(
-          'COMMONS.NATURE_GAIN_KEY'
-        )
-      ),
-      this.LiteralClass.getLiterals(['COMMONS.NATURE_GAIN']).get(
-        'COMMONS.NATURE_GAIN'
-      )
-    );
-    mapNature.set(
-      Number(
-        this.LiteralClass.getLiterals(['COMMONS.NATURE_EXPENDITURE_KEY']).get(
-          'COMMONS.NATURE_EXPENDITURE_KEY'
-        )
-      ),
-      this.LiteralClass.getLiterals(['COMMONS.NATURE_EXPENDITURE']).get(
-        'COMMONS.NATURE_EXPENDITURE'
-      )
-    );
-
-    // TYPE
-    mapType.set(
-      Number(
-        this.LiteralClass.getLiterals(['COMMONS.TYPE_PERSONAL_KEY']).get(
-          'COMMONS.TYPE_PERSONAL_KEY'
-        )
-      ),
-      this.LiteralClass.getLiterals(['COMMONS.TYPE_PERSONAL']).get(
-        'COMMONS.TYPE_PERSONAL'
-      )
-    );
-    mapType.set(
-      Number(
-        this.LiteralClass.getLiterals(['COMMONS.TYPE_PERMANENT_KEY']).get(
-          'COMMONS.TYPE_PERMANENT_KEY'
-        )
-      ),
-      this.LiteralClass.getLiterals(['COMMONS.TYPE_PERMANENT']).get(
-        'COMMONS.TYPE_PERMANENT'
-      )
-    );
-
-    return column === 'nature' ? mapNature.get(key) : mapType.get(key);
+    return this.exportDataService.translateColumn(key, column);
   }
 
   hiddenDialog() {
@@ -277,4 +232,19 @@ export class TableCrudCategoryComponent implements OnInit {
         }
       });
   }
+
+
+  /**EXPORTS DATA*/
+  exportPdf() {
+    const startTitlePDF = this.LiteralClass.getLiterals(['COMMONS.EXPORT_CATEGORIES_TITLE']).get('COMMONS.EXPORT_CATEGORIES_TITLE');
+    const titlePDF = startTitlePDF.concat('.pdf');
+    this.exportDataService.exportPdfData(this.categories, this.headers, titlePDF, Constants.MODEL_CATEGORY);
+  }
+
+  exportExcel() {
+      const startTitleExcel = this.LiteralClass.getLiterals(['COMMONS.EXPORT_CATEGORIES_TITLE']).get('COMMONS.EXPORT_CATEGORIES_TITLE');
+      const titleExcel = startTitleExcel.concat('.xlsx');
+      this.exportDataService.exportExcelData(this.categories, titleExcel, Constants.MODEL_CATEGORY);
+  }
+
 }

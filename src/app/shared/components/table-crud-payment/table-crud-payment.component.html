@@ -1,11 +1,15 @@
 <p-table #dt [columns]="headers" [value]="payments" selectionMode="single" [(selection)]="itemSelect" styleClass="table-crud" (onRowSelect)="onRowSelect()" [paginator]="true" [rows]="5">
     <ng-template pTemplate="caption">
         <div class="ui-table-globalfilter-container">
+            <!--FINDER-->
             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" [placeholder]="placeholderFinder" />
-        </div>
-        <div class="ui-helper-clearfix" style="text-align: right">
-            <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
-            <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
+            <!--EXPORT-->
+            <button type="button" (click)="exportExcel()" style="margin-right: 0.5em; margin-left:5em;" class="btn btn-success">
+                <i class="pi pi-file-excel"></i>
+            </button>
+            <button type="button" (click)="exportPdf()" class="btn btn-danger">
+                <i class="pi pi-file-pdf"></i>
+            </button>
         </div>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
@@ -39,7 +43,7 @@
     <ng-template pTemplate="summary" let-rowData>
         <div style="text-align:center">
             <button type="button" class="btn btn-success mr-1 buttons-actions" (click)="showDialogToAdd()">
-                <i class="far fa-trash-alt"></i>{{ 'COMMONS.ADD_OPERATION_TITLE' | translate }}
+                <i class="fas fa-plus-circle"></i>{{ 'COMMONS.ADD_OPERATION_TITLE' | translate }}
             </button>
         </div>
     </ng-template>    
@@ -83,7 +87,7 @@
         </div>
         <p-footer>
             <div class="text-center">
-                <button type="submit" [disabled]="itemDialog.invalid" class="btn btn-success mr-5" icon="pi pi-check" >{{buttonAction | uppercase}}</button>
+                <button type="submit" [disabled]="itemDialog.invalid" class="btn btn-success mr-5" icon="pi pi-check" >{{ buttonAction | uppercase}}</button>
                 <button type="button" class="btn btn-danger" icon="pi pi-times" (click)="hiddenDialog()" >{{buttonCancel | uppercase}}</button>
             </div>
         </p-footer>

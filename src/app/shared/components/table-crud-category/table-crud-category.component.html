@@ -1,7 +1,14 @@
 <p-table #dt [columns]="headers" [value]="categories" selectionMode="single" [(selection)]="itemSelect" (onRowSelect)="onRowSelect()" [paginator]="true" [rows]="5">
     <ng-template pTemplate="caption">
         <div class="ui-table-globalfilter-container">
+            <!--FINDER-->
             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" [placeholder]="placeholderFinder" />
+            <button type="button" (click)="exportExcel()" style="margin-right: 0.5em; margin-left:5em;" class="btn btn-success">
+                <i class="pi pi-file-excel"></i>
+            </button>
+            <button type="button" (click)="exportPdf()" class="btn btn-danger">
+                <i class="pi pi-file-pdf"></i>
+            </button>
         </div>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
@@ -29,7 +36,7 @@
     <ng-template pTemplate="summary" let-rowData>
         <div style="text-align:center">
             <button type="button" class="btn btn-success mr-1 buttons-actions" (click)="showDialogToAdd()">
-                <i class="far fa-trash-alt"></i>{{ 'COMMONS.ADD_OPERATION_TITLE' | translate }}
+                <i class="fas fa-plus-circle"></i>{{ 'COMMONS.ADD_OPERATION_TITLE' | translate }}
             </button>
         </div>
     </ng-template>    

@@ -105,7 +105,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
       // PAYMENT
       this.getHeadersPayment();
       this.getAllPayments();
-      //CATEGOY
+      //CATEGORY
       this.getHeadersCategory();
       this.getAllCategories();
     });
