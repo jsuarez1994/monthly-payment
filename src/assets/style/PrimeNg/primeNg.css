@@ -6255,3 +6255,16 @@ body .ui-table .ui-table-thead > tr > th {
 body .ui-table .ui-table-caption {
     background-color: white;
 }
+
+body .ui-menubar .ui-menuitem-link.ui-menuitem-link-active .ui-menuitem-text {
+    color: #99cc99!important;
+    font-weight: bolder;
+}
+
+body .ui-menubar .ui-menuitem-link.ui-menuitem-link-active .ui-menuitem-icon {
+    color: #99cc99 !important;
+}
+
+body .ui-table .ui-sortable-column.ui-state-highlight {
+    background-color: green;
+}
