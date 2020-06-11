@@ -33,6 +33,7 @@ export class Constants {
     /********** MODELS **********/
     public static MODEL_PAYMENT = 'payment';
     public static MODEL_CATEGORY = 'category';
+    public static MODEL_REAL_VALUES = 'realValues';
 
     /********** FILES **********/
     public static FILE_PDF = 'pdf';

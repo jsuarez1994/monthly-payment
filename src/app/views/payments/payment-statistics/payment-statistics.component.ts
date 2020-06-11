@@ -18,7 +18,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../redux/app.reducers';
 import { Subscription } from 'rxjs';
 // SERVICES
-import { UserService } from '../../../services/user.service';
+import { ExportDataService } from '../../../services/export-data.service';
 
 @Component({
   selector: 'app-payment-statistics',
@@ -45,6 +45,7 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
   objectiveValue: ObjectiveTable;
   // VALUES TABLE OBJECTIVE
   realValues: RealTable[] = [];
+  selectedRealValue: RealTable;
   // USER
   user: User;
   // NATURE
@@ -57,7 +58,8 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private translate: TranslateService,
-    private userService: UserService
+    private exportDataService: ExportDataService,
+
   ) {
     this.LiteralClass = new literals.Literals(this.translate);
   }
@@ -228,46 +230,46 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
 
     this.headersReal = [
       {
-        key: 'period',
-        value: '',
+        field: 'period',
+        header: '',
       },
       {
-        key: 'monthGains',
-        value: headersValue.get('STATISTICS-PAYMENT.MONTH_GAINS'),
+        field: 'monthGains',
+        header: headersValue.get('STATISTICS-PAYMENT.MONTH_GAINS'),
       },
       {
-        key: 'plusGains',
-        value: headersValue.get('STATISTICS-PAYMENT.PLUS'),
+        field: 'plusGains',
+        header: headersValue.get('STATISTICS-PAYMENT.PLUS'),
       },
       {
-        key: 'monthSaveObjective',
-        value: headersValue.get('STATISTICS-PAYMENT.MONTH_SAVE_OBJECTIVE'),
+        field: 'monthSaveObjective',
+        header: headersValue.get('STATISTICS-PAYMENT.MONTH_SAVE_OBJECTIVE'),
       },
       {
-        key: 'monthSaveReal',
-        value: headersValue.get('STATISTICS-PAYMENT.MONTH_SAVE_REAL'),
+        field: 'monthSaveReal',
+        header: headersValue.get('STATISTICS-PAYMENT.MONTH_SAVE_REAL'),
       },
       {
-        key: 'monthPersonalExpensiveObjective',
-        value: headersValue.get(
+        field: 'monthPersonalExpensiveObjective',
+        header: headersValue.get(
           'STATISTICS-PAYMENT.MONTH_PERSONAL_EXPENSIVE_OBJECTIVE'
         ),
       },
       {
-        key: 'monthPersonalExpensiveReal',
-        value: headersValue.get(
+        field: 'monthPersonalExpensiveReal',
+        header: headersValue.get(
           'STATISTICS-PAYMENT.MONTH_PERSONAL_EXPENSIVE_REAL'
         ),
       },
       {
-        key: 'monthPermanentExpensiveObjective',
-        value: headersValue.get(
+        field: 'monthPermanentExpensiveObjective',
+        header: headersValue.get(
           'STATISTICS-PAYMENT.MONTH_PERMANENT_EXPENSIVE_OBJECTIVE'
         ),
       },
       {
-        key: 'monthPermanentExpensiveReal',
-        value: headersValue.get(
+        field: 'monthPermanentExpensiveReal',
+        header: headersValue.get(
           'STATISTICS-PAYMENT.MONTH_PERMANENT_EXPENSIVE_REAL'
         ),
       },
@@ -349,4 +351,57 @@ export class PaymentStatisticsComponent implements OnInit, OnDestroy {
     this.infTableObjective();
     this.infTableReal();
   }
+
+  /**
+   * Report of month select
+   */
+  generateReportsByMonth(): string {
+    if (this.selectedRealValue){
+      let report = '';
+      // EXCEDENT
+      if (this.selectedRealValue.plusGains > 0) {
+        report = this.LiteralClass.getLiterals(['COMMONS.EXCEDENT_REPORT_POSITIVE']).get('COMMONS.EXCEDENT_REPORT_POSITIVE');
+      } else {
+        report = this.LiteralClass.getLiterals(['COMMONS.EXCEDENT_REPORT_NEGATIVE']).get('COMMONS.EXCEDENT_REPORT_NEGATIVE');
+      }
+
+      // SAVE
+      if (this.selectedRealValue.monthSaveReal > this.selectedRealValue.monthSaveObjective) {
+        report = report.concat(this.LiteralClass.getLiterals(['COMMONS.SAVE_REPORT_POSITIVE']).get('COMMONS.SAVE_REPORT_POSITIVE'));
+      } else {
+        report = report.concat(this.LiteralClass.getLiterals(['COMMONS.SAVE_REPORT_NEGATIVE']).get('COMMONS.SAVE_REPORT_NEGATIVE'));
+      }
+
+      // EXPENSIVE PERSONAL
+      if (this.selectedRealValue.monthPersonalExpensiveReal < this.selectedRealValue.monthPersonalExpensiveObjective) {
+        report = report.concat(this.LiteralClass.getLiterals(['COMMONS.EXPENSIVE_PERSONAL_POSITIVE']).get('COMMONS.EXPENSIVE_PERSONAL_POSITIVE'));
+      } else {
+        report = report.concat(this.LiteralClass.getLiterals(['COMMONS.EXPENSIVE_PERSONAL_NEGATIVE']).get('COMMONS.EXPENSIVE_PERSONAL_NEGATIVE'));
+      }
+
+      // EXPENSIVE PERMANET
+      if (this.selectedRealValue.monthPermanentExpensiveReal < this.selectedRealValue.monthPermanentExpensiveObjective) {
+        report = report.concat(this.LiteralClass.getLiterals(['COMMONS.EXPENSIVE_PERMANENT_POSITIVE']).get('COMMONS.EXPENSIVE_PERMANENT_POSITIVE'));
+      } else {
+        report = report.concat(this.LiteralClass.getLiterals(['COMMONS.EXPENSIVE_PERMANENT_NEGATIVE']).get('COMMONS.EXPENSIVE_PERMANENT_NEGATIVE'));
+      }
+      return report.trim();
+    } else {
+      return '';
+    }
+  }
+
+  /**EXPORTS DATA*/
+  exportPdf() {
+    const startTitlePDF = this.LiteralClass.getLiterals(['COMMONS.EXPORT_REAL_VALUES_TITLE']).get('COMMONS.EXPORT_REAL_VALUES_TITLE');
+    const titlePDF = startTitlePDF.concat(this.yearSelected).concat('.pdf');
+    this.exportDataService.exportPdfData(this.realValues, this.headersReal, titlePDF, Constants.MODEL_REAL_VALUES);
+  }
+
+  exportExcel() {
+      const startTitleExcel = this.LiteralClass.getLiterals(['COMMONS.EXPORT_REAL_VALUES_TITLE']).get('COMMONS.EXPORT_REAL_VALUES_TITLE');
+      const titleExcel = startTitleExcel.concat(this.yearSelected).concat('.xlsx');
+      this.exportDataService.exportExcelData(this.realValues, titleExcel, Constants.MODEL_REAL_VALUES);
+  }
+
 }

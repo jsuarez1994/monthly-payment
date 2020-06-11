@@ -34,7 +34,16 @@
         "FIND_BY_DESCRIPTION_OR_QUANTITY": "Busca por descripción o cuantía",
         "FIND_BY_DESCRIPTION": "Busca por descripción",
         "EXPORT_PAYMENTS_TITLE": "Lista_Movimientos_",
-        "EXPORT_CATEGORIES_TITLE": "Lista_Categorias"
+        "EXPORT_CATEGORIES_TITLE": "Lista_Categorias",
+        "EXPORT_REAL_VALUES_TITLE": "Lista_Valores_",
+        "EXCEDENT_REPORT_POSITIVE": "Excedente positivo puesto que este mes has ganado más que la media. ",
+        "EXCEDENT_REPORT_NEGATIVE": "Excedente negativo puesto que este mes has ganado menos que la media. ",
+        "SAVE_REPORT_POSITIVE": "Este mes has ahorrado más que el objetivo marcado. ",
+        "SAVE_REPORT_NEGATIVE": "Este mes has ahorrado menos que el objetivo marcado. ",
+        "EXPENSIVE_PERSONAL_POSITIVE": "Respecto a los gastos personales has gastado menos que el objetivo a cumplir. ",
+        "EXPENSIVE_PERSONAL_NEGATIVE": "Respecto a los gastos personales has gastado más que el objetivo a cumplir. ",
+        "EXPENSIVE_PERMANENT_POSITIVE": "Respecto a los gastos fijos has gastado menos que el objetivo a cumplir. ",
+        "EXPENSIVE_PERMANENT_NEGATIVE": "Respecto a los gastos fijos has gastado más que el objetivo a cumplir. "
     },
 
     "NAVBAR": {

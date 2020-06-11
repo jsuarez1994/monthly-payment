@@ -6,6 +6,7 @@ import * as utils from '../shared/Utils/utils';
 import { Payment } from '../models/payment.model';
 import { Category } from '../models/category.model';
 import { Constants } from '../shared/Utils/constants';
+import { RealTable } from '../models/real-table.model';
 
 @Injectable({
   providedIn: 'root',
@@ -79,6 +80,8 @@ export class ExportDataService {
         listExport.push(this.mapperPaymentToExport(item, file));
       } else if (model === Constants.MODEL_CATEGORY) {
         listExport.push(this.mapperCategoryToExport(item, file));
+      } else if (model === Constants.MODEL_REAL_VALUES){
+        listExport.push(this.mapperRealValuesToExport(item, file));
       }
     });
 
@@ -128,6 +131,29 @@ export class ExportDataService {
         type: this.translateColumn(item.type, 'type'),
         description: item.description
       };
+    }
+
+  }
+
+  /**
+   * Export model to view exported
+   * @param item 
+   */
+  private mapperRealValuesToExport(item: RealTable, file: string) {
+
+    if (file === Constants.FILE_EXCEL) {
+      return {
+        MonthGain: item.monthGains,
+        ExcedentBetweenObjective: item.plusGains,
+        SaveReal: item.monthSaveReal,
+        SaveObjective: item.monthSaveObjective,
+        PersonalExpensiveReal: item.monthPersonalExpensiveReal,
+        PersonalExpensiveObjective: item.monthPersonalExpensiveObjective,
+        PermanentExpensiveReal: item.monthPermanentExpensiveReal,
+        PermanentExpensiveObjective: item.monthPermanentExpensiveObjective
+      };
+    } else {
+      return item;
     }
 
   }

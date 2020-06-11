@@ -31,36 +31,45 @@
             </tbody>
         </table>
 
-        <br>
-        <br>
-        <br>
+        <br><br><br>
 
         <!--REAL-->
         <h4 class="card-title text-center font-weight-bold color-corporative"> {{ 'STATISTICS-PAYMENT.REAL' | translate | uppercase }}</h4>
-        <table class="table table-hover mt-5">
-            <thead>
+        <p-table [columns]="headersReal" [value]="realValues" selectionMode="single" [(selection)]="selectedRealValue" dataKey="period">
+            <ng-template pTemplate="caption">
+                <div class="ui-table-globalfilter-container text-right">
+                    <!--EXPORT-->
+                    <button type="button" (click)="exportExcel()" style="margin-right: 0.5em; margin-left:5em;" class="btn btn-success">
+                        <i class="pi pi-file-excel"></i>
+                    </button>
+                    <button type="button" (click)="exportPdf()" class="btn btn-danger">
+                        <i class="pi pi-file-pdf"></i>
+                    </button>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th *ngFor="let header of headersReal">{{header.value}}</th>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
                 </tr>
-            </thead>
-
-            <tbody>
-                <tr *ngFor="let realItem of realValues">
-                    <td *ngFor="let header of headersReal">
-                        <div *ngIf="header.key === 'period'">
-                            {{realItem[header.key]}}
-                        </div>
-                        <div *ngIf="header.key !== 'period'" 
-                        [ngClass]="{
-                            'text-success': realItem[header.key] > 0,
-                            'text-danger': realItem[header.key] < 0
-                          }">
-                            {{realItem[header.key] | currency:'EUR'}}
-                        </div>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        <div *ngIf="col.field === 'period'; then thenBlock else elseBlock"></div>
+                        <ng-template #thenBlock>{{rowData[col.field]}}</ng-template>
+                        <ng-template #elseBlock>{{rowData[col.field] | currency:'EUR'}}</ng-template>
+                        
                     </td>
                 </tr>
-            </tbody>
-        </table>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div style="text-align: left">
+                    {{generateReportsByMonth()}}
+                </div>
+            </ng-template>
+        </p-table>
 
     </div>
     <div class="col-lg-2 col-md-12 col-sm-12 text-right">
